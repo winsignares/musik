@@ -17,6 +17,6 @@ class Taks(db.Model):
 with app.app_context():
     db.create_all()
     
-class CategorySchema(ma.Schema):
+class TaksSchema(ma.Schema):
     class Meta:
         fields = ('id', 'nametaks', 'id_user_fk', 'id_category_fk')
