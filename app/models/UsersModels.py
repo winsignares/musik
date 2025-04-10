@@ -1,6 +1,6 @@
 from config.db import app, db, ma
 
-class User(db.Model):
+class Users(db.Model):
     __tablename__ = 'tbl_users'
     
     id = db.Column(db.Integer, primary_key = True)

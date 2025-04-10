@@ -6,8 +6,8 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     namecategory = db.Column(db.String(100))
     
-    def __init__(self, namecategoty):
-        self.namecategory = namecategoty  
+    def __init__(self, namecategory):
+        self.namecategory = namecategory  
         
         
 with app.app_context():
