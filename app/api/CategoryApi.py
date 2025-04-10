@@ -24,9 +24,18 @@ def saveCategory():
     db.session.commit()
     return 'Datos guardados con éxito'
 
-@ruta_category.route('/deletecategory/<id>', methods=['DELETE'])
+@ruta_category.route('/deleteCategory/<id>', methods=['DELETE'])
 def deleteCategory():
     category = Category.query.get(id)
     db.session.delete(category)
     db.session.commit()
     return 'Datos eliminados con éxito'
+
+@ruta_category.route('/updateCategory', methods=['PUT'])
+def updateCategory():
+    id = request.json['id']
+    category = Category.query.get(id)
+    category.namecategory = request.json['namecategory']
+    db.session.commit()
+    return 'Datos guardados con éxito'
+
