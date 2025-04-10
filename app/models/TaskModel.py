@@ -19,4 +19,4 @@ with app.app_context():
     
 class TaskSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'nametaks', 'id_user_fk', 'id_category_fk')
+        fields = ('id', 'nametask', 'id_user_fk', 'id_category_fk')
