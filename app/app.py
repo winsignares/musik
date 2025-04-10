@@ -3,9 +3,15 @@ from config.db import app
 
 #Importación de rutas
 
+from api.UserApi import ruta_user
+from api.CategoryApi import ruta_category
+from api.TaskApi import ruta_task
 
 #Registro de rutas con blueprint
 
+app.register_blueprint(ruta_user, url_prefix='api')
+app.register_blueprint(ruta_category, url_prefix='api')
+app.register_blueprint(ruta_task, url_prefix='api')
 
 @app.route('/')
 def index():
