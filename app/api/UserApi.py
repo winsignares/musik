@@ -9,11 +9,13 @@ usuarios_schema = UserSchema(many=True)
 
 #endpoints
 
-ruta_user = Blueprint('ruta_user', __name__)
+ruta_user = Blueprint('route_user', __name__)
+
+
 @ruta_user.route ('/users', methods=['GET'])
 def alluser():
     resultAll = Users.query.all() #select * from users
-    resp = usuarios_schema(resultAll)
+    resp = usuarios_schema.dump(resultAll)
     return jsonify(resp)
 
 @ruta_user.route('/saveUser', methods=['POST'])

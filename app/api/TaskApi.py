@@ -8,15 +8,15 @@ tasks_schema = TaskSchema(many=True)
 
 #endpoints
 
-ruta_task = Blueprint('ruta_task', __name__)
+ruta_task = Blueprint('route_task', __name__)
 @ruta_task.route ('/task', methods=['GET'])
 def alltask():
     resultAll = Task.query.all() #select * from users
-    resp = tasks_schema(resultAll)
+    resp = tasks_schema.dump(resultAll)
     return jsonify(resp)
 
-@ruta_task.route('/saveTask', methods=['POST'])
-def saveTask():
+@ruta_task.route('/registrarTask', methods=['POST'])
+def registrarTask():
     nametask = request.json['nametask']
     id_user_fk = request.json['id_user_fk']
     id_category_fk = request.json['id_category_fk']
@@ -31,4 +31,4 @@ def deleteTask():
     task = Task.query.get(id)
     db.session.delete(task)
     db.session.commit()
-    return 'Datos eliminados con éxito'
+    return jsonify(task_schema.dump(task))
