@@ -1,0 +1,9 @@
+html {
+    scroll-behavior: smooth;
+}
+
+#seccion1 {
+    background-image: url(../img/80677f879fdd4c053a4612f12fd41db5.jpg);
+    background-color: rgba(0, 0, 0, 0.678);
+    background-blend-mode: darken;
+}

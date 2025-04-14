@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#0a0909]">
+    <section>
+        <div class="flex justify-center items-center p-30">
+            <div class="lg:w-[40rem] lg:bg-[#111010]
+                        md:w-[35rem] md:bg-[#111010]
+                        sm:w-[30rem] sm:bg-[#111010]
+                           w-max
+                           rounded-4xl">
+                <h2 class="lg:text-4xl lg:p-10 lg:text-start
+                           md:text-3xl md:p-8  md:text-start
+                           sm:text-2xl sm:p-6  sm:text-start
+                              text-2xl    py-6
+                              text-white text-center font-bold">Registro</h2>
+
+                <form action="" class="lg:pl-10 lg:pr-10
+                                       md:pl-8 md:pr-8
+                                       sm:pl-6 sm:pr-6
+                                          pl-2    pr-2 flex flex-col text-white font-semibold">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Nombre</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="nombre" placeholder="Nombre">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Apellido</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="apellido" placeholder="Apellido">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Fecha de nacimiento</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2 text-gray-400" type="date" name="fechaNacimiento">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Teléfono</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="telefono" placeholder="Teléfono">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Correo electrónico</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="email" name="correo" placeholder="Correo electrónico">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Contraseña</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="password" name="contraseña" placeholder="Contraseña">
+
+                    <button class="lg:text-lg
+                                   md:text-base
+                                   sm-text-sm
+                                   bg-white text-black text-lg rounded-3xl p-2 mt-6 cursor-pointer hover:scale-110 duration-200 hover:bg-gray-200 mb-10 font-bold">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

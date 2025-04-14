@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#0a0909]">
+    <section>
+        <div class="flex justify-center p-30">
+            <div class="lg:w-[50rem]
+                        md:w-[40rem]
+                        sm:w-[30rem]
+                           w-[20rem]
+                           flex flex-col bg-[#111010] h-max rounded-4xl">
+                <h1 class="lg:text-4xl lg:p-10
+                           md:text-3xl md:p-8
+                           sm:text-2xl sm:p-6
+                              text-xl     p-4
+                              text-white p-10 font-bold">Editar perfil</h1>
+                <form action="" class="lg:pl-10 lg:pr-10
+                                       md:pl-8 md:pr-8
+                                       sm:pl-6 sm:pr-6
+                                          pl-2    pr-2
+                                          flex flex-col text-white font-semibold">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Nombre</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="nombre" placeholder="Nombre">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Apellido</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="apellido" placeholder="Apellido">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Correo electrónico</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="email" name="correo" placeholder="Correo electrónico">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Número de teléfono</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="telefono" placeholder="Telefono">
+                    <label for="" class="lg:text-lg md:text-base sm:text-sm pb-4">Fecha de nacimiento</label>
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="dia" placeholder="Dia">
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="month" name="mes" placeholder="Mes">
+                    <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="año" placeholder="Año">
+                    <button class="lg:w-50 lg:text-lg
+                                   md:w-40 md:text-base
+                                   sm:w-30 sm:text-sm
+                                      w-20
+                                      bg-white text-black rounded-3xl p-2 my-6 cursor-pointer hover:scale-110 duration-200 hover:bg-gray-200 font-bold">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
