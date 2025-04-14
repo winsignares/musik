@@ -9,15 +9,17 @@ categorys_schema = CategorySchema(many=True)
 
 #endpoints
 
-ruta_category = Blueprint('ruta_category', __name__)
-@ruta_category.route ('/category', methods=['GET'])
-def allcategory():
-    resultAll = Category.query.all() #select * from users
-    resp = categorys_schema(resultAll)
-    return jsonify(resp)
+ruta_category = Blueprint('route_category', __name__)
 
-@ruta_category.route('/saveCategory', methods=['POST'])
-def saveCategory():
+
+@ruta_category.route ('/categories', methods=['GET'])
+def getAllCategories():
+    categories = Category.query.all() #select * from users
+    result = categorys_schema.dump(categories)
+    return jsonify(result)
+
+@ruta_category.route('/addCategory', methods=['POST'])
+def addCategory():
     namecategory = request.json['namecategory']
     newcategory = Category(namecategory)
     db.session.add(newcategory)
@@ -25,7 +27,7 @@ def saveCategory():
     return 'Datos guardados con éxito'
 
 @ruta_category.route('/deleteCategory/<id>', methods=['DELETE'])
-def deleteCategory():
+def deleteCategory(id):
     category = Category.query.get(id)
     db.session.delete(category)
     db.session.commit()
@@ -38,4 +40,7 @@ def updateCategory():
     category.namecategory = request.json['namecategory']
     db.session.commit()
     return 'Datos guardados con éxito'
+
+if __name__ == 'main':
+    app.run(debug=True)
 
