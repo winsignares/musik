@@ -1,4 +1,4 @@
-from app.config.db import db, app, ma
+from app.config.db import db, ma
 
 class Artists(db.Model):
     __tablename__ = 'tblartists'
@@ -8,9 +8,6 @@ class Artists(db.Model):
 
     def __init__(self, name):
         self.name = name
-
-with app.app_context():
-    db.create_all()
 
 class ArtistsSchema(ma.Schema):
     class Meta:

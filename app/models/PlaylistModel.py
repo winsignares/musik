@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-from app.config.db import db, app, ma
+from app.config.db import db, ma
 
 class Playlists(db.Model):
     __tablename__ = 'tblplaylists'
@@ -14,9 +14,6 @@ class Playlists(db.Model):
         self.name = name
         self.description = description
         self.userId = userId
-
-with app.app_context():
-    db.create_all()
 
 class PlaylistsSchema(SQLAlchemyAutoSchema):
     class Meta:

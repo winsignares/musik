@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-from app.config.db import db, app, ma
+from app.config.db import db, ma
 
 from app.models.GenreModel import Genres
 from app.models.GenreSongModel import GenresSongs
@@ -26,9 +26,6 @@ class Songs(db.Model):
         self.cover = cover
         self.url = url
         self.genres = genres
-
-with app.app_context():
-    db.create_all()
 
 class SongsSchema(SQLAlchemyAutoSchema):
     class Meta:

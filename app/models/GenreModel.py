@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-from app.config.db import db, app, ma
+from app.config.db import db, ma
 
 class Genres(db.Model):
     __tablename__ = 'tblgenres'
@@ -14,9 +14,6 @@ class Genres(db.Model):
         self.name = name
         self.description = description
         self.fatherId = fatherId
-
-with app.app_context():
-    db.create_all()
 
 class GenresSchema(SQLAlchemyAutoSchema):
     class Meta:

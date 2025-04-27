@@ -1,4 +1,4 @@
-from app.config.db import db, app, ma
+from app.config.db import db, ma
 
 class GenresSongs(db.Model):
     __tablename__ = 'tblgenres_songs'
@@ -11,5 +11,3 @@ class GenresSongs(db.Model):
         self.genreId = genreId
         self.songId = songId
 
-with app.app_context():
-    db.create_all()

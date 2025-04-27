@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint, request, redirect, render_template, jsonify
-from app.config.db import app, db, ma
+from app.config.db import db, ma
 
 from app.models.ArtistModel import Artists, ArtistsSchema
 

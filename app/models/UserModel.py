@@ -1,6 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-from app.config.db import db, app, ma
+from app.config.db import db, ma
 
 class Users(db.Model):
     __tablename__ ='tblusers'
@@ -22,10 +22,7 @@ class Users(db.Model):
         self.email = email
         self.password = password
         self.role = role
-    
-with app.app_context():
-    db.create_all()
-    
+
 class UsersSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Users

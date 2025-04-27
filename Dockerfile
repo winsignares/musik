@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Ejecutar el archivo main.py que está en la raíz del directorio
-CMD ["python", "app.py"]
+CMD ["python", "main.py"]

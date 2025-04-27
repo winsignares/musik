@@ -7,7 +7,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tasksul
+      MYSQL_DATABASE: musik-app
       MYSQL_ROOT_HOST: '%'  # Allow root to connect from any host
     ports:
       - "3306:3306"
@@ -30,7 +30,7 @@ services:
       DB_HOST: db
       DB_USER: root
       DB_PASSWORD: root
-      DB_NAME: tasksul
+      DB_NAME: musik-app
     ports:
       - "5000:5000"
     volumes:

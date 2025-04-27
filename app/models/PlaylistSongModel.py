@@ -1,4 +1,4 @@
-from app.config.db import db, app, ma
+from app.config.db import db, ma
 
 class PlaylistsSongs(db.Model):
     __tablename__ = 'tblplaylists_songs'
@@ -11,6 +11,4 @@ class PlaylistsSongs(db.Model):
         self.playlistId = playlistId
         self.songId = songId
 
-with app.app_context():
-    db.create_all()
 

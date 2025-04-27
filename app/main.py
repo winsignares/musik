@@ -1,5 +1,7 @@
 from flask import Flask, request, redirect, render_template
-from config.db import app
+from config.db import createApp
+
+app = createApp()
 
 # trabajar en las rutas de bluprint con respectos a las api's
 from api.UserApi import route_user

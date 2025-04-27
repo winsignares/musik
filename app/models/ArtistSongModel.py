@@ -1,4 +1,4 @@
-from app.config.db import db, app, ma
+from app.config.db import db, ma
 
 class ArtistsSongs(db.Model):
     __tablename__ = 'tblsongs_artists'
@@ -10,6 +10,3 @@ class ArtistsSongs(db.Model):
     def __init__(self, artistId, songId):
         self.artistId = artistId
         self.songId = songId
-
-with app.app_context():
-    db.create_all()
