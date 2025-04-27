@@ -26,7 +26,7 @@ def registerGenre():
 @route_genre.route("/delete", methods=['DELETE'])
 def deleteGenre():
     id = request.json['id'] 
-    genre = Genres.query.get(id)    
+    genre = Genres.query.get(id)    #hola
     db.session.delete(genre)
     db.session.commit()     
     return jsonify(genre_schema.dump(genre))
