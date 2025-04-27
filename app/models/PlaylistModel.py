@@ -1,0 +1,21 @@
+from config.db import db, app, ma
+
+class Playlists(db.Model):
+    __tablename__ = 'tblplaylists'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    description = db.Column(db.String(100))
+    userId = db.Column(db.Integer, db.ForeignKey('tblusers.id'))
+
+    def __init__(self, name, description, userId):
+        self.name = name
+        self.description = description
+        self.userId = userId
+
+with app.app_context():
+    db.create_all()
+
+class PlaylistsSchema(ma.Schema):
+    class Meta:
+        fields = ('id','name', 'description', 'userId')
