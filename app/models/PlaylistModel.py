@@ -13,9 +13,6 @@ class Playlists(db.Model):
         self.description = description
         self.userId = userId
 
-with app.app_context():
-    db.create_all()
-
 class PlaylistsSchema(ma.Schema):
     class Meta:
         fields = ('id','name', 'description', 'userId')

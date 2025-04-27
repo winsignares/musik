@@ -10,7 +10,5 @@ class GenresSongs(db.Model):
     def __init__(self, genreId, songId):
         self.genreId = genreId
         self.songId = songId
-    
-with app.app_context():
-    db.create_all()
+
     

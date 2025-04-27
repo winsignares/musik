@@ -2,6 +2,11 @@ from flask import Flask, Blueprint, request, redirect, render_template, jsonify
 from config.db import app, db, ma
 
 from models.GenreModel import Genres, GenresSchema
+from models.SongModel import Songs
+from models.GenreSongModel import GenresSongs
+from models.ArtistSongModel import ArtistsSongs
+from models.PlaylistSongModel import PlaylistsSongs
+
 
 route_genre = Blueprint("reoute_genre", __name__)
 
@@ -26,9 +31,23 @@ def registerGenre():
 @route_genre.route("/delete", methods=['DELETE'])
 def deleteGenre():
     id = request.json['id'] 
-    genre = Genres.query.get(id)    #hola
+    genre = Genres.query.get(id)
+
+    genre_songs = GenresSongs.query.filter_by(genreId = id).all()
+
+    for genre_song in genre_songs:
+        song_id = genre_song.songId
+
+        ArtistsSongs.query.filter_by(songId = song_id).delete()
+        PlaylistsSongs.query.filter_by(songId = song_id).delete()
+        GenresSongs.query.filter_by(songId = song_id).delete() 
+
+        song = Songs.query.get(song_id)
+        db.session.delete(song)
+
     db.session.delete(genre)
-    db.session.commit()     
+    db.session.commit()
+
     return jsonify(genre_schema.dump(genre))
 
 @route_genre.route("/update", methods=['PUT'])

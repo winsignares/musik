@@ -36,17 +36,17 @@ def registerSong():
 
     newSong = Songs(name, author, duration, date, cover, url)
     db.session.add(newSong)
-    db.session.commit() 
+    db.session.commit()  
 
     for genre_id in genre_ids:
-        genreSong = GenresSongs(genreId=genre_id, songId=newSong.id)
+        genreSong = GenresSongs(genreId = genre_id, songId = newSong.id)
         db.session.add(genreSong)
 
     for artist_id in artist_ids:
-        artistSong = ArtistsSongs(artistId=artist_id, songId=newSong.id)
+        artistSong = ArtistsSongs(artistId = artist_id, songId = newSong.id)
         db.session.add(artistSong)
 
-        db.session.commit() 
+    db.session.commit() 
 
     return "Canción registrada correctamente"
 
@@ -57,6 +57,7 @@ def deleteSong():
 
     GenresSongs.query.filter_by(songId = id).delete()
     ArtistsSongs.query.filter_by(songId = id).delete()
+    PlaylistsSongs.query.filter_by(songId = id).delete()
 
     db.session.delete(song)
     db.session.commit()
@@ -75,6 +76,10 @@ def updateSong():
     db.session.commit() 
 
     return "Canción actualizada correctamente"
+
+
+
+
 
 
 

@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, render_template
-from config.db import app
+from config.db import db, app
 
 # trabajar en las rutas de bluprint con respectos a las api's
 
@@ -25,6 +25,9 @@ app.register_blueprint(route_playlist_song, url_prefix="/api/playlist-song")
 @app.route("/")
 def index():
     return render_template("index.html")
+
+with app.app_context():
+    db.create_all()
 
 
 if __name__ == "__main__":

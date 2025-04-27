@@ -11,6 +11,4 @@ class ArtistsSongs(db.Model):
         self.artistId = artistId
         self.songId = songId
     
-with app.app_context():
-    db.create_all()
     

@@ -19,9 +19,6 @@ class Songs(db.Model):
         self.cover = cover
         self.url = url
 
-with app.app_context():
-    db.create_all()
-
 class SongsSchema(ma.Schema):
     class Meta:
         fields = ('id','name', 'author', 'duration', 'date', 'cover', 'url')

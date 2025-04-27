@@ -11,9 +11,6 @@ class Genres(db.Model):
         self.name = name
         self.description = description
 
-with app.app_context():
-    db.create_all()
-
 class GenresSchema(ma.Schema):
     class Meta:
         fields = ('id','name','description')

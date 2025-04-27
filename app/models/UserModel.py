@@ -21,9 +21,6 @@ class Users(db.Model):
         self.password = password
         self.role = role
     
-with app.app_context():
-    db.create_all()
-    
 class UsersSchema(ma.Schema):
     class Meta:
         fields = ('id','name','lastName','birthDate','phoneNumber','email','password','role')
