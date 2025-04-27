@@ -8,7 +8,7 @@ route_genre = Blueprint("reoute_genre", __name__)
 genre_schema = GenresSchema()
 genres_schema = GenresSchema(many=True)
 
-@route_genre.route("/genres", methods=["GET"])
+@route_genre.route("/get", methods=["GET"])
 def getGenres():
     genres = Genres.query.all()
     respo = genres_schema.dump(genres)
@@ -30,3 +30,12 @@ def deleteGenre():
     db.session.delete(genre)
     db.session.commit()     
     return jsonify(genre_schema.dump(genre))
+
+@route_genre.route("/update", methods=['PUT'])
+def updateGenre():
+    id = request.json['id'] 
+    genre = Genres.query.get(id)    
+    genre.name = request.json['name']
+    genre.description = request.json['description']
+    db.session.commit()     
+    return "Genero actualizado correctamente"

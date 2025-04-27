@@ -8,7 +8,7 @@ route_artist = Blueprint("route_artist", __name__)
 artist_schema = ArtistsSchema()
 artists_schema = ArtistsSchema(many=True)
 
-@route_artist.route("/artists", methods=["GET"])
+@route_artist.route("/get", methods=["GET"])
 def getArtists():
     artists = Artists.query.all()
     respo = artists_schema.dump(artists)
@@ -29,3 +29,11 @@ def deleteArtist():
     db.session.delete(artist)
     db.session.commit()     
     return jsonify(artist_schema.dump(artist))
+
+@route_artist.route("/update", methods=['PUT'])
+def updateArtist():
+    id = request.json['id'] 
+    artist = Artists.query.get(id)    
+    artist.name = request.json['name']
+    db.session.commit()     
+    return "Artista actualizado correctamente"

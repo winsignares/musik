@@ -14,6 +14,3 @@ class PlaylistsSongs(db.Model):
 with app.app_context():
     db.create_all()
     
-class PlaylistsSongsSchema(ma.Schema):
-    class Meta:
-        fields = ('id','playlistId','songId')

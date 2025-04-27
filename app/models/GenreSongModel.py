@@ -3,7 +3,7 @@ from config.db import db, app, ma
 class GenresSongs(db.Model):
     __tablename__ = 'tblgenres_songs'
 
-    id = db.Column(db.Integer, primary_key = True) 
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True) 
     genreId = db.Column(db.Integer, db.ForeignKey('tblgenres.id'), primary_key = True)
     songId = db.Column(db.Integer, db.ForeignKey('tblsongs.id'), primary_key = True)
 
@@ -14,6 +14,3 @@ class GenresSongs(db.Model):
 with app.app_context():
     db.create_all()
     
-class GenresSongsSchema(ma.Schema):
-    class Meta:
-        fields = ('id','genreId','songId')

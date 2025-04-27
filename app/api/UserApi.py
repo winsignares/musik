@@ -1,6 +1,8 @@
 from flask import Flask, Blueprint, request, redirect, render_template, jsonify
 from config.db import app, db, ma
 
+import bcrypt
+
 #llamamos al modelo de User
 from models.UserModel import Users, UsersSchema
 
@@ -9,7 +11,7 @@ route_user = Blueprint("route_user", __name__)
 user_schema = UsersSchema()
 users_schema = UsersSchema(many=True)
 
-@route_user.route("/users", methods=["GET"])
+@route_user.route("/get", methods=["GET"])
 def getUsers():
     users = Users.query.all()
     respo = users_schema.dump(users)
@@ -23,8 +25,9 @@ def registerUser():
     phoneNumber = request.json['phoneNumber']
     email = request.json['email']
     password = request.json['password']
+    hashedPassword = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     role = "usuario"
-    newUser = Users(name, lastName, birthDate, phoneNumber, email, password, role)
+    newUser = Users(name, lastName, birthDate, phoneNumber, email, hashedPassword, role)
     db.session.add(newUser)
     db.session.commit()
     return "Usuario registrado correctamente"
@@ -46,6 +49,8 @@ def updateUser():
     user.birthDate = request.json['birthDate']
     user.phoneNumber = request.json['phoneNumber']
     user.email = request.json['email']
-    user.password = request.json['password']
+    password = request.json['password']
+    hashedPassword = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    user.password = hashedPassword
     db.session.commit()     
     return "Usuario actualizado correctamente"
