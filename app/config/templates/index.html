@@ -1,67 +1,220 @@
-{% extends "layout.html" %}
-{% block body %}
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear Categoria</button>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Nombre de Categoria:</label>
-                        <input type="text" class="form-control" id="namecategory">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="saveCategory()">Enviar</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nombre</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="css\index.css">
+</head>
+
+<body class="bg-[#0a0909] lg:pt-24">
+    <header class="bg-[#0a0909] lg:fixed h-22 top-0 w-full z-50 flex justify-between items-center px-6 bg-black">
+        <button id="menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+            ☰
+        </button>
+
+        <nav class="w-full">
+            <ul id="menu" class="lg:flex lg:space-x-16
+                                 md:flex md:space-x-10
+                                 hidden justify-center p-6 items-center font-bold">
+                <li> <a href="index.html"
+                        class="lg:text-lg md:text-base text-gray-400  hover:text-white hover:scale-110 duration-200 inline-block">Inicio</a>
+                </li>
+                <li> <a href="#quienes-somos"
+                        class="lg:text-lg md:text-base text-gray-400 hover:text-white hover:scale-110 duration-200 inline-block">Sobre
+                        nosotros</a> </li>
+                <li> <a href="#contacto"
+                        class="lg:text-lg md:text-base text-gray-400 hover:text-white hover:scale-110 duration-200 inline-block">Contacto</a>
+                </li>
+                <li> <a href="registro.html"
+                        class="lg:text-lg md:text-base text-gray-400 hover:text-white hover:scale-110 duration-200 inline-block">Registrarse</a>
+                </li>
+                <li> <button onclick="window.location.href='sesion.html'"
+                        class="lg:text-lg md:text-base bg-white rounded-3xl p-2 cursor-pointer hover:scale-110 duration-200 hover:bg-gray-200">Iniciar
+                        sesión</button> </li>
+            </ul>
+        </nav>
+
+        <div id="mobile-menu"
+            class="hidden absolute top-20 left-0 w-full bg-black text-white flex flex-col items-center py-4 space-y-6 md:hidden font-bold">
+            <a href="index.html" class="text-sm hover:text-gray-400">Inicio</a>
+            <a href="#quienes-somos" class="text-sm hover:text-gray-400">Sobre nosotros</a>
+            <a href="#contacto" class="text-sm hover:text-gray-400">Contacto</a>
+            <a href="registro.html" class="text-sm hover:text-gray-400">Registrarse</a>
+            <button onclick="window.location.href='sesion.html'"
+                class="bg-white rounded-3xl p-2 cursor-pointer text-sm hover:scale-110 duration-200 hover:bg-gray-200 text-black">Iniciar
+                sesión</button>
+        </div>
+    </header>
+
+    <script>
+        document.getElementById('menu-btn').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+
+    <section id="seccion1">
+        <div class="flex">
+            <div class="lg:py-30 lg:px-50 lg:w-[60rem] 
+                        md:py-20 md:px-20 md:w-[40rem] 
+                        sm:py-10 sm:px-18 sm:w-[30rem]
+                           py-10    px-14    w-[30rem] 
+                           bg-cover bg-center justify-center">
+                <h1 class="lg:text-5xl lg:mb-6 lg:pt-10 
+                           md:text-4xl md:mb-4 md:pt-6
+                           sm:text-3xl sm:mb-2 sm:pt-4
+                              text-2xl     mb-2   pt-2
+                              text-white font-bold">Sumérgete en la música</h1>
+                <h2 class="lg:text-3xl lg:leading-[4rem] lg:mb-6 lg:py-10 
+                           md:text-2xl md:leading-[3rem] md:mb-4 md:py-6
+                           sm:text-xl  sm:leading-[2rem] sm:mb-2 sm:py-4
+                              text-lg                       mb-2    py-2
+                              text-white font-semibold ">Explora todo el catálogo disponible, nuestra amplia diversidad
+                    de géneros y canciones y escucha sin límites</h2>
+                <button onclick="window.location.href='principal.html'"
+                    class="lg:text-2xl lg:w-40 
+                       md:text-xl md:w-30 
+                       sm:text-base sm:w-30                           
+                       p-2 bg-white text-black font-bold rounded-3xl cursor-pointer hover:scale-110 duration-200 hover:bg-gray-200 mb-10">Escuchar</button>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<br>
-<br>
+    <section>
+        <div class="lg:flex lg:pt-50 md:flex md:pt-30 sm:pt-20 pt-10 justify-center ">
+            <div class="lg:h-60 lg:w-80 lg:p-10 lg:m-10 
+                                md:w-50 md:p-6  md:m-6
+                                sm:w-fit sm:p-6 sm:m-6
+                                   w-fit    p-4    m-4
+                                   bg-[#111010] rounded-3xl hover:scale-110 duration-200">
+                <h3 class="lg:text-2xl md:text-2xl sm:text-xl text-white font-bold pb-4">Descubre</h3>
+                <p class="lg:text-lg md:text-base text-white font-semibold">Explora un catálogo de canciones y playlists
+                    para cada momento. Encuentra tu próximo hit favorito</p>
+            </div>
 
-<table class="table table-striped">
-    <tr>
-        <td>Id</td>
-        <td>Categoria</td>
-        <td>Acciones</td>
-        <td>Acciones</td>
-    </tr>
+            <div class="lg:h-60 lg:w-80 lg:p-10 lg:m-10 
+                                md:w-50 md:p-6  md:m-6
+                                sm:w-fit sm:p-6 sm:m-6
+                                   w-fit    p-4    m-4
+                                   bg-[#111010] rounded-3xl hover:scale-110 duration-200">
+                <h3 class="lg:text-2xl md:text-2xl sm:text-xl text-white font-bold pb-4">Escucha</h3>
+                <p class="lg:text-lg md:text-base text-white font-semibold">Disfruta tu música en cualquier dispositivo,
+                    sin interrupciones</p>
+            </div>
 
-    <tr>
-        <td>1</td>
-        <td>Estudiante</td>
-        <td><a href="#" onclick="editCategory()"><img src="../static/img/floppy-disk-solid.svg" alt="" height="30px"></a></td>
-        <td><a href="#" onclick="deleteCategory()"><img src="../static/img/trash-solid.svg" alt="" height="30px"></a></td>
-    </tr>
-  </table>
+            <div class="lg:h-60 lg:w-80 lg:p-10 lg:m-10 
+                                md:w-50 md:p-6  md:m-6
+                                sm:w-fit sm:p-6 sm:m-6 
+                                   w-fit    p-4    m-4
+                                   bg-[#111010] rounded-3xl hover:scale-110 duration-200">
+                <h3 class="lg:text-2xl md:text-2xl sm:text-xl text-white font-bold pb-4">Conecta</h3>
+                <p class="lg:text-lg md:text-base text-white font-semibold">Crea listas de reproducción
+                   y comparte tu música favorita</p>
+            </div>
+        </div>
+    </section>
 
-<script>
-    const exampleModal = document.getElementById('exampleModal')
-    if (exampleModal) {
-        exampleModal.addEventListener('show.bs.modal', event => {
-            // Button that triggered the modal
-            const button = event.relatedTarget
-            // Extract info from data-bs-* attributes
-            const recipient = button.getAttribute('data-bs-whatever')
-            // If necessary, you could initiate an Ajax request here
-            // and then do the updating in a callback.
+    <section id="quienes-somos">
+        <div class="lg:py-30 
+                    md:py-20 md:text-center
+                    sm:py-10 sm:text-center
+                       py-6     text-center">
+            <h2 class="lg:text-4xl lg:px-50 lg:py-20 
+                       md:text-3xl          md:py-10
+                       sm:text-2xl          sm:py-8
+                          text-xl              py-4
+                          text-white font-bold">¿Quiénes Somos?</h2>
 
-            // Update the modal's content.
-            const modalTitle = exampleModal.querySelector('.modal-title')
-            const modalBodyInput = exampleModal.querySelector('.modal-body input')
+            <div class="lg:flex lg:text-start lg:px-50 lg:py-20 lg:space-x-40 
+                                              md:px-30 md:py-10
+                                              sm:px-20 sm:py-6
+                                                 px-10    py-4
+                                                 justify-center ">
+                <div class="lg:w-80 md:py-6 sm:py-4 py-2">
+                    <p class="lg:text-2xl md:text-lg sm:text-base text-sm text-white font-semibold text-center"> [Nombre de tu
+                        página], el lugar donde la música cobra vida. Nuestra misión es conectar a los amantes de la
+                        música con nuevos sonidos, géneros y artistas de todo el mundo, ofreciendo una experiencia de
+                        descubrimiento única</p>
+                </div>
 
-            modalTitle.textContent = `New message to ${recipient}`
-            modalBodyInput.value = recipient
-        })
-    }
-</script>
-{% endblock %}
+                <div class="lg:w-80 md:py-6 sm:py-4 py-2">
+                    <p class="lg:text-2xl md:text-lg sm:text-base text-sm text-white font-semibold text-center"> Somos un equipo
+                        apasionado por la música y la tecnología, trabajando para brindarte la mejor experiencia de
+                        descubrimiento musical</p>
+                </div>
+
+                <div class="lg:w-80 md:py-6 sm:py-4 py-2">
+                    <p class="lg:text-2xl md:text-lg sm:text-base text-sm text-white font-semibold text-center"> En [Nombre de tu
+                        página], creemos que la música es un lenguaje universal que une culturas y emociones. Queremos
+                        ayudarte a explorar nuestro catálogo, y encontrar tu gusto musical preferido</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="lg:pr-50 lg:pl-50 lg:pt-20 lg:pb-20 lg:space-x-80 lg:flex
+                                                        md:space-x-40 md:flex
+                                                        sm:space-x-20 sm:flex
+                                                        justify-center ">
+            <div class="leading-[4rem] text-center pb-10">
+                <ul>
+                    <li>
+                        <h4 class="text-white text-2xl sm:text-xl text-lg font-bold pb-4">About</h4>
+                    </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                </ul>
+            </div>
+
+            <div class="leading-[4rem] text-center pb-10">
+                <ul>
+                    <li>
+                        <h4 class="text-white text-2xl sm:text-xl text-lg font-bold pb-4">Resources</h4>
+                    </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                </ul>
+            </div>
+
+            <div class="leading-[4rem] text-center pb-10">
+                <ul>
+                    <li>
+                        <h4 class="text-white text-2xl sm:text-xl text-lg font-bold pb-4">Contact</h4>
+                    </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                    <li> <a href="" class="text-gray-400 hover:text-white hover:underline">Services</a> </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="lg:pr-50 lg:pl-50 lg:pt-20 lg:pb-20 lg:space-x-32 
+                                      md:pt-20 md:pb-20 md:space-x-20 
+                                      sm:pt-10 sm:pb-10 sm:space-x-10 
+                                         pt-6     pb-6     space-x-8
+                                         flex justify-center">
+            <a href=""> <img src="img\instagram-brands.svg" alt="instagram-icon"
+                    class="lg:h-14 lg:w-14 md:h-12 md:w-12 sm:h-12 sm:w-10 h-8 w-8 hover:scale-120 duration-200 cursor-pointer">
+            </a>
+            <a href=""> <img src="img\facebook-brands.svg" alt="facebook-icon"
+                    class="lg:h-14 lg:w-14 md:h-12 md:w-12 sm:h-10 sm:w-10 h-8 w-8 hover:scale-120 duration-200 cursor-pointer">
+            </a>
+            <a href=""> <img src="img\x-twitter-brands.svg" alt="x-icon"
+                    class="lg:h-14 lg:w-14 md:h-12 md:w-12 sm:h-10 sm:w-10 h-8 w-8 hover:scale-120 duration-200 cursor-pointer">
+            </a>
+            <a href=""> <img src="img\youtube-brands.svg" alt="youtube-icon"
+                    class="lg:h-14 lg:w-14 md:h-12 md:w-12 sm:h-10 sm:w-10 h-8 w-8 hover:scale-120 duration-200 cursor-pointer">
+            </a>
+        </div>
+    </footer>
+</body>
+
+</html>
