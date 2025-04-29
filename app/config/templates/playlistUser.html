@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis playlists</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-[#0a0909] lg:pt-24">
+    <header class="lg:fixed bg-[#0a0909] h-22 top-0 w-full z-50 flex justify-center items-center">
+        <nav>
+            <ul
+                class="lg:space-x-80 md:space-x-24 sm:space-x-10 space-x-6 flex justify-center p-6 items-center font-bold">
+                <li>
+                    <a href="principal.html">
+                        <img src="../static/img/house-solid.svg" alt=""
+                            class="lg:h-10 lg:w-10 md:h-10 md:w-10 sm:h-8 sm:w-8 h-6 w-6 hover:scale-125 duration-200">
+                    </a>
+                </li>
+
+                <div class='flex items-center justify-center'>
+                    <div class="lg:w-96 md:w-72 sm:w-60 w-50 flex mx-10 rounded-3xl bg-white">
+                        <input
+                            class="w-full border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
+                            type="search" name="search" placeholder="Buscar..." />
+                        <button type="submit"
+                            class="lg:m-2 lg:py-2 px-4 rounded-3xl bg-black px-2 text-white hover:scale-110 duration-200 cursor-pointer">
+                            <svg class="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;"
+                                xml:space="preserve" width="512px" height="512px">
+                                <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  
+                                    s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92 c0.779,0,1.518-0.297,
+                                    2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17 s-17-7.626-17-17S14.61,
+                                    6,23.984,6z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <li class="relative">
+                    <a href="#" onclick="toggleMenu(event)">
+                        <img src="../static/img/user-solid.svg" alt=""
+                            class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-8 sm:w-8 h-6 w-6 hover:scale-125 duration-200">
+                    </a>
+
+                    <div id="menu" class="absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden">
+                        <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
+                            <li><a href="datosusuarios.html" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Perfil</a></li>
+                            <li><a href="playlist.html" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Mis playlists</a></li>
+                            <li><a href="sesion.html" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Iniciar Sesión</a></li>
+                            <li><a href="principal.html" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <script>
+        function toggleMenu(event) {
+            event.preventDefault();
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            const menu = document.getElementById('menu');
+            const userIcon = document.querySelector('li > a[href="#"]');
+
+            if (!menu.contains(event.target) && !userIcon.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <section>
+        <div class="lg:bg-[#111010] 
+                    md:bg-[#111010]
+                    sm:bg-[#111010] 
+                    flex flex-col m-10 rounded-3xl">
+
+            <div class="lg:p-30 
+                        md:p-20 
+                        sm:p-10 
+                           p-6 flex items-center">
+                <img src="../static/img/background.jpeg" alt=""
+                    class="lg:h-[15rem] lg:w-[15rem]
+                                                                                   md:h-[10rem] md:w-[10rem]
+                                                                                   sm:h-[7rem]  sm:w-[7rem]
+                                                                                      h-[6rem]     w-[6rem] rounded-lg">
+
+                <div>
+                    <h2 class="lg:text-4xl lg:pb-4 md:text-3xl sm:text-2xl text-xl text-white font-bold pl-10 pb-2">
+                        Playlist</h2>
+                    <h3 class="lg:text-xl lg:pb-4 md:text-lg sm:text-base text-sm text-white font-regular pl-12 pb-2">
+                        Descripción</h3>
+                </div>
+            </div>
+
+            <div class="lg:px-30 lg:bg-[#171616] lg:py-20
+                        md:px-20 md:bg-[#171616] md:py-14
+                        sm:px-10 sm:bg-[#171616] sm:py-8
+                        mx-10 rounded-3xl py-4">
+
+                <div>
+                    <h4 class="text-white font-bold lg:text-4xl md:text-3xl sm:text-2xl text-xl">Canciones</h4>
+                </div>
+
+                <div class="flex justify-center items-center w-full">
+                    <table class="lg:my-20 md:my-14 sm:my-8 my-4 w-full text-white">
+                        <thead>
+                            <tr class="lg:text-xl md:text-lg sm:text-base text-sm text-center">
+                                <th class="p-4">#</th>
+                                <th class="p-4">Título</th>
+                                <th class="p-4">Artista</th>
+                                <th class="p-4 hidden md:table-cell">Duración</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-semibold">
+                            <tr
+                                class="lg:text-lg md:text-base sm:text-sm text-xs text-center hover:bg-[#2b2b2b] duration-200">
+                                <td class="p-4">1</td>
+                                <td class="p-4"><a href="Cancion.html" class="hover:underline">Canción 1</a></td>
+                                <td class="p-4"><a href="Artista.html" class="hover:underline">Artista 1</a></td>
+                                <td class="p-4 hidden md:table-cell">3:45</td>
+                                <td class="p-4">
+                                    <nav>
+                                        <ul>
+                                            <li class="relative">
+                                                <a href="#1" onclick="toggleOpciones(event)">
+                                                    <img src="../static/img/ellipsis-solid.svg" alt=""
+                                                        class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-6 sm:w-6 h-4 w-4 hover:scale-125 duration-200">
+                                                </a>
+
+                                                <div class="menu-opciones absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-10">
+                                                    <ul
+                                                        class="lg:text-lg md:text-base sm:text-sm text-xs text-black font-semibold text-left">
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                1</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                2</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                3</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </td>
+                            </tr>
+
+                            <tr
+                                class="lg:text-lg md:text-base sm:text-sm text-xs text-center hover:bg-[#2b2b2b] duration-200">
+                                <td class="p-4">2</td>
+                                <td class="p-4"><a href="Cancion.html" class="hover:underline">Canción 2</a></td>
+                                <td class="p-4"><a href="Artista.html" class="hover:underline">Artista 2</a></td>
+                                <td class="p-4 hidden md:table-cell">4:12</td>
+                                <td class="p-4">
+                                    <nav>
+                                        <ul>
+                                            <li class="relative">
+                                                <a href="#1" onclick="toggleOpciones(event)">
+                                                    <img src="../static/img/ellipsis-solid.svg" alt=""
+                                                        class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-6 sm:w-6 h-4 w-4 hover:scale-125 duration-200">
+                                                </a>
+
+                                                <div class="menu-opciones absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-10">
+                                                    <ul
+                                                        class="lg:text-lg md:text-base sm:text-sm text-xs text-black font-semibold text-left">
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                1</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                2</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                3</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </td>
+                            </tr>
+
+                            <tr
+                                class="lg:text-lg md:text-base sm:text-sm text-xs text-center hover:bg-[#2b2b2b] duration-200">
+                                <td class="p-4">3</td>
+                                <td class="p-4"><a href="Cancion.html" class="hover:underline">Canción 3</a></td>
+                                <td class="p-4"><a href="Artista.html" class="hover:underline">Artista 3</a></td>
+                                <td class="p-4 hidden md:table-cell">3:02</td>
+                                <td class="p-4">
+                                    <nav>
+                                        <ul>
+                                            <li class="relative">
+                                                <a href="#1" onclick="toggleOpciones(event)">
+                                                    <img src="../static/img/ellipsis-solid.svg" alt=""
+                                                        class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-6 sm:w-6 h-4 w-4 hover:scale-125 duration-200">
+                                                </a>
+
+                                                <div class="menu-opciones absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-10">
+                                                    <ul
+                                                        class="lg:text-lg md:text-base sm:text-sm text-xs text-black font-semibold text-left">
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                1</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                2</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                3</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </td>
+                            </tr>
+
+                            <tr
+                                class="lg:text-lg md:text-base sm:text-sm text-xs text-center hover:bg-[#2b2b2b] duration-200">
+                                <td class="p-4">4</td>
+                                <td class="p-4"><a href="Cancion.html" class="hover:underline">Canción 4</a></td>
+                                <td class="p-4"><a href="Artista.html" class="hover:underline">Artista 4</a></td>
+                                <td class="p-4 hidden md:table-cell">4:58</td>
+                                <td class="p-4">
+                                    <nav>
+                                        <ul>
+                                            <li class="relative">
+                                                <a href="#1" onclick="toggleOpciones(event)">
+                                                    <img src="../static/img/ellipsis-solid.svg" alt=""
+                                                        class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-6 sm:w-6 h-4 w-4 hover:scale-125 duration-200">
+                                                </a>
+
+                                                <div class="menu-opciones absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-10">
+                                                    <ul
+                                                        class="lg:text-lg md:text-base sm:text-sm text-xs text-black font-semibold text-left">
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                1</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                2</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                3</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </td>
+                            </tr>
+
+                            <tr
+                                class="lg:text-lg md:text-base sm:text-sm text-xs text-center hover:bg-[#2b2b2b] duration-200">
+                                <td class="p-4">5</td>
+                                <td class="p-4"><a href="Cancion.html" class="hover:underline">Canción 5</a></td>
+                                <td class="p-4"><a href="Artista.html" class="hover:underline">Artista 5</a></td>
+                                <td class="p-4 hidden md:table-cell">2:30</td>
+                                <td class="p-4">
+                                    <nav>
+                                        <ul>
+                                            <li class="relative">
+                                                <a href="#1" onclick="toggleOpciones(event)">
+                                                    <img src="../static/img/ellipsis-solid.svg" alt=""
+                                                        class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-6 sm:w-6 h-4 w-4 hover:scale-125 duration-200">
+                                                </a>
+
+                                                <div
+                                                    class="menu-opciones absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-10">
+                                                    <ul
+                                                        class="lg:text-lg md:text-base sm:text-sm text-xs text-black font-semibold text-left">
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                1</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                2</a></li>
+                                                        <li><a href=""
+                                                                class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Opcion
+                                                                3</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleOpciones(event) {
+            event.preventDefault();
+            let opcionesMenu = event.target.closest("li").querySelector("div");
+
+            document.querySelectorAll(".menu-opciones").forEach(menu => {
+                if (menu !== opcionesMenu) menu.classList.add("hidden");
+            });
+
+            opcionesMenu.classList.toggle("hidden");
+        }
+    </script>
+</body>
+
+</html>
