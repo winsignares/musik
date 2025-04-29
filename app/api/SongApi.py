@@ -80,8 +80,6 @@ def updateSong():
     song.author = request.json['author']
     song.duration = request.json['duration']
     song.date = request.json['date']
-    song.cover = request.json['cover']
-    song.url = request.json['url']
     db.session.commit() 
 
     return "Canción actualizada correctamente"

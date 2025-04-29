@@ -35,25 +35,42 @@ def registerGenre():
 
 @route_genre.route("/delete", methods=['DELETE'])
 def deleteGenre():
-    id = request.json['id'] 
+    id = request.json['id']
     genre = Genres.query.get(id)
 
-    genre_songs = GenresSongs.query.filter_by(genreId = id).all()
+    if not genre:
+        return jsonify({"error": "Género no encontrado"}), 404
 
-    for genre_song in genre_songs:
-        song_id = genre_song.songId
+    deleted_genres = []
 
-        ArtistsSongs.query.filter_by(songId = song_id).delete()
-        PlaylistsSongs.query.filter_by(songId = song_id).delete()
-        GenresSongs.query.filter_by(songId = song_id).delete() 
+    def delete_genre_and_songs(genre_id):
+        subgenres = Genres.query.filter_by(fatherId=genre_id).all()
+        for subgenre in subgenres:
+            delete_genre_and_songs(subgenre.id)
 
-        song = Songs.query.get(song_id)
-        db.session.delete(song)
+        genre_songs = GenresSongs.query.filter_by(genreId=genre_id).all()
 
-    db.session.delete(genre)
+        for genre_song in genre_songs:
+            song_id = genre_song.songId
+
+            ArtistsSongs.query.filter_by(songId=song_id).delete()
+            PlaylistsSongs.query.filter_by(songId=song_id).delete()
+            GenresSongs.query.filter_by(songId=song_id).delete()
+
+            song = Songs.query.get(song_id)
+            if song:
+                db.session.delete(song)
+
+        genre_to_delete = Genres.query.get(genre_id)
+        if genre_to_delete:
+            deleted_genres.append(genre_to_delete)
+            db.session.delete(genre_to_delete)
+
+    delete_genre_and_songs(id)
     db.session.commit()
+    genres_schema = GenresSchema(many=True)
+    return jsonify({"eliminados": genres_schema.dump(deleted_genres)})
 
-    return jsonify(genre_schema.dump(genre))
 
 @route_genre.route("/update", methods=['PUT'])
 def updateGenre():

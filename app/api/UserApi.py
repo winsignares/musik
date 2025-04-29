@@ -54,3 +54,15 @@ def updateUser():
     user.password = hashedPassword
     db.session.commit()     
     return "Usuario actualizado correctamente"
+
+@route_user.route("/login", methods=['POST'])
+def login():
+    email = request.json['email']
+    password = request.json['password']
+
+    user = Users.query.filter_by(email=email).first()
+
+    if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+        return jsonify(user_schema.dump(user)) 
+    else:
+        return "Correo o contraseña incorrectos"
