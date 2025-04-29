@@ -9,16 +9,16 @@ class Songs(db.Model):
     duration = db.Column(db.Integer)
     date = db.Column(db.Date)
     cover = db.Column(db.String(255))
-    url = db.Column(db.String(255))
+    mp3file = db.Column(db.String(255))
 
-    def __init__(self, name, author, duration, date, cover, url):
+    def __init__(self, name, author, duration, date, cover, mp3file):
         self.name = name
         self.author = author
         self.duration = duration
         self.date = date
         self.cover = cover
-        self.url = url
+        self.mp3file = mp3file
 
 class SongsSchema(ma.Schema):
     class Meta:
-        fields = ('id','name', 'author', 'duration', 'date', 'cover', 'url')
+        fields = ('id','name', 'author', 'duration', 'date', 'cover', 'mp3file')

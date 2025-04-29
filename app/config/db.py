@@ -3,10 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = "config/uploads/covers"
 
 user = "root"
 password = "root"
-direc = "db"
+direc = "db"    
 namebd = "musikapp"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{user}:{password}@{direc}/{namebd}'

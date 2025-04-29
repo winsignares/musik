@@ -23,7 +23,12 @@ def getGenres():
 def registerGenre():
     name = request.json['name']
     description = request.json['description']
-    newGenre = Genres(name, description)
+    fatherId = request.json.get('fatherId', None)  
+
+    if fatherId == 0:
+        fatherId = None
+
+    newGenre = Genres(name, description, fatherId)
     db.session.add(newGenre)
     db.session.commit()
     return "Genero registrado correctamente"

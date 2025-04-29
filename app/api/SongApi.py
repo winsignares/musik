@@ -1,5 +1,8 @@
 from flask import Flask, Blueprint, request, redirect, render_template, jsonify
 from config.db import app, db, ma
+from werkzeug.utils import secure_filename
+
+import os, json, uuid
 
 #llamamos al modelo de User
 from models.SongModel import Songs, SongsSchema
@@ -23,20 +26,20 @@ def getSongs():
 
 @route_song.route("/register", methods=['POST'])
 def registerSong():
+    data = request.form.get('data')
+    data = json.loads(data)
+    cover = request.files['cover']
+    
+    filename = secure_filename(cover.filename)
+    unique_filename = f"{uuid.uuid4().hex}_{filename}"
+    cover.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
+    
+    genre_ids = request.form.getlist('genres')
+    artist_ids = request.form.getlist('artists')
 
-    name = request.json['name']
-    author = request.json['author']
-    duration = request.json['duration']
-    date = request.json['date']
-    cover = request.json['cover']
-    url = request.json['url']
-        
-    genre_ids = request.json['genres'] 
-    artist_ids = request.json['artists']  
-
-    newSong = Songs(name, author, duration, date, cover, url)
+    newSong = Songs(data['name'], data['author'], data['duration'], data['date'], unique_filename, data['mp3file'])
     db.session.add(newSong)
-    db.session.commit()  
+    db.session.commit()
 
     for genre_id in genre_ids:
         genreSong = GenresSongs(genreId = genre_id, songId = newSong.id)
@@ -46,7 +49,7 @@ def registerSong():
         artistSong = ArtistsSongs(artistId = artist_id, songId = newSong.id)
         db.session.add(artistSong)
 
-    db.session.commit() 
+    db.session.commit()
 
     return "Canción registrada correctamente"
 
