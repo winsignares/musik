@@ -780,6 +780,39 @@
 					"response": []
 				},
 				{
+					"name": "Mostrar Playlists por Usuario",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/playlists/getPlaylists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"playlists",
+								"getPlaylists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Eliminar Playlist",
 					"request": {
 						"method": "DELETE",
