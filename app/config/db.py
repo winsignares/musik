@@ -3,7 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = "config/uploads/covers"
+app.config['UPLOAD_FOLDER'] = "/app/config/uploads/covers"
+app.config['UPLOAD_FOLDER2'] = "/app/config/uploads/songs"
 
 user = "root"
 password = "root"

@@ -33,11 +33,17 @@ def registerSong():
     filename = secure_filename(cover.filename)
     unique_filename = f"{uuid.uuid4().hex}_{filename}"
     cover.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
+
+    mp3file = request.files['mp3file']
+
+    filename2 = secure_filename(mp3file.filename)
+    unique_filename2 = f"{uuid.uuid4().hex}_{filename2}"
+    mp3file.save(os.path.join(app.config['UPLOAD_FOLDER2'], unique_filename2))
     
     genre_ids = request.form.getlist('genres')
     artist_ids = request.form.getlist('artists')
 
-    newSong = Songs(data['name'], data['author'], data['duration'], data['date'], unique_filename, data['mp3file'])
+    newSong = Songs(data['name'], data['author'], data['duration'], data['date'], unique_filename, unique_filename2)
     db.session.add(newSong)
     db.session.commit()
 
