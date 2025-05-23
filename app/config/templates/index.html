@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nombre</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="css\index.css">
+    <link rel="stylesheet" href="../static/css/index.css">
 </head>
 
-<body class="bg-[#0a0909] lg:pt-24">
-    <header class="bg-[#0a0909] lg:fixed h-22 top-0 w-full z-50 flex justify-between items-center px-6 bg-black">
-        <button id="menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+<body class="bg-[#0a0909] pt-24">
+    <header class="bg-[#0a0909] fixed lg:h-22 md:h-22 sm:h-20 h-18 top-0 w-full z-50 flex justify-between items-center px-6 bg-black">
+        <button id="menu-btn" class="md:hidden text-white text-2xl focus:outline-none cursor-pointer">
             ☰
         </button>
 
@@ -32,7 +32,7 @@
                         class="lg:text-lg md:text-base text-gray-400 hover:text-white hover:scale-110 duration-200 inline-block">Registrarse</a>
                 </li>
                 <li> <button onclick="window.location.href='sesion.html'"
-                        class="lg:text-lg md:text-base bg-white rounded-3xl p-2 cursor-pointer hover:scale-110 duration-200 hover:bg-gray-200">Iniciar
+                        class="lg:text-lg md:text-base bg-[#3228EC] rounded-3xl p-2 cursor-pointer hover:scale-110 duration-200 hover:bg-[#1810BA] text-white">Iniciar
                         sesión</button> </li>
             </ul>
         </nav>
@@ -43,9 +43,7 @@
             <a href="#quienes-somos" class="text-sm hover:text-gray-400">Sobre nosotros</a>
             <a href="#contacto" class="text-sm hover:text-gray-400">Contacto</a>
             <a href="registro.html" class="text-sm hover:text-gray-400">Registrarse</a>
-            <button onclick="window.location.href='sesion.html'"
-                class="bg-white rounded-3xl p-2 cursor-pointer text-sm hover:scale-110 duration-200 hover:bg-gray-200 text-black">Iniciar
-                sesión</button>
+            <a href="sesion.html" class="text-sm hover:text-gray-400">Iniciar sesión</a>
         </div>
     </header>
 
@@ -77,18 +75,18 @@
                     class="lg:text-2xl lg:w-40 
                        md:text-xl md:w-30 
                        sm:text-base sm:w-30                           
-                       p-2 bg-white text-black font-bold rounded-3xl cursor-pointer hover:scale-110 duration-200 hover:bg-gray-200 mb-10">Escuchar</button>
+                       p-2 bg-[#3228EC] text-white font-bold rounded-3xl cursor-pointer hover:scale-110 duration-200 hover:bg-[#1810BA] mb-10">Escuchar</button>
             </div>
         </div>
     </section>
 
     <section>
-        <div class="lg:flex lg:pt-50 md:flex md:pt-30 sm:pt-20 pt-10 justify-center ">
+        <div class="lg:flex lg:pt-20 md:flex md:pt-10 sm:pt-6 pt-4 justify-center ">
             <div class="lg:h-60 lg:w-80 lg:p-10 lg:m-10 
                                 md:w-50 md:p-6  md:m-6
                                 sm:w-fit sm:p-6 sm:m-6
                                    w-fit    p-4    m-4
-                                   bg-[#111010] rounded-3xl hover:scale-110 duration-200">
+                                   bg-[#3228EC] rounded-3xl hover:scale-110 duration-200">
                 <h3 class="lg:text-2xl md:text-2xl sm:text-xl text-white font-bold pb-4">Descubre</h3>
                 <p class="lg:text-lg md:text-base text-white font-semibold">Explora un catálogo de canciones y playlists
                     para cada momento. Encuentra tu próximo hit favorito</p>
@@ -98,7 +96,7 @@
                                 md:w-50 md:p-6  md:m-6
                                 sm:w-fit sm:p-6 sm:m-6
                                    w-fit    p-4    m-4
-                                   bg-[#111010] rounded-3xl hover:scale-110 duration-200">
+                                   bg-[#3228EC] rounded-3xl hover:scale-110 duration-200">
                 <h3 class="lg:text-2xl md:text-2xl sm:text-xl text-white font-bold pb-4">Escucha</h3>
                 <p class="lg:text-lg md:text-base text-white font-semibold">Disfruta tu música en cualquier dispositivo,
                     sin interrupciones</p>
@@ -108,7 +106,7 @@
                                 md:w-50 md:p-6  md:m-6
                                 sm:w-fit sm:p-6 sm:m-6 
                                    w-fit    p-4    m-4
-                                   bg-[#111010] rounded-3xl hover:scale-110 duration-200">
+                                   bg-[#3228EC] rounded-3xl hover:scale-110 duration-200">
                 <h3 class="lg:text-2xl md:text-2xl sm:text-xl text-white font-bold pb-4">Conecta</h3>
                 <p class="lg:text-lg md:text-base text-white font-semibold">Crea listas de reproducción
                    y comparte tu música favorita</p>
@@ -117,23 +115,23 @@
     </section>
 
     <section id="quienes-somos">
-        <div class="lg:py-30 
-                    md:py-20 md:text-center
-                    sm:py-10 sm:text-center
-                       py-6     text-center">
+        <div class="lg:pt-20 
+                    md:py-10 md:text-center
+                    sm:py-6 sm:text-center
+                       py-4     text-center">
             <h2 class="lg:text-4xl lg:px-50 lg:py-20 
                        md:text-3xl          md:py-10
                        sm:text-2xl          sm:py-8
                           text-xl              py-4
                           text-white font-bold">¿Quiénes Somos?</h2>
 
-            <div class="lg:flex lg:text-start lg:px-50 lg:py-20 lg:space-x-40 
+            <div class="lg:flex lg:text-start lg:px-50 lg:py-10 lg:space-x-40 
                                               md:px-30 md:py-10
                                               sm:px-20 sm:py-6
                                                  px-10    py-4
                                                  justify-center ">
                 <div class="lg:w-80 md:py-6 sm:py-4 py-2">
-                    <p class="lg:text-2xl md:text-lg sm:text-base text-sm text-white font-semibold text-center"> MusikApp, el lugar donde la música cobra vida. Nuestra misión es conectar a los amantes de la
+                    <p class="lg:text-2xl md:text-lg sm:text-base text-sm text-white font-semibold text-center"> Musik, el lugar donde la música cobra vida. Nuestra misión es conectar a los amantes de la
                         música con nuevos sonidos, géneros y artistas de todo el mundo, ofreciendo una experiencia de
                         descubrimiento única</p>
                 </div>
@@ -145,7 +143,7 @@
                 </div>
 
                 <div class="lg:w-80 md:py-6 sm:py-4 py-2">
-                    <p class="lg:text-2xl md:text-lg sm:text-base text-sm text-white font-semibold text-center"> En MusikApp, creemos que la música es un lenguaje universal que une culturas y emociones. Queremos
+                    <p class="lg:text-2xl md:text-lg sm:text-base text-sm text-white font-semibold text-center"> En Musik, creemos que la música es un lenguaje universal que une culturas y emociones. Queremos
                         ayudarte a explorar nuestro catálogo, y encontrar tu gusto musical preferido</p>
                 </div>
             </div>
