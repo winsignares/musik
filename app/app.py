@@ -26,6 +26,14 @@ app.register_blueprint(route_playlist_song, url_prefix="/api/playlist-song")
 def index():
     return render_template("index.html")
 
+@app.route("/registro")
+def registro():
+    return render_template("user/registro.html")
+
+@app.route("/sesion")
+def sesion():
+    return render_template("user/sesion.html")
+
 with app.app_context():
     db.create_all()
 
