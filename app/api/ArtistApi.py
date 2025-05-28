@@ -20,10 +20,16 @@ def getArtists():
 
 @route_artist.route("/register", methods=['POST'])
 def registerArtist():
-    name = request.json['name']
-    newArtist = Artists(name)
-    db.session.add(newArtist)
+    data = request.form.get('data')
+    data = json.loads(data)
+    image = request.files['image']
+
+    filename = secure_filename(image.filename)
+    unique_filename = f"{uuid.uuid4().hex}_{filename}"
+    image.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
+
     db.session.commit()
+
     return "Artista registrado correctamente"
 
 @route_artist.route("/delete", methods=['DELETE'])

@@ -34,14 +34,6 @@ def registro():
 def sesion():
     return render_template("user/sesion.html")
 
-@app.route("/artistas")
-def artistas():
-    return render_template("user/artistas.html")
-
-@app.route("/generos")
-def generos():
-    return render_template("user/generos.html")
-
 with app.app_context():
     db.create_all()
 

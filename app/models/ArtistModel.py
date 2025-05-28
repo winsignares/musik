@@ -5,10 +5,12 @@ class Artists(db.Model):
 
     id = db.Column(db.Integer, primary_key = True) 
     name = db.Column(db.String(50))
+    image = db.Column(db.String(255))
 
-    def __init__(self, name):
+    def __init__(self, name, image):
         self.name = name
+        self.image = image
 
 class ArtistsSchema(ma.Schema):
     class Meta:
-        fields = ('id','name')
+        fields = ('id','name', 'image')
