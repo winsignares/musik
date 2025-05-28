@@ -25,12 +25,16 @@ def registerUser():
     phoneNumber = request.json['phoneNumber']
     email = request.json['email']
     password = request.json['password']
+
     hashedPassword = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     role = "usuario"
+
     newUser = Users(name, lastName, birthDate, phoneNumber, email, hashedPassword, role)
+    
     db.session.add(newUser)
     db.session.commit()
-    return "Usuario registrado correctamente"
+
+    return jsonify({"mensaje": "Usuario registrado correctamente."}), 201
 
 @route_user.route("/delete", methods=['DELETE'])
 def deleteUser():

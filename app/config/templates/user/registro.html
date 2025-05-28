@@ -14,37 +14,41 @@
                     Registro
                 </h2>
     
-                <form action="" class="px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col text-white font-semibold">
+                <form id="form" class="px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col text-white font-semibold">
                     <div class="flex flex-col lg:flex-row lg:gap-6">
                         <div class="flex flex-col flex-1">
                             <label class="text-sm lg:text-lg pb-4">Nombre</label>
-                            <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="nombre" placeholder="Nombre">
+                            <input required class="rounded-sm border-2 border-white mb-6 p-2" name="name" placeholder="Nombre">
     
                             <label class="text-sm lg:text-lg pb-4">Apellido</label>
-                            <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="apellido" placeholder="Apellido">
+                            <input required class="rounded-sm border-2 border-white mb-6 p-2" name="lastName" placeholder="Apellido">
     
                             <label class="text-sm lg:text-lg pb-4">Fecha de nacimiento</label>
-                            <input required class="rounded-sm border-2 border-white mb-6 p-2 text-gray-400" type="date" name="fechaNacimiento">
+                            <input required class="rounded-sm border-2 border-white mb-6 p-2 text-gray-400" type="date" name="birthDate">
                         </div>
     
                         <div class="flex flex-col flex-1">
                             <label class="text-sm lg:text-lg pb-4">Teléfono</label>
-                            <input required class="rounded-sm border-2 border-white mb-6 p-2" type="text" name="telefono" placeholder="Teléfono">
+                            <input required class="rounded-sm border-2 border-white mb-6 p-2" name="phoneNumber" placeholder="Teléfono">
     
                             <label class="text-sm lg:text-lg pb-4">Correo electrónico</label>
-                            <input required class="rounded-sm border-2 border-white mb-6 p-2" type="email" name="correo" placeholder="Correo electrónico">
+                            <input required class="rounded-sm border-2 border-white mb-6 p-2" type="email" name="email" placeholder="Correo electrónico">
     
                             <label class="text-sm lg:text-lg pb-4">Contraseña</label>
-                            <input required class="rounded-sm border-2 border-white mb-6 p-2" type="password" name="contraseña" placeholder="Contraseña">
+                            <input required class="rounded-sm border-2 border-white mb-6 p-2" type="password" name="password" placeholder="Contraseña">
                         </div>
                     </div>
     
-                    <button class="text-lg bg-[#3228EC] text-white rounded-3xl p-2 mt-6 cursor-pointer hover:scale-105 duration-200 hover:bg-[#1810BA] mb-10 font-bold">
+                    <button type="button"
+                        onclick="registerUser()"
+                        class="text-lg bg-[#3228EC] text-white rounded-3xl p-2 mt-6 cursor-pointer hover:scale-105 duration-200 hover:bg-[#1810BA] mb-10 font-bold">
                         Registrarse
                     </button>
                 </form>
             </div>
         </div>
-    </section>    
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/js/UserApi.js"></script>
 </body>
 </html>
