@@ -16,17 +16,16 @@
   <div class="flex">
     <aside class="w-50 p-10 bg-white shadow h-screen">
       <nav class="flex flex-col gap-4 text-lg font-medium">
-        <a href="#" class="hover:text-blue-500">Usuarios</a>
-        <a href="#" class="hover:text-blue-500">Artistas</a>
-        <a href="#" class="hover:text-blue-500">Géneros</a>
-        <a href="#" class="hover:text-blue-500">Canciones</a>
+        <a href="/adminUsers" class="hover:text-blue-500">Usuarios</a>
+        <a href="/adminArtists" class="hover:text-blue-500">Artistas</a>
+        <a href="/adminGenres" class="hover:text-blue-500">Géneros</a>
+        <a href="/adminSongs" class="hover:text-blue-500">Canciones</a>
       </nav>
     </aside>
 
     <section class="flex-1 p-10">
       <div class="p-4 flex justify-between items-center">
         <h1 class="text-3xl font-semibold">Usuarios</h1>
-        <button class="bg-gray-300 p-2 hover:bg-gray-400 rounded shadow">Agregar</button>
       </div>
 
       <div class="px-3 py-4 flex justify-center">
@@ -39,27 +38,19 @@
               <th class="text-left p-3 px-5">Fecha de Nacimiento</th>
               <th class="text-left p-3 px-5">Teléfono</th>
               <th class="text-left p-3 px-5">Correo</th>
+              <th class="text-left p-3 px-5">Acciones</th>
             </tr>
           </thead>
 
-          <tbody>
-            <tr class="border-b hover:bg-orange-100 bg-gray-100">
-              <td class="p-3 px-5">1</td>
-              <td class="p-3 px-5">Marcos</td>
-              <td class="p-3 px-5">Marcos</td>
-              <td class="p-3 px-5">01/01/1990</td>
-              <td class="p-3 px-5">123456789</td>
-              <td class="p-3 px-5">marcos@mail.com</td>
-              <td class="p-3 px-5 flex justify-end">
-                <button class="cursor-pointer mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">Editar</button>
-                <button class="cursor-pointer bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Eliminar</button>
-              </td>
-            </tr>
+          <tbody id="tabla-usuarios">
+            
           </tbody>
         </table>
       </div>
     </section>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/static/js/UserApi.js"></script>
 </body>
 
 </html>

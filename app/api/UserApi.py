@@ -7,11 +7,12 @@ import bcrypt
 from models.UserModel import Users, UsersSchema
 
 route_user = Blueprint("route_user", __name__)
+route_admin = Blueprint("route_admin", __name__)
 
 user_schema = UsersSchema()
 users_schema = UsersSchema(many=True)
 
-@route_user.route("/get", methods=["GET"])
+@route_admin.route("/get", methods=["GET"])
 def getUsers():
     users = Users.query.all()
     respo = users_schema.dump(users)
@@ -36,9 +37,8 @@ def registerUser():
 
     return jsonify({"mensaje": "Usuario registrado correctamente."}), 201
 
-@route_user.route("/delete", methods=['DELETE'])
-def deleteUser():
-    id = request.json['id'] 
+@route_admin.route("/delete/<int:id>", methods=['DELETE'])
+def deleteUser(id):
     user = Users.query.get(id)    
     db.session.delete(user)
     db.session.commit()     

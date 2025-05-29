@@ -59,9 +59,8 @@ def registerSong():
 
     return "Canción registrada correctamente"
 
-@route_song.route("/delete", methods=['DELETE'])
-def deleteSong():
-    id = request.json['id']
+@route_song.route("/delete/<int:id>", methods=['DELETE'])
+def deleteSong(id):
     song = Songs.query.get(id)
 
     GenresSongs.query.filter_by(songId = id).delete()

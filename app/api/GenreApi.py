@@ -33,9 +33,8 @@ def registerGenre():
     db.session.commit()
     return "Genero registrado correctamente"
 
-@route_genre.route("/delete", methods=['DELETE'])
-def deleteGenre():
-    id = request.json['id']
+@route_genre.route("/delete/<int:id>", methods=['DELETE'])
+def deleteGenre(id):
     genre = Genres.query.get(id)
 
     if not genre:

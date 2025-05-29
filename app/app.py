@@ -3,7 +3,7 @@ from config.db import db, app
 
 # trabajar en las rutas de bluprint con respectos a las api's
 
-from api.UserApi import route_user
+from api.UserApi import route_user, route_admin
 from api.ArtistApi import route_artist
 from api.GenreApi import route_genre
 from api.PlaylistApi import route_playlist
@@ -11,6 +11,7 @@ from api.SongApi import route_song, route_artist_song, route_genre_song, route_p
 
 # Importar los Blueprints
 
+app.register_blueprint(route_admin, url_prefix="/api/admin")
 app.register_blueprint(route_user, url_prefix="/api/users")
 app.register_blueprint(route_artist, url_prefix="/api/artists")
 app.register_blueprint(route_genre, url_prefix="/api/genres")
@@ -33,6 +34,22 @@ def registro():
 @app.route("/sesion")
 def sesion():
     return render_template("user/sesion.html")
+
+@app.route("/adminUsers")
+def adminUsers():
+    return render_template("admin/Ausuarios.html")
+
+@app.route("/adminArtists")
+def adminArtists():
+    return render_template("admin/Aartistas.html")
+
+@app.route("/adminGenres")
+def adminGenres():
+    return render_template("admin/Ageneros.html")
+
+@app.route("/adminSongs")
+def adminSongs():
+    return render_template("admin/Acanciones.html")
 
 with app.app_context():
     db.create_all()

@@ -1,3 +1,6 @@
+import json, uuid, os
+from werkzeug.utils import secure_filename
+
 from flask import Flask, Blueprint, request, redirect, render_template, jsonify
 from config.db import app, db, ma
 
@@ -20,21 +23,21 @@ def getArtists():
 
 @route_artist.route("/register", methods=['POST'])
 def registerArtist():
-    data = request.form.get('data')
-    data = json.loads(data)
+    name = request.form.get('name')
     image = request.files['image']
 
     filename = secure_filename(image.filename)
     unique_filename = f"{uuid.uuid4().hex}_{filename}"
     image.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
 
+    newArtist = Artists(name, unique_filename)
+    db.session.add(newArtist)
     db.session.commit()
 
-    return "Artista registrado correctamente"
+    return jsonify({"message": "Artista registrado correctamente"})
 
-@route_artist.route("/delete", methods=['DELETE'])
-def deleteArtist():
-    id = request.json['id'] 
+@route_artist.route("/delete/<int:id>", methods=['DELETE'])
+def deleteArtist(id):
     artist = Artists.query.get(id)   
 
     artist_songs = ArtistsSongs.query.filter_by(artistId = id).all()

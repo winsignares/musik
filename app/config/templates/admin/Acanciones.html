@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Canciones</title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
@@ -16,17 +16,18 @@
   <div class="flex">
     <aside class="w-50 p-10 bg-white shadow h-screen">
       <nav class="flex flex-col gap-4 text-lg font-medium">
-        <a href="#" class="hover:text-blue-500">Usuarios</a>
-        <a href="#" class="hover:text-blue-500">Artistas</a>
-        <a href="#" class="hover:text-blue-500">Géneros</a>
-        <a href="#" class="hover:text-blue-500">Canciones</a>
+        <a href="/adminUsers" class="hover:text-blue-500">Usuarios</a>
+        <a href="/adminArtists" class="hover:text-blue-500">Artistas</a>
+        <a href="/adminGenres" class="hover:text-blue-500">Géneros</a>
+        <a href="/adminSongs" class="hover:text-blue-500">Canciones</a>
       </nav>
     </aside>
 
     <section class="flex-1 p-10">
       <div class="p-4 flex justify-between items-center">
         <h1 class="text-3xl font-semibold">Canciones</h1>
-        <button class="bg-gray-300 p-2 hover:bg-gray-400 rounded shadow">Agregar</button>
+        <button onclick="abrirModalAgregar()"
+          class="bg-gray-300 p-2 hover:bg-gray-400 rounded shadow cursor-pointer">Agregar</button>
       </div>
 
       <div class="px-3 py-4 flex justify-center">
@@ -36,76 +37,68 @@
               <th class="text-left p-3 px-5">Id</th>
               <th class="text-left p-3 px-5">Nombre</th>
               <th class="text-left p-3 px-5">Artista</th>
-              <th class="text-left p-3 px-5">Duración</th>
               <th class="text-left p-3 px-5">Género</th>
+              <th class="text-left p-3 px-5">Duración</th>
+              <th class="text-left p-3 px-5">Fecha de Lanzamiento</th>
+              <th class="text-left p-3 px-5">Autor</th>
             </tr>
           </thead>
 
-          <tbody>
-            <tr class="border-b hover:bg-orange-100 bg-gray-100">
-              <td class="p-3 px-5">1</td>
-              <td class="p-3 px-5">Canción 1</td>
-              <td class="p-3 px-5">Artista 1</td>
-              <td class="p-3 px-5">3:35</td>
-              <td class="p-3 px-5">Género 1</td>
-              <td class="p-3 px-5 flex justify-end">
-                <button class="cursor-pointer mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">Editar</button>
-                <button class="cursor-pointer bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Eliminar</button>
-              </td>
-            </tr>
+          <tbody id="tabla-canciones">
 
-            <tr class="border-b hover:bg-orange-100 bg-gray-100">
-                <td class="p-3 px-5">1</td>
-                <td class="p-3 px-5">Canción 1</td>
-                <td class="p-3 px-5">Artista 1</td>
-                <td class="p-3 px-5">3:35</td>
-                <td class="p-3 px-5">Género 1</td>
-                <td class="p-3 px-5 flex justify-end">
-                  <button class="cursor-pointer mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">Editar</button>
-                  <button class="cursor-pointer bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Eliminar</button>
-                </td>
-              </tr>
-
-              <tr class="border-b hover:bg-orange-100 bg-gray-100">
-                <td class="p-3 px-5">1</td>
-                <td class="p-3 px-5">Canción 1</td>
-                <td class="p-3 px-5">Artista 1</td>
-                <td class="p-3 px-5">3:35</td>
-                <td class="p-3 px-5">Género 1</td>
-                <td class="p-3 px-5 flex justify-end">
-                  <button class="cursor-pointer mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">Editar</button>
-                  <button class="cursor-pointer bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Eliminar</button>
-                </td>
-              </tr>
-
-              <tr class="border-b hover:bg-orange-100 bg-gray-100">
-                <td class="p-3 px-5">1</td>
-                <td class="p-3 px-5">Canción 1</td>
-                <td class="p-3 px-5">Artista 1</td>
-                <td class="p-3 px-5">3:35</td>
-                <td class="p-3 px-5">Género 1</td>
-                <td class="p-3 px-5 flex justify-end">
-                  <button class="cursor-pointer mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">Editar</button>
-                  <button class="cursor-pointer bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Eliminar</button>
-                </td>
-              </tr>
-
-              <tr class="border-b hover:bg-orange-100 bg-gray-100">
-                <td class="p-3 px-5">1</td>
-                <td class="p-3 px-5">Canción 1</td>
-                <td class="p-3 px-5">Artista 1</td>
-                <td class="p-3 px-5">3:35</td>
-                <td class="p-3 px-5">Género 1</td>
-                <td class="p-3 px-5 flex justify-end">
-                  <button class="cursor-pointer mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">Editar</button>
-                  <button class="cursor-pointer bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Eliminar</button>
-                </td>
-              </tr>
           </tbody>
         </table>
       </div>
     </section>
   </div>
+
+  <div id="modal-agregar" class="fixed inset-0 backdrop-blur hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Agregar Canción</h2>
+
+      <form id="form-agregar">
+        <label class="block mb-4">
+          Nombre
+          <input type="text" name="name" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block mb-4">
+          Artista
+          <input type="text" name="author" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block mb-4">
+          Género
+          <input type="text" name="genre" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block mb-4">
+          Duración
+          <input type="text" name="duration" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block mb-4">
+          Fecha de Lanzamiento
+          <input type="date" name="date" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block mb-4">
+          Autor
+          <input type="text" name="date" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="cerrarModalAgregar()"
+            class="cursor-pointer bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancelar</button>
+          <button type="button" onclick="registerSong()"
+            class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/static/js/SongApi.js"></script>
 </body>
 
 </html>

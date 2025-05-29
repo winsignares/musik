@@ -1,7 +1,35 @@
+document.addEventListener('DOMContentLoaded', () => {
+  getUsers();
+});
+
 function getUsers() {
-    return fetch('/api/users')
-        .then(response => response.json())
-        .catch(error => console.error('Error fetching users:', error));
+  axios.get('/api/admin/get')
+    .then(response => {
+      const users = response.data;
+      const tbody = document.getElementById('tabla-usuarios');
+      tbody.innerHTML = ''; 
+
+      users.forEach(user => {
+        const row = document.createElement('tr');
+        row.className = "border-b hover:bg-orange-100 bg-gray-100";
+
+        row.innerHTML = `
+          <td class="p-3 px-5">${user.id}</td>
+          <td class="p-3 px-5">${user.name}</td>
+          <td class="p-3 px-5">${user.lastName}</td>
+          <td class="p-3 px-5">${user.birthDate}</td>
+          <td class="p-3 px-5">${user.phoneNumber}</td>
+          <td class="p-3 px-5">${user.email}</td>
+          <td class="p-3 px-5 flex justify-end">
+            <button onclick='deleteUser(${user.id})' class="cursor-pointer bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Eliminar</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error('Error al obtener usuarios:', error);
+    });
 }
 
 function registerUser() {
@@ -11,16 +39,25 @@ function registerUser() {
 
     axios.post('/api/users/register', data)
     .then(response => {
-        console.log(response); // <-- esto te mostrará toda la respuesta
-        const msg = response.data.error || "Usuario registrado correctamente.";
-        alert(msg); // aquí usas msg, no "mensaje"
-        document.getElementById('fila').innerHTML = '';
-        fetchUsers();
+        console.log(response.data)
+        window.location.href='/sesion';
     })
     .catch(error => {
-        console.log(error); // <-- importante para ver si realmente es un error
-        const msg = error.response?.data?.error || "Error al registrar el usuario.";
-        alert(msg);
+        console.log(error);
     });
+}
 
+function login() {
+
+}
+
+function deleteUser(id) {
+    axios.delete(`/api/admin/delete/${id}`)
+        .then(response => {
+            console.log(response.data);
+            getUsers();
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
