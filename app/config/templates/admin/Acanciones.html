@@ -2,10 +2,12 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Canciones</title>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -14,20 +16,40 @@
   </header>
 
   <div class="flex">
-    <aside class="w-50 p-10 bg-white shadow h-screen">
-      <nav class="flex flex-col gap-4 text-lg font-medium">
-        <a href="/adminUsers" class="hover:text-blue-500">Usuarios</a>
-        <a href="/adminArtists" class="hover:text-blue-500">Artistas</a>
-        <a href="/adminGenres" class="hover:text-blue-500">Géneros</a>
-        <a href="/adminSongs" class="hover:text-blue-500">Canciones</a>
+    <aside class="w-60 bg-white shadow h-screen flex flex-col">
+      <nav class="flex flex-col gap-10 text-lg font-medium mt-20">
+        <a href="/adminUsers" class="group flex items-center gap-3 p-4 hover:bg-black duration-200">
+          <i data-lucide="users" class="group-hover:text-white text-black"></i>
+          <span class="group-hover:text-white text-black">Usuarios</span>
+        </a>
+        <a href="/adminArtists" class="group flex items-center gap-3 p-4 hover:bg-black duration-200">
+          <i data-lucide="mic" class="group-hover:text-white text-black"></i>
+          <span class="group-hover:text-white text-black">Artistas</span>
+        </a>
+        <a href="/adminGenres" class="group flex items-center gap-3 p-4 hover:bg-black duration-200">
+          <i data-lucide="list-music" class="group-hover:text-white text-black"></i>
+          <span class="group-hover:text-white text-black">Géneros</span>
+        </a>
+        <a href="/adminSongs" class="group flex items-center gap-3 p-4 hover:bg-black duration-200">
+          <i data-lucide="music" class="group-hover:text-white text-black"></i>
+          <span class="group-hover:text-white text-black">Canciones</span>
+        </a>
       </nav>
+
+      <div class="mt-auto mb-30">
+        <button
+          class="w-full group cursor-pointer flex items-center gap-3 p-4 text-red-600 hover:bg-red-800 duration-200 text-lg font-medium">
+          <i data-lucide="log-out" class="group-hover:text-white"></i>
+          <span class="group-hover:text-white">Cerrar sesión</span>
+        </button>
+      </div>
     </aside>
 
     <section class="flex-1 p-10">
       <div class="p-4 flex justify-between items-center">
         <h1 class="text-3xl font-semibold">Canciones</h1>
         <button onclick="abrirModalAgregar()"
-          class="bg-gray-300 p-2 hover:bg-gray-400 rounded shadow cursor-pointer">Agregar</button>
+          class="bg-gray-400 p-2 hover:bg-gray-500 duration-200 rounded cursor-pointer font-bold">Agregar</button>
       </div>
 
       <div class="px-3 py-4 flex justify-center">
@@ -56,49 +78,68 @@
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
       <h2 class="text-xl font-semibold mb-4">Agregar Canción</h2>
 
-      <form id="form-agregar">
-        <label class="block mb-4">
+      <form id="form-agregar" class="grid grid-cols-2 gap-4">
+        <label class="block">
           Nombre
           <input type="text" name="name" class="w-full mt-1 p-2 border rounded" required>
         </label>
 
-        <label class="block mb-4">
+        <label class="block">
           Artista
-          <input type="text" name="author" class="w-full mt-1 p-2 border rounded" required>
+          <select id="select-artista" name="artist" class="w-full mt-1 p-2 border rounded" required>
+            <option value="">Seleccione un artista</option>
+          </select>
         </label>
 
-        <label class="block mb-4">
+        <label class="block">
           Género
-          <input type="text" name="genre" class="w-full mt-1 p-2 border rounded" required>
+          <select id="select-genero" name="genre" class="w-full mt-1 p-2 border rounded" required>
+            <option value="">Seleccione un género</option>
+          </select>
         </label>
 
-        <label class="block mb-4">
+        <label class="block">
           Duración
           <input type="text" name="duration" class="w-full mt-1 p-2 border rounded" required>
         </label>
 
-        <label class="block mb-4">
+        <label class="block">
           Fecha de Lanzamiento
           <input type="date" name="date" class="w-full mt-1 p-2 border rounded" required>
         </label>
 
-        <label class="block mb-4">
+        <label class="block">
           Autor
-          <input type="text" name="date" class="w-full mt-1 p-2 border rounded" required>
+          <input type="text" name="author" class="w-full mt-1 p-2 border rounded" required>
         </label>
 
-        <div class="flex justify-end gap-2">
+        <label class="block">
+          Cover
+          <input type="file" name="cover" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block">
+          Archivo mp3
+          <input type="file" name="mp3file" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <div class="col-span-2 flex justify-end gap-2 mt-4">
           <button type="button" onclick="cerrarModalAgregar()"
             class="cursor-pointer bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancelar</button>
           <button type="button" onclick="registerSong()"
             class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
         </div>
       </form>
+
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/static/js/SongApi.js"></script>
+
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 
 </html>

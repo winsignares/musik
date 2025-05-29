@@ -19,6 +19,15 @@ def getGenres():
     respo = genres_schema.dump(genres)
     return jsonify(respo)
 
+@route_genre.route('/get/<int:id>', methods=['GET'])
+def get_genre(id):
+    genre = Genres.query.get_or_404(id)
+    return jsonify({
+        'id': genre.id,
+        'name': genre.name,
+        'description': genre.description
+    })
+
 @route_genre.route("/register", methods=['POST'])
 def registerGenre():
     name = request.json['name']
@@ -71,9 +80,8 @@ def deleteGenre(id):
     return jsonify({"eliminados": genres_schema.dump(deleted_genres)})
 
 
-@route_genre.route("/update", methods=['PUT'])
-def updateGenre():
-    id = request.json['id'] 
+@route_genre.route("/update/<int:id>", methods=['PUT'])
+def updateGenre(id):
     genre = Genres.query.get(id)    
     genre.name = request.json['name']
     genre.description = request.json['description']

@@ -21,6 +21,16 @@ def getArtists():
     respo = artists_schema.dump(artists)
     return jsonify(respo)
 
+@route_artist.route('/get/<int:id>', methods=['GET'])
+def get_artist(id):
+    artist = Artists.query.get_or_404(id)
+    image_url = f"/static/uploads/artists/{artist.image}" 
+    return jsonify({
+        'id': artist.id,
+        'name': artist.name,
+        'image': image_url
+    })
+
 @route_artist.route("/register", methods=['POST'])
 def registerArtist():
     name = request.form.get('name')
@@ -28,7 +38,7 @@ def registerArtist():
 
     filename = secure_filename(image.filename)
     unique_filename = f"{uuid.uuid4().hex}_{filename}"
-    image.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
+    image.save(os.path.join(app.config['UPLOAD_FOLDER3'], unique_filename))
 
     newArtist = Artists(name, unique_filename)
     db.session.add(newArtist)

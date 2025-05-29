@@ -1,10 +1,14 @@
+import os
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = "/app/config/uploads/covers"
-app.config['UPLOAD_FOLDER2'] = "/app/config/uploads/songs"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.config['UPLOAD_FOLDER'] = os.path.join(BASE_DIR, 'static', 'uploads', 'covers')
+app.config['UPLOAD_FOLDER2'] = os.path.join(BASE_DIR, 'static', 'uploads', 'songs')
+app.config['UPLOAD_FOLDER3'] = os.path.join(BASE_DIR, 'static', 'uploads', 'artists')
 
 user = "root"
 password = "root"
