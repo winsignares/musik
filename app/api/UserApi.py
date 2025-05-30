@@ -20,22 +20,31 @@ def getUsers():
 
 @route_user.route("/register", methods=['POST'])
 def registerUser():
-    name = request.json['name']
-    lastName = request.json['lastName']
-    birthDate = request.json['birthDate']
-    phoneNumber = request.json['phoneNumber']
-    email = request.json['email']
-    password = request.json['password']
+    try:
+        data = request.json
+        name = data['name']
+        lastName = data['lastName']
+        birthDate = data['birthDate']
+        phoneNumber = data['phoneNumber']
+        email = data['email']
+        password = data['password']
 
-    hashedPassword = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    role = "usuario"
+        existing_user = Users.query.filter_by(email=email).first()
+        if existing_user:
+            return jsonify({"error": "El correo electrónico ya está registrado."}), 409
 
-    newUser = Users(name, lastName, birthDate, phoneNumber, email, hashedPassword, role)
-    
-    db.session.add(newUser)
-    db.session.commit()
+        hashedPassword = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        role = "usuario"
 
-    return jsonify({"mensaje": "Usuario registrado correctamente."}), 201
+        newUser = Users(name, lastName, birthDate, phoneNumber, email, hashedPassword, role)
+        db.session.add(newUser)
+        db.session.commit()
+
+        return jsonify({"mensaje": "Usuario registrado correctamente."}), 201
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al registrar usuario: {str(e)}"}), 500
 
 @route_admin.route("/delete/<int:id>", methods=['DELETE'])
 def deleteUser(id):
@@ -61,12 +70,18 @@ def updateUser():
 
 @route_user.route("/login", methods=['POST'])
 def login():
-    email = request.json['email']
-    password = request.json['password']
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
 
     user = Users.query.filter_by(email=email).first()
 
     if user and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-        return jsonify(user_schema.dump(user)) 
+        user_data = user_schema.dump(user)
+        user_data.pop('password', None)  # Quitar la contraseña del JSON
+        return jsonify({
+            "mensaje": "Inicio de sesión exitoso.",
+            "usuario": user_data
+        }), 200
     else:
-        return "Correo o contraseña incorrectos"
+        return jsonify({"error": "Correo o contraseña incorrectos."}), 401
