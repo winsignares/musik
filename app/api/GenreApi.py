@@ -86,4 +86,5 @@ def updateGenre(id):
     genre.name = request.json['name']
     genre.description = request.json['description']
     db.session.commit()     
-    return "Genero actualizado correctamente"
+
+    return "Género actualizado correctamente"

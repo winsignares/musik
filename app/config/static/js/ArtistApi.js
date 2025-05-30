@@ -13,6 +13,35 @@ function cerrarModalAgregar() {
   document.getElementById('form-agregar').reset();
 }
 
+function abrirModalEditar(id) {
+  document.getElementById('modal-editar').classList.remove('hidden');
+  document.getElementById('modal-editar').classList.add('flex');
+
+  axios.get(`/api/artists/get/${id}`)
+    .then(response => {
+      const artista = response.data;
+      console.log(artista);
+
+      document.querySelector('#form-editar input[name="name"]').value = artista.name;
+      document.getElementById('form-editar').dataset.artistaId = id;
+
+    })
+    .catch(error => {
+      Swal.fire(
+        'Error',
+        'No se pudo cargar el artista.',
+        'error'
+      );
+      console.log(error);
+    });
+}
+
+function cerrarModalEditar() {
+  document.getElementById('modal-editar').classList.remove('flex');
+  document.getElementById('modal-editar').classList.add('hidden');
+  document.getElementById('form-editar').reset();
+}
+
 function getArtists() {
   axios.get('/api/artists/get')
     .then(response => {
@@ -109,4 +138,35 @@ function deleteArtist(id) {
       );
       console.error(error);
     });
+}
+
+function updateArtist() {
+  const form = document.getElementById('form-editar');
+  const id = form.dataset.artistaId;
+
+  const name = form.querySelector('input[name="name"]').value;
+  const imageInput = form.querySelector('input[name="image"]');
+  const imageFile = imageInput.files[0]; 
+
+  const formData = new FormData();
+  formData.append('name', name);
+  if (imageFile) {
+    formData.append('image', imageFile);
+  }
+
+  axios.put(`/api/artists/update/${id}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+  .then(response => {
+    console.log(response.data);
+    Swal.fire('Actualizado', 'Artista actualizado correctamente', 'success');
+    cerrarModalEditar();
+    getArtists(); 
+  })
+  .catch(error => {
+    console.log(error);
+    Swal.fire('Error', 'No se pudo actualizar el artista', 'error');
+  });
 }

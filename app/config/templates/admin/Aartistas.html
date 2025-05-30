@@ -95,6 +95,32 @@
     </div>
   </div>
 
+  <div id="modal-editar" class="fixed inset-0 backdrop-blur hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Editar</h2>
+
+      <form id="form-editar" enctype="multipart/form-data">
+        <label class="block mb-4">
+          Nombre
+          <input type="text" id="nombre-artista" name="name" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block mb-4">
+          Imagen
+          <input type="file" id="imagen-artista" name="image" accept="image/*" class="w-full mt-1 p-2 border rounded"
+            required>
+        </label>
+
+        <div class="flex justify-end gap-2">
+          <button type="button" onclick="cerrarModalEditar()"
+            class="cursor-pointer bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancelar</button>
+          <button type="button" onclick="updateArtist()"
+            class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/static/js/ArtistApi.js"></script>
 

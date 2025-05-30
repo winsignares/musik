@@ -67,10 +67,23 @@ def deleteArtist(id):
 
     return jsonify(artist_schema.dump(artist))
 
-@route_artist.route("/update", methods=['PUT'])
-def updateArtist():
-    id = request.json['id'] 
-    artist = Artists.query.get(id)    
-    artist.name = request.json['name']
-    db.session.commit()     
-    return "Artista actualizado correctamente"
+@route_artist.route("/update/<int:id>", methods=['PUT'])
+def updateArtist(id):
+    artist = Artists.query.get(id)
+    artist.name = request.form.get('name')
+    image = request.files['image']
+
+    if image:
+        old_image_path = os.path.join(app.config['UPLOAD_FOLDER3'], artist.image)
+
+        if artist.image and os.path.exists(old_image_path):
+            os.remove(old_image_path)
+
+    filename = secure_filename(image.filename)
+    unique_filename = f"{uuid.uuid4().hex}_{filename}"
+    image.save(os.path.join(app.config['UPLOAD_FOLDER3'], unique_filename))
+    artist.image = unique_filename
+    
+    db.session.commit()
+
+    return jsonify({"message": "Artista actualizado correctamente"})

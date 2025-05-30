@@ -85,22 +85,22 @@
         </label>
 
         <label class="block">
-          Artista
-          <select id="select-artista" name="artist" class="w-full mt-1 p-2 border rounded" required>
-            <option value="">Seleccione un artista</option>
-          </select>
-        </label>
-
-        <label class="block">
-          Género
-          <select id="select-genero" name="genre" class="w-full mt-1 p-2 border rounded" required>
-            <option value="">Seleccione un género</option>
-          </select>
-        </label>
-
-        <label class="block">
           Duración
           <input type="text" name="duration" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block mb-4">
+          Artistas
+          <select id="select-artista" name="artist" multiple class="choices w-full mt-1 p-2 border rounded">
+
+          </select>
+        </label>
+
+        <label class="block mb-4">
+          Géneros
+          <select id="select-genero" name="genre" multiple class="choices w-full mt-1 p-2 border rounded">
+
+          </select>
         </label>
 
         <label class="block">
@@ -130,7 +130,65 @@
             class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
         </div>
       </form>
+    </div>
+  </div>
 
+  <div id="modal-editar" class="fixed inset-0 backdrop-blur hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Editar</h2>
+
+      <form id="form-editar" class="grid grid-cols-2 gap-4">
+        <label class="block">
+          Nombre
+          <input type="text" name="name" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block">
+          Duración
+          <input type="text" name="duration" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block mb-4">
+          Artistas
+          <select id="select-artista-editar" name="artist" multiple class="choices w-full mt-1 p-2 border rounded">
+
+          </select>
+        </label>
+
+        <label class="block mb-4">
+          Géneros
+          <select id="select-genero-editar" name="genre" multiple class="choices w-full mt-1 p-2 border rounded">
+
+          </select>
+        </label>
+
+        <label class="block">
+          Fecha de Lanzamiento
+          <input type="date" name="date" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block">
+          Autor
+          <input type="text" name="author" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block">
+          Cover
+          <input type="file" name="cover" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <label class="block">
+          Archivo mp3
+          <input type="file" name="mp3file" class="w-full mt-1 p-2 border rounded" required>
+        </label>
+
+        <div class="col-span-2 flex justify-end gap-2 mt-4">
+          <button type="button" onclick="cerrarModalEditar()"
+            class="cursor-pointer bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancelar</button>
+          <button type="button" onclick="updateSong()"
+            class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
+        </div>
+      </form>
     </div>
   </div>
 
