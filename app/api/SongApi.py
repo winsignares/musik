@@ -126,13 +126,11 @@ def deleteSong(id):
 def updateSong(id):
     song = Songs.query.get_or_404(id)
 
-    # Actualización de campos simples
     song.name = request.form.get('name')
     song.author = request.form.get('author')
     song.duration = request.form.get('duration')
     song.date = datetime.strptime(request.form.get('date'), "%Y-%m-%d")
 
-    # Actualización de archivos
     cover = request.files.get('cover')
     mp3file = request.files.get('mp3file')
 
@@ -154,18 +152,15 @@ def updateSong(id):
         mp3file.save(os.path.join(app.config['UPLOAD_FOLDER2'], unique_filename2))
         song.mp3file = unique_filename2
 
-    # Limpiar relaciones existentes de artistas y géneros
     song.artists_songs.clear()
     song.genres_songs.clear()
 
-    # Agregar nuevos artistas
     artist_ids = request.form.getlist('artist')
     for artist_id in artist_ids:
         artist = Artists.query.get(int(artist_id))
         if artist:
             song.artists_songs.append(ArtistsSongs(artist=artist))
 
-    # Agregar nuevos géneros
     genre_ids = request.form.getlist('genre')
     for genre_id in genre_ids:
         genre = Genres.query.get(int(genre_id))

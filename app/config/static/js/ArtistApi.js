@@ -1,172 +1,124 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   getArtists();
 });
 
-function abrirModalAgregar() {
-  document.getElementById('modal-agregar').classList.remove('hidden');
-  document.getElementById('modal-agregar').classList.add('flex');
-}
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('artist-container');
+  const artistId = container?.dataset?.artistId;
 
-function cerrarModalAgregar() {
-  document.getElementById('modal-agregar').classList.remove('flex');
-  document.getElementById('modal-agregar').classList.add('hidden');
-  document.getElementById('form-agregar').reset();
-}
+  console.log('DOM loaded, container:', container);
+  console.log('Artist ID:', artistId);
 
-function abrirModalEditar(id) {
-  document.getElementById('modal-editar').classList.remove('hidden');
-  document.getElementById('modal-editar').classList.add('flex');
-
-  axios.get(`/api/artists/get/${id}`)
-    .then(response => {
-      const artista = response.data;
-      console.log(artista);
-
-      document.querySelector('#form-editar input[name="name"]').value = artista.name;
-      document.getElementById('form-editar').dataset.artistaId = id;
-
-    })
-    .catch(error => {
-      Swal.fire(
-        'Error',
-        'No se pudo cargar el artista.',
-        'error'
-      );
-      console.log(error);
-    });
-}
-
-function cerrarModalEditar() {
-  document.getElementById('modal-editar').classList.remove('flex');
-  document.getElementById('modal-editar').classList.add('hidden');
-  document.getElementById('form-editar').reset();
-}
+  if (artistId) {
+    getArtistbyId(artistId);
+    getSongsbyArtist(artistId);
+  }
+});
 
 function getArtists() {
   axios.get('/api/artists/get')
     .then(response => {
       const artists = response.data;
-      const tbody = document.getElementById('tabla-artistas');
-      tbody.innerHTML = '';
+      const grid = document.getElementById('grid-artistas');
+      if (!grid) {
+        console.error('No se encontró el contenedor #grid-artistas');
+        return;
+      }
+
+      grid.innerHTML = '';
 
       artists.forEach(artist => {
-        const row = document.createElement('tr');
-        row.className = "border-b hover:bg-orange-100 bg-gray-100";
-
-        row.innerHTML = `
-          <td class="p-3 px-5">${artist.id}</td>
-          <td class="p-3 px-5">${artist.name}</td>
-          <td class="p-3 px-5 flex justify-end">
-            <button onclick='abrirModalEditar(${artist.id})' class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 mr-4 rounded">Editar</button>
-            <button onclick='confirmarEliminacion(${artist.id})' class="cursor-pointer bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">Eliminar</button>
-          </td>
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <button onclick="window.location.href='/artista/${artist.id}'"
+              class="p-4 h-fit w-fit cursor-pointer hover:bg-[#2b2b2e] rounded-3xl duration-200">
+            <img src="../../static/uploads/artists/${artist.image}" alt="${artist.name}"
+              class="lg:h-45 lg:w-45 md:h-35 md:w-35 sm:h-30 sm:w-30 h-25 w-25 lg:rounded-[10rem] rounded-[5rem]">
+           <h3 class="lg:text-xl md:text-lg sm:text-base text-sm text-white text-start font-semibold hover:underline py-2">
+              ${artist.name}
+          </h3>
+          </button>
         `;
-        tbody.appendChild(row);
+        grid.appendChild(div);
       });
     })
     .catch(error => {
-      console.error(error);
+      console.error('Error al cargar artistas:', error);
     });
 }
 
-function registerArtist() {
-  const nameInput = document.getElementById('nombre-artista');
-  const imageInput = document.getElementById('imagen-artista');
-
-  const formData = new FormData();
-  formData.append('name', nameInput.value);
-  formData.append('image', imageInput.files[0]);
-
-  axios.post('/api/artists/register', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  })
+function getArtistbyId(id) {
+  axios.get(`/api/artists/get/${id}`)
     .then(response => {
-      console.log(response.data);
-      cerrarModalAgregar();
-      getArtists();
-      Swal.fire({
-        icon: 'success',
-        title: '¡Artista agregado!',
-        text: 'El artista fue registrado correctamente.',
-      });
+      const artist = response.data;
+      const container = document.getElementById('artist-container');
+      if (!container) return console.error('No se encontró el contenedor #artist-container');
+
+      container.querySelector('.flex').innerHTML = `
+        <div class="flex items-center">
+          <img src="${artist.image}" alt="${artist.name}" class="lg:h-[15rem] lg:w-[15rem] md:h-[10rem] md:w-[10rem] sm:h-[7rem] sm:w-[7rem] h-40 w-40 rounded-lg lg:ml-30 ml-10">
+          <h2 class="lg:text-4xl lg:px-20 md:text-3xl md:px-14 sm:text-2xl sm:px-8 text-xl px-10 text-white font-bold">${artist.name}</h2>
+        </div>
+        `;
+
     })
     .catch(error => {
-      console.error(error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo agregar el artista.'
-      });
+      console.error('Error al cargar artista:', error);
     });
 }
 
-function confirmarEliminacion(id) {
-  Swal.fire({
-    title: '¿Estás seguro?',
-    text: "Esta acción no se puede deshacer.",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'Cancelar'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      deleteArtist(id);
-    }
-  });
-}
+function getSongsbyArtist(id) {
+  console.log('Intentando cargar canciones para artista ID:', id);
 
-function deleteArtist(id) {
-  axios.delete(`/api/artists/delete/${id}`)
-    .then(response => {
-      Swal.fire(
-        'Eliminado',
-        'El artista ha sido eliminado correctamente.',
-        'success'
-      );
-      getArtists();
-      console.log(response.data);
+  axios.get(`/api/artists/songs/${id}`)
+    .then(songRes => {
+      const songs = songRes.data;
+      console.log('Canciones recibidas:', songs);
+
+      const tbody = document.getElementById('songs-table-body');
+      console.log('tbody:', tbody);
+
+      if (!tbody) {
+        console.error('No se encontró el tbody de canciones');
+        return;
+      }
+
+      tbody.innerHTML = '';
+
+      songs.forEach((song, index) => {
+        tbody.innerHTML += `
+          <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
+            <td class="p-4 font-bold text-gray-400 hidden md:table-cell">${index + 1}</td>
+            <td class="p-4">
+
+            <div class="flex items-center lg:gap-20 gap-4">
+              <div class="relative group h-14 w-14">
+                <button class="cursor-pointer">
+                  <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
+              <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
+                  <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
+              </div>
+                </button>
+            </div>
+
+              <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
+                <a href="/cancion/${song.id}" class="lg:text-lg font-semibold hover:underline">${song.title}</a>
+                <a class="lg:text-lg text-sm text-start text-gray-400">${song.artist_name}</a>
+              </div>
+            </div>
+
+            </td>
+            <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400">${song.duration}</td>
+            <td class="p-4">
+      <button class="cursor-pointer hover:scale-125 duration-200">
+        <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
+      </button>
+    </td>
+  </tr>
+`;
+      });
     })
-    .catch(error => {
-      Swal.fire(
-        'Error',
-        'No se pudo eliminar el artista.',
-        'error'
-      );
-      console.error(error);
+    .catch(err => {
+      console.error('Error al cargar canciones:', err);
     });
-}
-
-function updateArtist() {
-  const form = document.getElementById('form-editar');
-  const id = form.dataset.artistaId;
-
-  const name = form.querySelector('input[name="name"]').value;
-  const imageInput = form.querySelector('input[name="image"]');
-  const imageFile = imageInput.files[0]; 
-
-  const formData = new FormData();
-  formData.append('name', name);
-  if (imageFile) {
-    formData.append('image', imageFile);
-  }
-
-  axios.put(`/api/artists/update/${id}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  })
-  .then(response => {
-    console.log(response.data);
-    Swal.fire('Actualizado', 'Artista actualizado correctamente', 'success');
-    cerrarModalEditar();
-    getArtists(); 
-  })
-  .catch(error => {
-    console.log(error);
-    Swal.fire('Error', 'No se pudo actualizar el artista', 'error');
-  });
 }

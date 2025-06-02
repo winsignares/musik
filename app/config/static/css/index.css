@@ -1,3 +1,9 @@
 html {
     scroll-behavior: smooth;
 }
+
+.bg-custom {
+    background-image: url('/static/img/background.jpeg');
+    background-color: rgb(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+}

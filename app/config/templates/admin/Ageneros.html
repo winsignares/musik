@@ -38,7 +38,7 @@
       </nav>
 
       <div class="mt-auto mb-30">
-        <button
+        <button onclick="logout()"
           class="w-full group cursor-pointer flex gap-3 p-4 text-red-600 hover:bg-red-800 duration-200 text-lg font-medium">
           <i data-lucide="log-out" class="group-hover:text-white"></i>
           <span class="group-hover:text-white">Cerrar sesión</span>
@@ -49,7 +49,7 @@
     <section class="flex-1 p-10">
       <div class="p-4 flex justify-between items-center">
         <h1 class="text-3xl font-semibold">Géneros</h1>
-        <button onclick="abrirModalAgregar()"
+        <button onclick="abrirModalAgregarGenero()"
           class="bg-gray-400 p-2 hover:bg-gray-500 duration-200 rounded cursor-pointer font-bold">Agregar</button>
       </div>
 
@@ -95,7 +95,7 @@
         </label>
 
         <div class="flex justify-end gap-2">
-          <button type="button" onclick="cerrarModalAgregar()"
+          <button type="button" onclick="cerrarModalAgregarGenero()"
             class="cursor-pointer bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancelar</button>
           <button type="button" onclick="registerGenre()"
             class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
@@ -120,7 +120,7 @@
         </label>
 
         <div class="flex justify-end gap-2">
-          <button type="button" onclick="cerrarModalEditar()"
+          <button type="button" onclick="cerrarModalEditarGenero()"
             class="cursor-pointer bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded">Cancelar</button>
           <button type="button" onclick="updateGenre()"
             class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">Guardar</button>
@@ -130,7 +130,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="/static/js/GenreApi.js"></script>
+  <script src="/static/js/Admin.js"></script>
 
   <script>
     lucide.createIcons();

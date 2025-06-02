@@ -19,11 +19,16 @@ def getPlaylists():
     respo = playlists_schema.dump(playlists)
     return jsonify(respo)
 
-@route_playlist.route("/getPlaylists", methods=["GET"])
-def getPlaylistsbyUser():
-    id = request.json['userId']
+@route_playlist.route("/get/user/<int:id>", methods=["GET"])
+def getPlaylistsbyUser(id):
     playlists = Playlists.query.filter_by(userId = id).all()
     return jsonify(playlists_schema.dump(playlists))
+
+@route_playlist.route("/get/<int:id>", methods=["GET"])
+def getPlaylistById(id):
+    playlist = Playlists.query.get(id)
+
+    return jsonify(playlist_schema.dump(playlist))
 
 @route_playlist.route("/register", methods=['POST'])
 def registerPlaylist():

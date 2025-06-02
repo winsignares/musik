@@ -27,14 +27,6 @@ app.register_blueprint(route_playlist_song, url_prefix="/api/playlist-song")
 def index():
     return render_template("index.html")
 
-@app.route("/registro")
-def registro():
-    return render_template("user/registro.html")
-
-@app.route("/sesion")
-def sesion():
-    return render_template("user/sesion.html")
-
 @app.route("/adminUsers")
 def adminUsers():
     return render_template("admin/Ausuarios.html")
@@ -50,6 +42,62 @@ def adminGenres():
 @app.route("/adminSongs")
 def adminSongs():
     return render_template("admin/Acanciones.html")
+    
+@app.route("/registro")
+def registro():
+    return render_template("user/registro.html")
+
+@app.route("/sesion")
+def sesion():
+    return render_template("user/sesion.html")
+
+@app.route("/perfil/<int:id>")
+def perfil(id):
+    return render_template("user/Perfil.html", id=id)
+
+@app.route("/principal")
+def principal():
+    return render_template("user/principal.html")
+
+@app.route("/artistas")
+def artistas():
+    return render_template("user/Artistas.html")
+
+@app.route("/artista/<int:id>")
+def artista(id):
+    return render_template("user/Artista.html", artist_id=id)
+
+@app.route("/canciones")
+def canciones():
+    return render_template("user/Canciones.html")
+
+@app.route("/cancionesArtista")
+def cancionesArtista():
+    return render_template("user/CancionesArtista.html")
+
+@app.route("/cancionesGenero")
+def cancionesGenero():
+    return render_template("user/CancionesGenero.html")
+
+@app.route("/cancion/<int:id>")
+def cancion(id):
+    return render_template("user/Cancion.html", song_id=id)
+
+@app.route("/generos")
+def generos():
+    return render_template("user/Generos.html")
+
+@app.route("/genero/<int:id>")
+def genero(id):
+    return render_template("user/Genero.html", genre_id=id)
+
+@app.route("/playlists/<int:id>")
+def playlists(id):
+    return render_template("user/Playlists.html", user_id=id)
+
+@app.route("/playlist/<int:id>")
+def playlist(id):
+    return render_template("user/playlistUser.html", playlist_id=id)
 
 with app.app_context():
     db.create_all()

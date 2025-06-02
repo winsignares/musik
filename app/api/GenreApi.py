@@ -6,9 +6,10 @@ from models.SongModel import Songs
 from models.GenreSongModel import GenresSongs
 from models.ArtistSongModel import ArtistsSongs
 from models.PlaylistSongModel import PlaylistsSongs
+from models.ArtistModel import Artists
 
 
-route_genre = Blueprint("reoute_genre", __name__)
+route_genre = Blueprint("route_genre", __name__)
 
 genre_schema = GenresSchema()
 genres_schema = GenresSchema(many=True)
@@ -27,6 +28,35 @@ def get_genre(id):
         'name': genre.name,
         'description': genre.description
     })
+
+@route_genre.route('/songs/<int:id>', methods=['GET'])
+def getSongsbyGenre(id):
+    # Verificar que el género existe
+    genre = Genres.query.get_or_404(id)
+
+    # Obtener canciones relacionadas al género
+    songs = Songs.query.join(GenresSongs, Songs.id == GenresSongs.songId)\
+        .filter(GenresSongs.genreId == id).all()
+
+    result = []
+
+    for song in songs:
+        # Obtener artistas relacionados a la canción
+        artist_rows = Artists.query.join(ArtistsSongs, Artists.id == ArtistsSongs.artistId)\
+            .filter(ArtistsSongs.songId == song.id).all()
+
+        artist_names = ", ".join([a.name for a in artist_rows])
+
+        result.append({
+            'id': song.id,
+            'title': song.name,
+            'artist_name': artist_names,
+            'duration': song.duration,
+            'cover_image': song.cover
+        })
+
+    return jsonify(result)
+
 
 @route_genre.route("/register", methods=['POST'])
 def registerGenre():

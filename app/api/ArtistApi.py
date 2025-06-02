@@ -1,5 +1,6 @@
 import json, uuid, os
 from werkzeug.utils import secure_filename
+from sqlalchemy.orm import joinedload
 
 from flask import Flask, Blueprint, request, redirect, render_template, jsonify
 from config.db import app, db, ma
@@ -30,6 +31,35 @@ def get_artist(id):
         'name': artist.name,
         'image': image_url
     })
+
+@route_artist.route('/songs/<int:id>', methods=['GET'])
+def getSongsbyArtist(id):
+    # Primero, verificar que el artista existe
+    artist = Artists.query.get_or_404(id)
+
+    # Hacer join entre Songs y ArtistsSongs filtrando por artist_id
+    songs = Songs.query.join(ArtistsSongs, Songs.id == ArtistsSongs.songId)\
+        .filter(ArtistsSongs.artistId == id)\
+        .all()
+
+    result = []
+
+    for song in songs:
+        # Obtener artistas asociados a esta canción (otro join manual)
+        artist_rows = Artists.query.join(ArtistsSongs, Artists.id == ArtistsSongs.artistId)\
+            .filter(ArtistsSongs.songId == song.id).all()
+
+        artist_names = ", ".join([a.name for a in artist_rows])
+
+        result.append({
+            'id': song.id,
+            'title': song.name,
+            'artist_name': artist_names,
+            'duration': song.duration,
+            'cover_image': song.cover
+        })
+
+    return jsonify(result)
 
 @route_artist.route("/register", methods=['POST'])
 def registerArtist():
