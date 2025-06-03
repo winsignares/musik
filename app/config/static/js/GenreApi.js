@@ -108,7 +108,7 @@ function getSongsbyGenre(id) {
 
             <div class="flex items-center lg:gap-20 gap-4">
               <div class="relative group h-14 w-14">
-                <button class="cursor-pointer">
+                <button class="cursor-pointer" onclick="playSong('${song.audioFile}', '${song.title}', '${song.artist_name}', '${song.cover_image}')">
                   <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
               <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
                   <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
@@ -126,11 +126,51 @@ function getSongsbyGenre(id) {
 
             </td>
             <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400">${song.duration}</td>
-            <td class="p-4">
-      <button class="cursor-pointer hover:scale-125 duration-200">
-        <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
-      </button>
-    </td>
+
+            <td class="p-4 relative">
+              <button onclick="toggleMenu2(event, ${song.id})" class="cursor-pointer hover:scale-125 duration-200">
+                <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
+              </button>
+
+              <div id="menu-opciones" class="absolute right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
+                <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
+
+                  <li onmouseover="mostrarSubmenu()" onmouseout="ocultarSubmenu()">
+                    <a href="#" onmouseover="cargarPlaylistsEnSubmenu()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Agregar a playlist
+                    </a>
+
+                    <ul id="submenu-playlists" class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
+
+                    </ul>
+                  </li>
+
+                  <li>
+                    <a href="#" onclick="abrirModalCreditos()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Ver créditos
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+
+            <div id="modal-creditos" class="fixed inset-0 backdrop-blur-sm bg-black/60 hidden items-center justify-center z-50">
+        <div class="bg-[#1a1a1a] p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-xl font-semibold text-white mb-4">Créditos</h2>
+            <br>
+
+            <form id="form-editar">
+                <h2 class="text-white text-lg">Escrito por: ${song.author}</h2>
+                <br>
+                <h2 class="text-white text-lg">Cantado por: ${song.artist_name}</h2>
+
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="cerrarModalCreditos()"
+                        class="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded">Ok</button>
+                </div>
+            </form>
+        </div>
+    </div>
   </tr>
 `;
       });

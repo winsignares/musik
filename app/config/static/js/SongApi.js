@@ -51,13 +51,13 @@ function getSongbyId(id) {
 
       container.innerHTML = `
         <div class="flex flex-col items-center justify-center lg:justify-start lg:flex-row lg:pl-30 md:pl-20 sm:pl-10 lg:pb-20 pb-10">
-          <img src="${song.cover}" alt="${song.name}"
+          <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}"
               class="lg:h-[15rem] lg:w-[15rem] md:h-[10rem] md:w-[10rem] sm:h-[7rem] sm:w-[7rem] h-50 w-50 rounded-lg mb-4 lg:mb-0">
 
           <div class="flex flex-col items-center lg:items-start justify-center">
               <h2
                   class="lg:text-4xl md:text-3xl sm:text-2xl text-2xl text-white font-bold lg:text-left text-center lg:px-20 px-10">
-                  ${song.name}
+                  ${song.title}
               </h2>
               <br>
               <h3
@@ -79,16 +79,16 @@ function getSongbyId(id) {
                         <td class="p-4">
                             <div class="flex items-center lg:gap-20 gap-4">
                                 <div class="relative group h-14 w-14">
-                                    <button class="cursor-pointer" onclick="playSong('${song.audio_file}', '${song.name}', '${song.artist}', '${song.cover}')">
-                  <img src="${song.cover}" alt="${song.name}" class="rounded-sm h-14 w-14 object-cover" />
-                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                      <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
-                    </div>
-                </button>
+                                    <button class="cursor-pointer" onclick="playSong('${song.audioFile}', '${song.title}', '${song.artist}', '${song.cover_image}')">
+                                        <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
+                                      <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
+                                        <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
+                                       </div>
+                                    </button>
                                 </div>
 
                                 <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                    <a class="lg:text-lg font-semibold hover:underline">${song.name}</a>
+                                    <a class="lg:text-lg font-semibold hover:underline">${song.title}</a>
                                     <a href="/artista"
                                         class="lg:text-lg text-sm text-start text-gray-400 hover:underline">${song.artist}</a>
                                 </div>

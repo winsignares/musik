@@ -59,7 +59,9 @@ def getSongsbyGenre(id):
             'artist_name': artist_names,
             'artist_id': main_artist_id,
             'duration': format_duration(song.duration),
-            'cover_image': song.cover
+            'cover_image': song.cover,
+            'audioFile': song.mp3file,
+            'author': song.author
         })
 
     return jsonify(result)

@@ -240,7 +240,7 @@ function getSongsbyPlaylist(id) {
 
             <div class="flex items-center lg:gap-20 gap-4">
               <div class="relative group h-14 w-14">
-                <button class="cursor-pointer">
+                <button class="cursor-pointer" onclick="playSong('${song.audioFile}', '${song.title}', '${song.artist_name}', '${song.cover_image}')">
                   <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
               <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
                   <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">

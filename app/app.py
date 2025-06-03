@@ -18,9 +18,6 @@ app.register_blueprint(route_artist, url_prefix="/api/artists")
 app.register_blueprint(route_genre, url_prefix="/api/genres")
 app.register_blueprint(route_playlist, url_prefix="/api/playlists")
 app.register_blueprint(route_song, url_prefix="/api/songs")
-app.register_blueprint(route_artist_song, url_prefix="/api/artist-song")
-app.register_blueprint(route_genre_song, url_prefix="/api/genre-song")
-app.register_blueprint(route_playlist_song, url_prefix="/api/playlist-song")
 
 # config el servidor
 

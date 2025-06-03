@@ -65,17 +65,14 @@ def get_song(id):
     artist_ids = [asong.artist.id for asong in song.artists_songs]
     genre_ids = [gsong.genre.id for gsong in song.genres_songs]
 
-    cover_url = f"/static/uploads/covers/{song.cover}" 
-    mp3file_url = f"/static/uploads/songs/{song.mp3file}"
-
     return jsonify({
         'id': song.id,
-        'name': song.name,
+        'title': song.name,
         'author': song.author,
         'duration': format_duration(song.duration),
         'date': song.date.strftime('%Y-%m-%d'),
-        'cover': cover_url,
-        'mp3file': mp3file_url,
+        'cover_image': song.cover,
+        'audioFile': song.mp3file,
         'artist': ', '.join(artists),
         'genre': ', '.join(genres),
         'artist_ids': artist_ids,
