@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, session
 from config.db import db, app
 
 # trabajar en las rutas de bluprint con respectos a las api's
@@ -65,7 +65,9 @@ def artistas():
 
 @app.route("/artista/<int:id>")
 def artista(id):
-    return render_template("user/Artista.html", artist_id=id)
+    if 'user_id' not in session:
+        return redirect('/login')
+    return render_template("user/Artista.html", artist_id=id, user_id=session['user_id'])
 
 @app.route("/canciones")
 def canciones():

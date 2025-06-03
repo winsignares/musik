@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, redirect, render_template, jsonify
+from flask import Flask, Blueprint, request, redirect, render_template, jsonify, session
 from config.db import app, db, ma
 
 #llamamos al modelo de User
@@ -50,7 +50,7 @@ def deletePlaylist(id):
     for playlist_song in playlist_songs:
         song_id = playlist_song.songId
 
-        PlaylistsSongs.query.filter_by(songId = song_id).delete()
+        PlaylistsSongs.query.filter_by(playlistId=id).delete()
 
     db.session.delete(playlist)
     db.session.commit()     
@@ -61,19 +61,9 @@ def updatePlaylist(id):
     playlist = Playlists.query.get(id)    
     playlist.name = request.json['name']
     playlist.description = request.json['description']
-    playlist.userId = request.json['userId']
+    playlist.userId = session.get('user_id')
     db.session.commit()     
     return "Playlist actualizada correctamente"
-
-@route_playlist.route("/addSong", methods=['POST'])
-def addSongtoPlaylist():
-    playlistId = request.json['playlistId']
-    songId = request.json['songId']
-    newPlaylistSong = PlaylistsSongs(playlistId, songId)
-    db.session.add(newPlaylistSong)
-    db.session.commit() 
-
-    return "Canción añadida a la playlist correctamente"
 
 @route_playlist.route("/deleteSong/<int:playlist_id>/<int:song_id>", methods=['DELETE'])
 def deleteSongfromPlaylist(playlist_id, song_id):

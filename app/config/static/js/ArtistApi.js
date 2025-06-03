@@ -128,17 +128,16 @@ function getSongsbyArtist(id) {
                 <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
               </button>
 
-              <div id="menu-opciones" class="absolute top-full right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
+              <div id="menu-opciones" class="absolute right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
                 <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
 
-                  <li class="relative">
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
-                      Agregar a playlist  
+                  <li onmouseover="mostrarSubmenu()" onmouseout="ocultarSubmenu()">
+                    <a href="#" onmouseover="cargarPlaylistsEnSubmenu()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Agregar a playlist
                     </a>
 
-                    <ul class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold">Playlist 1</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold">Playlist 2</a></li>
+                    <ul id="submenu-playlists" class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
+
                     </ul>
                   </li>
 
