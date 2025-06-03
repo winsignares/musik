@@ -1,41 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('playlist-detail-container');
-    const playlistId = container?.dataset?.playlistId;
-  
-    console.log('DOM loaded, container:', container);
-    console.log('Playlist ID:', playlistId);
-  
-    if (playlistId) {
-      getPlaylistById(playlistId);
-      getSongsbyPlaylist(playlistId);
-    }
-  });
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('playlist-container');
-    const userId = container?.dataset?.userId;
-  
-    console.log('DOM loaded, container:', container);
-    console.log('User ID:', userId);
-  
-    if (userId) {
-      getPlaylists(userId);
-    }
-  });
-  
-  function abrirModalAgregar() {
-    document.getElementById('form-agregar').reset();
-    document.getElementById('modal-agregar').classList.remove('hidden');
-    document.getElementById('modal-agregar').classList.add('flex');
-  }
-  
-  function cerrarModalAgregar() {
-    document.getElementById('modal-agregar').classList.remove('flex');
-    document.getElementById('modal-agregar').classList.add('hidden');
-    document.getElementById('form-agregar').reset();
-  }
+  const container = document.getElementById('playlist-detail-container');
+  const playlistId = container?.dataset?.playlistId;
 
-  function abrirModalEditar(id) {
+  console.log('DOM loaded, container:', container);
+  console.log('Playlist ID:', playlistId);
+
+  if (playlistId) {
+    getPlaylistById(playlistId);
+    getSongsbyPlaylist(playlistId);
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('playlist-container');
+  const userId = container?.dataset?.userId;
+
+  console.log('DOM loaded, container:', container);
+  console.log('User ID:', userId);
+
+  if (userId) {
+    getPlaylists(userId);
+  }
+});
+
+function abrirModalAgregar() {
+  document.getElementById('form-agregar').reset();
+  document.getElementById('modal-agregar').classList.remove('hidden');
+  document.getElementById('modal-agregar').classList.add('flex');
+}
+
+function cerrarModalAgregar() {
+  document.getElementById('modal-agregar').classList.remove('flex');
+  document.getElementById('modal-agregar').classList.add('hidden');
+  document.getElementById('form-agregar').reset();
+}
+
+function abrirModalEditar(id) {
   document.getElementById('modal-editar').classList.remove('hidden');
   document.getElementById('modal-editar').classList.add('flex');
 
@@ -58,46 +58,46 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(error);
     });
 }
-  
-  function cerrarModalEditar() {
-    document.getElementById('modal-editar').classList.remove('flex');
-    document.getElementById('modal-editar').classList.add('hidden');
-    document.getElementById('form-editar').reset();
-  }
-  
-  function registerPlaylist() {
-    const name = document.querySelector('[name="name"]').value;
-    const description = document.querySelector('[name="description"]').value;
-    const userId = document.getElementById('playlist-container').dataset.userId;
-  
-    axios.post('/api/playlists/register', { name, description, userId })
-      .then(() => {
-        cerrarModalAgregar();
-        
-        Swal.fire({
-          icon: 'success',
-          title: '¡Playlist creada!',
-          text: 'Tu playlist se creó correctamente.',
-        });
-  
-        getPlaylists(userId); 
-      })
-      .catch(error => {
-        console.error('Error al crear playlist:', error);
+
+function cerrarModalEditar() {
+  document.getElementById('modal-editar').classList.remove('flex');
+  document.getElementById('modal-editar').classList.add('hidden');
+  document.getElementById('form-editar').reset();
+}
+
+function registerPlaylist() {
+  const name = document.querySelector('[name="name"]').value;
+  const description = document.querySelector('[name="description"]').value;
+  const userId = document.getElementById('playlist-container').dataset.userId;
+
+  axios.post('/api/playlists/register', { name, description, userId })
+    .then(() => {
+      cerrarModalAgregar();
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Playlist creada!',
+        text: 'Tu playlist se creó correctamente.',
       });
-  }
-  
-  function getPlaylists(id) {
-    axios.get(`/api/playlists/get/user/${id}`)
-      .then(response => {
-        const playlists = response.data;
-        const container = document.getElementById('playlist-container');
-        if (!container) return console.error('No se encontró el contenedor #playlist-container');
-  
-        container.innerHTML = '';
-  
-        playlists.forEach(playlist => {
-          const html = `
+
+      getPlaylists(userId);
+    })
+    .catch(error => {
+      console.error('Error al crear playlist:', error);
+    });
+}
+
+function getPlaylists(id) {
+  axios.get(`/api/playlists/get/user/${id}`)
+    .then(response => {
+      const playlists = response.data;
+      const container = document.getElementById('playlist-container');
+      if (!container) return console.error('No se encontró el contenedor #playlist-container');
+
+      container.innerHTML = '';
+
+      playlists.forEach(playlist => {
+        const html = `
             <div>
               <button onclick="window.location.href='/playlist/${playlist.id}'"
                 class="p-4 h-fit w-fit cursor-pointer hover:bg-[#2b2b2e] rounded-3xl duration-200">
@@ -108,22 +108,22 @@ document.addEventListener('DOMContentLoaded', () => {
               </button>
             </div>
           `;
-          container.insertAdjacentHTML('beforeend', html);
-        });
-      })
-      .catch(error => {
-        console.error('Error al cargar playlists:', error);
+        container.insertAdjacentHTML('beforeend', html);
       });
-  }
-  
-  function getPlaylistById(id) {
-    axios.get(`/api/playlists/get/${id}`)
-      .then(response => {
-        const playlist = response.data;
-        const container = document.getElementById('playlist-detail-container');
-        if (!container) return console.error('No se encontró el contenedor #playlist-detail-container');
-  
-        container.querySelector('.flex').innerHTML = `
+    })
+    .catch(error => {
+      console.error('Error al cargar playlists:', error);
+    });
+}
+
+function getPlaylistById(id) {
+  axios.get(`/api/playlists/get/${id}`)
+    .then(response => {
+      const playlist = response.data;
+      const container = document.getElementById('playlist-detail-container');
+      if (!container) return console.error('No se encontró el contenedor #playlist-detail-container');
+
+      container.querySelector('.flex').innerHTML = `
           <div class="flex items-center">
             <div class="lg:h-45 lg:w-45 md:h-35 md:w-35 sm:h-30 sm:w-30 h-25 w-25 lg:rounded-lg bg-gradient-to-br from-blue-300 to-blue-800 lg:ml-30 ml-10"> </div>
   
@@ -139,13 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
           `;
-      })
-      .catch(error => {
-        console.error('Error al cargar playlist:', error);
-      });
-  }
+    })
+    .catch(error => {
+      console.error('Error al cargar playlist:', error);
+    });
+}
 
-  function mostrarSubmenu() {
+function mostrarSubmenu() {
   const submenu = document.getElementById('submenu-playlists');
   if (submenu) {
     submenu.classList.remove('hidden');
@@ -160,9 +160,9 @@ function ocultarSubmenu() {
 }
 
 const submenu = document.getElementById('submenu-playlists');
-const liAgregar = document.querySelector('li:hover'); 
+const liAgregar = document.querySelector('li:hover');
 
-if(submenu && liAgregar){
+if (submenu && liAgregar) {
   liAgregar.addEventListener('mouseenter', () => submenu.classList.remove('hidden'));
   liAgregar.addEventListener('mouseleave', () => submenu.classList.add('hidden'));
   submenu.addEventListener('mouseenter', () => submenu.classList.remove('hidden'));
@@ -173,7 +173,7 @@ let playlistsCargadas = false;
 
 function cargarPlaylistsEnSubmenu() {
   if (playlistsCargadas) return;
-  
+
   const userDataElement = document.getElementById('user-data');
   const userId = userDataElement?.dataset.userId;
 
@@ -200,7 +200,12 @@ function cargarPlaylistsEnSubmenu() {
 
       playlists.forEach(playlist => {
         const li = document.createElement('li');
-       li.innerHTML = `<a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold" onclick="agregarACancionAPlaylist(${playlist.id})">${playlist.name}</a>`;
+        li.innerHTML = `<li>
+            <a href="#" onclick="agregarCancionAPlaylist(${playlist.id}, ${currentSongId})"
+               class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+              ${playlist.name}
+            </a>
+          </li>`;
         submenu.appendChild(li);
       });
 
@@ -253,9 +258,20 @@ function getSongsbyPlaylist(id) {
             <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400">${song.duration}</td>
             
             <td class="p-4 relative">
-              <button onclick="" class="cursor-pointer hover:scale-125 duration-200">
+              <button onclick="toggleMenu2(event, ${song.id})" class="cursor-pointer hover:scale-125 duration-200">
                 <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
               </button>
+
+              <div id="menu-opciones" class="absolute right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
+                <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
+
+                  <li>
+                    <a href="#" onclick="confirmarEliminacionCancion(${id}, ${song.id})" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Eliminar de playlist
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
 `;
@@ -265,7 +281,7 @@ function getSongsbyPlaylist(id) {
       console.error('Error al cargar canciones:', err);
     });
 }
-  
+
 function updatePlaylist() {
   const form = document.getElementById('form-editar');
   const id = form.dataset.playlistId;
@@ -306,6 +322,23 @@ function confirmarEliminacion(id) {
   });
 }
 
+function confirmarEliminacionCancion(playlistId, songId) {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: "Esta acción no se puede deshacer.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      eliminarCancionDePlaylist(playlistId, songId);
+    }
+  });
+}
+
 function deletePlaylist(id) {
   axios.delete(`/api/playlists/delete/${id}`)
     .then(response => {
@@ -326,4 +359,50 @@ function deletePlaylist(id) {
       console.error(error);
     });
 }
-  
+
+function agregarCancionAPlaylist(playlistId, songId) {
+  axios.post('/api/playlists/add_song', {
+    playlist_id: playlistId,
+    song_id: songId
+  })
+  .then(response => {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Agregada!',
+      text: response.data.message || 'La canción fue agregada a la playlist.'
+    });
+  })
+  .catch(error => {
+    const mensaje = error.response?.data?.message || 'Hubo un error al agregar la canción';
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: mensaje
+    });
+    console.error('Error al agregar canción:', error);
+  });
+}
+
+
+function eliminarCancionDePlaylist(playlistId, songId) {
+
+  axios.delete(`/api/playlists/deleteSong/${playlistId}/${songId}`)
+    .then(response => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminada',
+        text: 'La canción fue eliminada correctamente de la playlist',
+      });
+
+      getSongsbyPlaylist(playlistId);
+    })
+    .catch(error => {
+      console.error('Error al eliminar la canción:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al eliminar la canción de la playlist'
+      });
+    });
+}
+

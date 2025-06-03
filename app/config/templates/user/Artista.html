@@ -80,17 +80,19 @@
             }
         }
 
-        function toggleMenu2(event) {
-            event.preventDefault();
+        let currentSongId = null;
 
-            if (window.innerWidth >= 640) {
-                const menu = document.getElementById('menu-opciones');
-                menu.classList.toggle('hidden');
+        function toggleMenu2(event, songId) {
+            event.stopPropagation();
+            currentSongId = songId;
 
-                if (!menu.classList.contains('hidden')) {
-                    cargarPlaylistsEnSubmenu(userId);
-                }
-            }
+            const menu = event.currentTarget.nextElementSibling;
+            document.querySelectorAll('.menu-opciones-activo')?.forEach(el => {
+                if (el !== menu) el.classList.add('hidden');
+            });
+
+            menu.classList.toggle('hidden');
+            menu.classList.add('menu-opciones-activo');
         }
 
         document.addEventListener('click', function (event) {

@@ -111,5 +111,29 @@ def getSongsFromPlaylist(id):
 
     return jsonify(result)
 
+@route_playlist.route("/add_song", methods=["POST"])
+def addSongToPlaylist():
+    data = request.get_json()
+    playlist_id = data.get("playlist_id")
+    song_id = data.get("song_id")
+
+    if not playlist_id or not song_id:
+        return jsonify({"error": "Datos incompletos"}), 400
+
+    # Verificar existencia
+    playlist = Playlists.query.get_or_404(playlist_id)
+    song = Songs.query.get_or_404(song_id)
+
+    # Verificar si ya existe la relación
+    existing = PlaylistsSongs.query.filter_by(playlistId=playlist_id, songId=song_id).first()
+    if existing:
+        return jsonify({"message": "La canción ya está en la playlist"}), 409
+
+    nuevaRelacion = PlaylistsSongs(playlistId=playlist_id, songId=song_id)
+    db.session.add(nuevaRelacion)
+    db.session.commit()
+
+    return jsonify({"message": "Canción agregada a la playlist correctamente"}), 200
+
 
 

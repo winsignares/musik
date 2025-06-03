@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, render_template, session
 from config.db import db, app
+from auth import admin_required
 
 # trabajar en las rutas de bluprint con respectos a las api's
 
@@ -28,18 +29,22 @@ def index():
     return render_template("index.html")
 
 @app.route("/adminUsers")
+@admin_required
 def adminUsers():
     return render_template("admin/Ausuarios.html")
 
 @app.route("/adminArtists")
+@admin_required
 def adminArtists():
     return render_template("admin/Aartistas.html")
 
 @app.route("/adminGenres")
+@admin_required
 def adminGenres():
     return render_template("admin/Ageneros.html")
 
 @app.route("/adminSongs")
+@admin_required
 def adminSongs():
     return render_template("admin/Acanciones.html")
     

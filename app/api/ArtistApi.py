@@ -62,7 +62,8 @@ def getSongsbyArtist(id):
             'artist_name': artist_names,
             'duration': format_duration(song.duration),
             'cover_image': song.cover,
-            'audio_file': song.mp3file
+            'audio_file': song.mp3file,
+            'author': song.author
         })
 
     return jsonify(result)

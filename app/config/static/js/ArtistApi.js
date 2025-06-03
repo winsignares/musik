@@ -27,6 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+function abrirModalCreditos() {
+  document.getElementById('modal-creditos').classList.remove('hidden');
+  document.getElementById('modal-creditos').classList.add('flex');
+}
+
+function cerrarModalCreditos() {
+  document.getElementById('modal-creditos').classList.remove('flex');
+  document.getElementById('modal-creditos').classList.add('hidden');
+  document.getElementById('form-creditos').reset();
+}
+
 function getArtists() {
   axios.get('/api/artists/get')
     .then(response => {
@@ -124,7 +135,7 @@ function getSongsbyArtist(id) {
             <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400">${song.duration}</td>
             
             <td class="p-4 relative">
-              <button onclick="toggleMenu2(event)" class="cursor-pointer hover:scale-125 duration-200">
+              <button onclick="toggleMenu2(event, ${song.id})" class="cursor-pointer hover:scale-125 duration-200">
                 <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
               </button>
 
@@ -142,13 +153,31 @@ function getSongsbyArtist(id) {
                   </li>
 
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                    <a href="#" onclick="abrirModalCreditos()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
                       Ver créditos
                     </a>
                   </li>
                 </ul>
               </div>
             </td>
+
+            <div id="modal-creditos" class="fixed inset-0 backdrop-blur-sm bg-black/60 hidden items-center justify-center z-50">
+        <div class="bg-[#1a1a1a] p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-xl font-semibold text-white mb-4">Créditos</h2>
+            <br>
+
+            <form id="form-editar">
+                <h2 class="text-white text-lg">Escrito por: ${song.author}</h2>
+                <br>
+                <h2 class="text-white text-lg">Cantado por: ${song.artist_name}</h2>
+
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="cerrarModalCreditos()"
+                        class="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded">Ok</button>
+                </div>
+            </form>
+        </div>
+    </div>
 `;
       });
     })
