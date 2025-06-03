@@ -15,6 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('genre-container-songs');
+  const genreId = container?.dataset?.genreId;
+
+  console.log('DOM loaded, container:', container);
+  console.log('Genre ID:', genreId);
+
+  if (genreId) {
+    getSongsbyGenre(genreId);
+  }
+});
+
 function getGenres() {
   axios.get('/api/genres/get')
     .then(response => {
@@ -106,7 +118,9 @@ function getSongsbyGenre(id) {
 
               <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
                 <a href="/cancion/${song.id}" class="lg:text-lg font-semibold hover:underline">${song.title}</a>
-                <a href="" class="lg:text-lg text-sm text-start text-gray-400">${song.artist_name}</a>
+                <a href="/artista/${song.artist_id}" class="lg:text-lg text-sm text-start text-gray-400 hover:underline">
+                  ${song.artist_name}
+                </a>
               </div>
             </div>
 

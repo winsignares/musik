@@ -35,7 +35,7 @@ def getSongs():
             'id': song.id,
             'name': song.name,
             'author': song.author,
-            'duration': song.duration,
+            'duration': format_duration(song.duration),
             'date': song.date.strftime('%Y-%m-%d'),
             'cover': song.cover,
             'mp3file': song.mp3file,
@@ -44,6 +44,11 @@ def getSongs():
         })
 
     return jsonify(song_list)
+
+def format_duration(seconds):
+    minutes = seconds // 60
+    sec = seconds % 60
+    return f"{minutes}:{sec:02}"
 
 @route_song.route('/get/<int:id>', methods=['GET'])
 def get_song(id):
@@ -67,7 +72,7 @@ def get_song(id):
         'id': song.id,
         'name': song.name,
         'author': song.author,
-        'duration': song.duration,
+        'duration': format_duration(song.duration),
         'date': song.date.strftime('%Y-%m-%d'),
         'cover': cover_url,
         'mp3file': mp3file_url,
@@ -122,53 +127,6 @@ def deleteSong(id):
     db.session.commit()
     return jsonify(song_schema.dump(song))
 
-@route_song.route("/update/<int:id>", methods=['PUT'])
-def updateSong(id):
-    song = Songs.query.get_or_404(id)
-
-    song.name = request.form.get('name')
-    song.author = request.form.get('author')
-    song.duration = request.form.get('duration')
-    song.date = datetime.strptime(request.form.get('date'), "%Y-%m-%d")
-
-    cover = request.files.get('cover')
-    mp3file = request.files.get('mp3file')
-
-    if cover:
-        old_cover_path = os.path.join(app.config['UPLOAD_FOLDER'], song.cover)
-        if song.cover and os.path.exists(old_cover_path):
-            os.remove(old_cover_path)
-        filename = secure_filename(cover.filename)
-        unique_filename = f"{uuid.uuid4().hex}_{filename}"
-        cover.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
-        song.cover = unique_filename
-
-    if mp3file:
-        old_mp3_path = os.path.join(app.config['UPLOAD_FOLDER2'], song.mp3file)
-        if song.mp3file and os.path.exists(old_mp3_path):
-            os.remove(old_mp3_path)
-        filename2 = secure_filename(mp3file.filename)
-        unique_filename2 = f"{uuid.uuid4().hex}_{filename2}"
-        mp3file.save(os.path.join(app.config['UPLOAD_FOLDER2'], unique_filename2))
-        song.mp3file = unique_filename2
-
-    song.artists_songs.clear()
-    song.genres_songs.clear()
-
-    artist_ids = request.form.getlist('artist')
-    for artist_id in artist_ids:
-        artist = Artists.query.get(int(artist_id))
-        if artist:
-            song.artists_songs.append(ArtistsSongs(artist=artist))
-
-    genre_ids = request.form.getlist('genre')
-    for genre_id in genre_ids:
-        genre = Genres.query.get(int(genre_id))
-        if genre:
-            song.genres_songs.append(GenresSongs(genre=genre))
-
-    db.session.commit()
-    return jsonify({"message": "Canción actualizada correctamente"})
 
 
 

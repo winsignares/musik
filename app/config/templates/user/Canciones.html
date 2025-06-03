@@ -35,44 +35,46 @@
             </li>
 
             <li class="relative hidden sm:block">
-              <a onclick="toggleMenu(event)" class="cursor-pointer">
-                <img src="{{url_for('static', filename='img/user-solid.svg')}}" alt=""
-                  class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-8 sm:w-8 h-6 w-6 hover:scale-125 duration-200" />
+              <a href="#" onclick="toggleMenu(event)" class="cursor-pointer">
+                  <img src="{{url_for('static', filename='img/user-solid.svg')}}" alt=""
+                      class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-8 sm:w-8 h-6 w-6 hover:scale-125 duration-200" />
               </a>
-    
-              <div id="desktop-menu"
-                class="absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden">
-                <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
-                  <li><a href="/perfil" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Perfil</a></li>
-                  <li><a href="/playlists" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Mis playlists</a></li>
-                  <li><a href="/sesion" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Iniciar Sesión</a></li>
-                  <li><a href="7" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Cerrar sesión</a></li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </header>
 
-      <script>
-        function toggleMenu(event) {
-          event.preventDefault();
-    
-          if (window.innerWidth >= 640) {
-            const menu = document.getElementById('desktop-menu');
-            menu.classList.toggle('hidden');
-          }
-        }
-    
-        document.addEventListener('click', function (event) {
+              <div id="desktop-menu" class="absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden">
+                  <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
+                    {% if session.get('user_id') %}
+                      <li><a href="{{ url_for('perfil', id=session['user_id']) }}" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Perfil</a></li>
+                      <li><a href="{{ url_for('playlists', id=session['user_id']) }}" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Mis playlists</a></li>
+                      <li><a href="" onclick="logout()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Cerrar sesión</a></li>
+                    {% else %}
+                      <li><a href="/sesion" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Iniciar Sesión</a></li>
+                    {% endif %}
+                  </ul>            
+                </div>
+          </li>
+      </ul>
+  </nav>
+</header>
+
+<script>
+  function toggleMenu(event) {
+      event.preventDefault();
+
+      if (window.innerWidth >= 640) {
           const menu = document.getElementById('desktop-menu');
-          const userIcon = document.querySelector('li > a[href="#"]');
-    
-          if (menu && !menu.contains(event.target) && !userIcon.contains(event.target)) {
-            menu.classList.add('hidden');
-          }
-        });
-      </script>
+          menu.classList.toggle('hidden');
+      }
+  }
+
+  document.addEventListener('click', function (event) {
+      const menu = document.getElementById('desktop-menu');
+      const userIcon = document.querySelector('li > a[href="#"]');
+
+      if (menu && !menu.contains(event.target) && !userIcon.contains(event.target)) {
+          menu.classList.add('hidden');
+      }
+  });
+</script>
 
     <section>
         <div class=" lg:py-20 md:py-15 sm:py-10 py-2 sm:bg-[#111010] flex flex-col rounded-3xl sm:mx-10 mb-10">

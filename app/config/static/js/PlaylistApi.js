@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     if (playlistId) {
       getPlaylistById(playlistId);
+      getSongsbyPlaylist(playlistId);
     }
   });
   
@@ -108,5 +109,118 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error al cargar playlist:', error);
       });
   }
+
+  function getSongsbyArtist(id) {
+  console.log('Intentando cargar canciones para artista ID:', id);
+
+  axios.get(`/api/artists/songs/${id}`)
+    .then(songRes => {
+      const songs = songRes.data;
+      console.log('Canciones recibidas:', songs);
+
+      const tbody = document.getElementById('songs-table-body');
+      console.log('tbody:', tbody);
+
+      if (!tbody) {
+        console.error('No se encontró el tbody de canciones');
+        return;
+      }
+
+      tbody.innerHTML = '';
+
+      songs.forEach((song, index) => {
+        tbody.innerHTML += `
+          <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
+            <td class="p-4 font-bold text-gray-400 hidden md:table-cell">${index + 1}</td>
+            <td class="p-4">
+
+            <div class="flex items-center lg:gap-20 gap-4">
+              <div class="relative group h-14 w-14">
+                <button class="cursor-pointer">
+                  <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
+              <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
+                  <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
+              </div>
+                </button>
+            </div>
+
+              <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
+                <a href="/cancion/${song.id}" class="lg:text-lg font-semibold hover:underline">${song.title}</a>
+                <a class="lg:text-lg text-sm text-start text-gray-400">${song.artist_name}</a>
+              </div>
+            </div>
+
+            </td>
+            <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400">${song.duration}</td>
+            
+            <td class="p-4 relative">
+              <button onclick="toggleMenuCancion(event)" data-menu-id="menu-${song.id}" class="cursor-pointer hover:scale-125 duration-200">
+                <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
+              </button>
+            </td>
+          </tr>
+`;
+      });
+    })
+    .catch(err => {
+      console.error('Error al cargar canciones:', err);
+    });
+}
+
+function getSongsbyPlaylist(id) {
+  axios.get(`/api/playlists/songs/${id}`)
+    .then(songRes => {
+      const songs = songRes.data;
+      console.log('Canciones recibidas:', songs);
+
+      const tbody = document.getElementById('songs-table-body');
+      console.log('tbody:', tbody);
+
+      if (!tbody) {
+        console.error('No se encontró el tbody de canciones');
+        return;
+      }
+
+      tbody.innerHTML = '';
+
+      songs.forEach((song, index) => {
+        tbody.innerHTML += `
+          <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
+            <td class="p-4 font-bold text-gray-400 hidden md:table-cell">${index + 1}</td>
+            <td class="p-4">
+
+            <div class="flex items-center lg:gap-20 gap-4">
+              <div class="relative group h-14 w-14">
+                <button class="cursor-pointer">
+                  <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
+              <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
+                  <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
+              </div>
+                </button>
+            </div>
+
+              <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
+                <a href="/cancion/${song.id}" class="lg:text-lg font-semibold hover:underline">${song.title}</a>
+                <a href="/artista/${song.artist_id}" class="lg:text-lg text-sm text-start text-gray-400 hover:underline">${song.artist_name}</a>
+              </div>
+            </div>
+
+            </td>
+            <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400">${song.duration}</td>
+            
+            <td class="p-4 relative">
+              <button onclick="" class="cursor-pointer hover:scale-125 duration-200">
+                <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
+              </button>
+            </td>
+          </tr>
+`;
+      });
+    })
+    .catch(err => {
+      console.error('Error al cargar canciones:', err);
+    });
+}
+  
   
   

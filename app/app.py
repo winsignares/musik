@@ -71,13 +71,13 @@ def artista(id):
 def canciones():
     return render_template("user/Canciones.html")
 
-@app.route("/cancionesArtista")
-def cancionesArtista():
-    return render_template("user/CancionesArtista.html")
+@app.route("/cancionesArtista/<int:id>")
+def cancionesArtista(id):
+    return render_template("user/CancionesArtista.html", artist_id=id)
 
-@app.route("/cancionesGenero")
-def cancionesGenero():
-    return render_template("user/CancionesGenero.html")
+@app.route("/cancionesGenero/<int:id>")
+def cancionesGenero(id):
+    return render_template("user/CancionesGenero.html", genre_id=id)
 
 @app.route("/cancion/<int:id>")
 def cancion(id):
@@ -101,7 +101,6 @@ def playlist(id):
 
 with app.app_context():
     db.create_all()
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000, host="0.0.0.0")

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artista</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="../static/css/index.css">
 </head>
 
 <body class="bg-[#0a0909] pt-24">
@@ -37,23 +38,22 @@
                 </li>
 
                 <li class="relative hidden sm:block">
-                    <a onclick="toggleMenu(event)" class="cursor-pointer">
+                    <a href="#" onclick="toggleMenu(event)" class="cursor-pointer">
                         <img src="{{url_for('static', filename='img/user-solid.svg')}}" alt=""
                             class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-8 sm:w-8 h-6 w-6 hover:scale-125 duration-200" />
                     </a>
 
-                    <div id="desktop-menu"
-                        class="absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden">
+                    <div id="desktop-menu" class="absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden">
                         <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
-                            <li><a href="/perfil" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Perfil</a></li>
-                            <li><a href="/playlists" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Mis
-                                    playlists</a></li>
-                            <li><a href="/sesion" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Iniciar
-                                    Sesión</a></li>
-                            <li><a href="/" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Cerrar
-                                    sesión</a></li>
-                        </ul>
-                    </div>
+                          {% if session.get('user_id') %}
+                            <li><a href="{{ url_for('perfil', id=session['user_id']) }}" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Perfil</a></li>
+                            <li><a href="{{ url_for('playlists', id=session['user_id']) }}" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Mis playlists</a></li>
+                            <li><a href="" onclick="logout()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Cerrar sesión</a></li>
+                          {% else %}
+                            <li><a href="/sesion" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Iniciar Sesión</a></li>
+                          {% endif %}
+                        </ul>            
+                      </div>
                 </li>
             </ul>
         </nav>
@@ -80,9 +80,11 @@
     </script>
 
     <section>
-        <div id="artist-container" data-artist-id="{{ artist_id }}" class="lg:py-20 md:py-15 sm:py-10 py-2 sm:bg-[#111010] flex flex-col rounded-3xl sm:mx-10 mb-10">
+        <div id="artist-container" data-artist-id="{{ artist_id }}"
+            class="lg:py-20 md:py-15 sm:py-10 py-2 sm:bg-[#111010] flex flex-col rounded-3xl sm:mx-10 mb-10">
+
             <div class="flex items-center pb-20">
-                
+
             </div>
 
             <div
@@ -95,23 +97,53 @@
                 <div class="flex justify-center items-center w-full">
                     <table class="lg:my-20 md:my-14 sm:my-8 my-4 w-full text-white">
                         <tbody id="songs-table-body">
-                            
+
                         </tbody>
                     </table>
                 </div>
 
-                <button onclick="window.location.href='/cancionesArtista'" class=" lg:text-lg lg:w-50
-                                md:text-lg md:w-40
-                                sm:text-md
-                                text-md text-white bg-[#3228EC] rounded-3xl p-2 cursor-pointer hover:scale-105 duration-200 hover:bg-[#1810BA]
-                                font-bold">Mostrar todo</button>
+                <a href="/cancionesArtista/{{ artist_id }}">
+                    <button
+                        class="lg:text-lg lg:w-50 md:text-lg md:w-40 sm:text-md text-md text-white bg-[#3228EC] rounded-3xl p-2 cursor-pointer hover:scale-105 duration-200 hover:bg-[#1810BA] font-bold">
+                        Mostrar todo
+                    </button>
+                </a>
             </div>
         </div>
     </section>
 
+    <div id="audio-player-container" class="fixed bottom-0 w-full bg-[#1e1e1e] p-4 flex items-center gap-4 hidden z-50">
+        <img id="player-cover" src="" class="h-12 w-12 rounded object-cover" />
+        
+        <div class="flex flex-col text-white">
+          <span id="player-title" class="font-bold"></span>
+          <span id="player-artist" class="text-sm text-gray-300"></span>
+        </div>
+      
+        <button id="play-pause-btn" class="ml-4 text-white cursor-pointer">
+          <img id="play-pause-icon" src="/static/img/pause-solid.svg" class="h-6 w-6" />
+        </button>
+      
+        <div class="flex items-center gap-2 flex-grow mx-4 text-white text-sm">
+          <span id="current-time">0:00</span>
+          <input type="range" id="progress-bar" class="w-full h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer" value="0" min="0" max="100" step="0.1">
+          <span id="total-duration">0:00</span>
+        </div>
+        
+        <div class="flex items-center gap-2 text-white text-sm">
+          <img src="/static/img/volume-low-solid.svg" alt="Volumen" class="h-5 w-5" />
+          <input id="volume-control" type="range" min="0" max="1" step="0.01" value="1" class="w-24 cursor-pointer" />
+        </div>
+      
+        <audio id="audio-player"></audio>
+      </div>           
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="PlaylistApi.js"></script>
     <script src="/static/js/ArtistApi.js"></script>
-    
+    <script src="/static/js/SongApi.js"></script>
+    <script src="/static/js/UserApi.js"></script>
+
 </body>
 
 </html>

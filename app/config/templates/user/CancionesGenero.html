@@ -37,23 +37,22 @@
                 </li>
 
                 <li class="relative hidden sm:block">
-                    <a onclick="toggleMenu(event)" class="cursor-pointer">
+                    <a href="#" onclick="toggleMenu(event)" class="cursor-pointer">
                         <img src="{{url_for('static', filename='img/user-solid.svg')}}" alt=""
                             class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-8 sm:w-8 h-6 w-6 hover:scale-125 duration-200" />
                     </a>
 
-                    <div id="desktop-menu"
-                        class="absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden">
+                    <div id="desktop-menu" class="absolute right-0 mt-2 lg:w-40 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden">
                         <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
-                            <li><a href="/perfil" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Perfil</a></li>
-                            <li><a href="/playlists" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Mis
-                                    playlists</a></li>
-                            <li><a href="/sesion" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Iniciar
-                                    Sesión</a></li>
-                            <li><a href="/" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Cerrar
-                                    sesión</a></li>
-                        </ul>
-                    </div>
+                          {% if session.get('user_id') %}
+                            <li><a href="{{ url_for('perfil', id=session['user_id']) }}" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Perfil</a></li>
+                            <li><a href="{{ url_for('playlists', id=session['user_id']) }}" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Mis playlists</a></li>
+                            <li><a href="" onclick="logout()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Cerrar sesión</a></li>
+                          {% else %}
+                            <li><a href="/sesion" class="block px-4 py-2 hover:bg-gray-200 rounded-lg">Iniciar Sesión</a></li>
+                          {% endif %}
+                        </ul>            
+                      </div>
                 </li>
             </ul>
         </nav>
@@ -80,275 +79,23 @@
     </script>
 
     <section>
-        <div
-            class="lg:py-20 lg:px-20 md:px-15 sm:px-10 mx-10 md:py-15 sm:py-10 py-2 sm:bg-[#111010] flex flex-col rounded-3xl sm:mx-10 mb-10">
+        <div id="genre-container-songs" data-genre-id="{{ genre_id }}" class="lg:py-20 lg:px-20 md:px-15 sm:px-10 mx-10 md:py-15 sm:py-10 py-2 sm:bg-[#111010] flex flex-col rounded-3xl sm:mx-10 mb-10">
             <div>
                 <h3 class="text-white font-bold lg:text-3xl md:text-2xl sm:text-xl text-2xl">Canciones de Género</h3>
             </div>
 
             <div class="flex justify-center items-center w-full">
                 <table class="lg:my-20 md:my-14 sm:my-8 my-4 w-full text-white">
-                    <tbody>
-                        <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
-                            <td class="p-4 font-bold text-gray-400">1</td>
-                            <td class="p-4">
-                                <div class="flex items-center lg:gap-20 gap-4">
-                                    <div class="relative group h-14 w-14">
-                                        <img src="{{url_for('static', filename='img/background.jpeg')}}" alt=""
-                                            class="rounded-sm h-14 w-14 object-cover" />
-                                        <div
-                                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                            <img src="{{url_for('static', filename='img/play-solid.svg')}}" alt="Play"
-                                                class="h-6 w-6">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                        <a href="/cancion" class="lg:text-lg font-semibold hover:underline">Canción
-                                            1</a>
-                                        <a href="/artista"
-                                            class="lg:text-lg text-sm text-start text-gray-400 hover:underline">Artista
-                                            1</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="hidden md:table-cell p-4 text-gray-400">3:45</td>
-                            <td class="p-4">
-                                <button class="cursor-pointer hover:scale-125 duration-200">
-                                    <img src="{{url_for('static', filename='img/ellipsis-solid.svg')}}" alt=""
-                                        class="h-8 w-8">
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
-                            <td class="p-4 font-bold text-gray-400">2</td>
-                            <td class="p-4">
-                                <div class="flex items-center lg:gap-20 gap-4">
-                                    <div class="relative group h-14 w-14">
-                                        <img src="{{url_for('static', filename='img/background.jpeg')}}" alt=""
-                                            class="rounded-sm h-14 w-14 object-cover" />
-                                        <div
-                                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                            <img src="{{url_for('static', filename='img/play-solid.svg')}}" alt="Play"
-                                                class="h-6 w-6">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                        <a href="/cancion" class="lg:text-lg font-semibold hover:underline">Canción
-                                            1</a>
-                                        <a href="/artista"
-                                            class="lg:text-lg text-sm text-start text-gray-400 hover:underline">Artista
-                                            1</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="hidden md:table-cell p-4 text-gray-400">3:45</td>
-                            <td class="p-4">
-                                <button class="cursor-pointer hover:scale-125 duration-200">
-                                    <img src="{{url_for('static', filename='img/ellipsis-solid.svg')}}" alt=""
-                                        class="h-8 w-8">
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
-                            <td class="p-4 font-bold text-gray-400">3</td>
-                            <td class="p-4">
-                                <div class="flex items-center lg:gap-20 gap-4">
-                                    <div class="relative group h-14 w-14">
-                                        <img src="{{url_for('static', filename='img/background.jpeg')}}" alt=""
-                                            class="rounded-sm h-14 w-14 object-cover" />
-                                        <div
-                                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                            <img src="{{url_for('static', filename='img/play-solid.svg')}}" alt="Play"
-                                                class="h-6 w-6">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                        <a href="/cancion" class="lg:text-lg font-semibold hover:underline">Canción
-                                            1</a>
-                                        <a href="/artista"
-                                            class="lg:text-lg text-sm text-start text-gray-400 hover:underline">Artista
-                                            1</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="hidden md:table-cell p-4 text-gray-400">3:45</td>
-                            <td class="p-4">
-                                <button class="cursor-pointer hover:scale-125 duration-200">
-                                    <img src="{{url_for('static', filename='img/ellipsis-solid.svg')}}" alt=""
-                                        class="h-8 w-8">
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
-                            <td class="p-4 font-bold text-gray-400">4</td>
-                            <td class="p-4">
-                                <div class="flex items-center lg:gap-20 gap-4">
-                                    <div class="relative group h-14 w-14">
-                                        <img src="{{url_for('static', filename='img/background.jpeg')}}" alt=""
-                                            class="rounded-sm h-14 w-14 object-cover" />
-                                        <div
-                                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                            <img src="{{url_for('static', filename='img/play-solid.svg')}}" alt="Play"
-                                                class="h-6 w-6">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                        <a href="/cancion" class="lg:text-lg font-semibold hover:underline">Canción
-                                            1</a>
-                                        <a href="/artista"
-                                            class="lg:text-lg text-sm text-start text-gray-400 hover:underline">Artista
-                                            1</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="hidden md:table-cell p-4 text-gray-400">3:45</td>
-                            <td class="p-4">
-                                <button class="cursor-pointer hover:scale-125 duration-200">
-                                    <img src="{{url_for('static', filename='img/ellipsis-solid.svg')}}" alt=""
-                                        class="h-8 w-8">
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
-                            <td class="p-4 font-bold text-gray-400">5</td>
-                            <td class="p-4">
-                                <div class="flex items-center lg:gap-20 gap-4">
-                                    <div class="relative group h-14 w-14">
-                                        <img src="{{url_for('static', filename='img/background.jpeg')}}" alt=""
-                                            class="rounded-sm h-14 w-14 object-cover" />
-                                        <div
-                                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                            <img src="{{url_for('static', filename='img/play-solid.svg')}}" alt="Play"
-                                                class="h-6 w-6">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                        <a href="/cancion" class="lg:text-lg font-semibold hover:underline">Canción
-                                            1</a>
-                                        <a href="/artista"
-                                            class="lg:text-lg text-sm text-start text-gray-400 hover:underline">Artista
-                                            1</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="hidden md:table-cell p-4 text-gray-400">3:45</td>
-                            <td class="p-4">
-                                <button class="cursor-pointer hover:scale-125 duration-200">
-                                    <img src="{{url_for('static', filename='img/ellipsis-solid.svg')}}" alt=""
-                                        class="h-8 w-8">
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
-                            <td class="p-4 font-bold text-gray-400">6</td>
-                            <td class="p-4">
-                                <div class="flex items-center lg:gap-20 gap-4">
-                                    <div class="relative group h-14 w-14">
-                                        <img src="{{url_for('static', filename='img/background.jpeg')}}" alt=""
-                                            class="rounded-sm h-14 w-14 object-cover" />
-                                        <div
-                                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                            <img src="{{url_for('static', filename='img/play-solid.svg')}}" alt="Play"
-                                                class="h-6 w-6">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                        <a href="/cancion" class="lg:text-lg font-semibold hover:underline">Canción
-                                            1</a>
-                                        <a href="/artista"
-                                            class="lg:text-lg text-sm text-start text-gray-400 hover:underline">Artista
-                                            1</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="hidden md:table-cell p-4 text-gray-400">3:45</td>
-                            <td class="p-4">
-                                <button class="cursor-pointer hover:scale-125 duration-200">
-                                    <img src="{{url_for('static', filename='img/ellipsis-solid.svg')}}" alt=""
-                                        class="h-8 w-8">
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
-                            <td class="p-4 font-bold text-gray-400">7</td>
-                            <td class="p-4">
-                                <div class="flex items-center lg:gap-20 gap-4">
-                                    <div class="relative group h-14 w-14">
-                                        <img src="{{url_for('static', filename='img/background.jpeg')}}" alt=""
-                                            class="rounded-sm h-14 w-14 object-cover" />
-                                        <div
-                                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                            <img src="{{url_for('static', filename='img/play-solid.svg')}}" alt="Play"
-                                                class="h-6 w-6">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                        <a href="/cancion" class="lg:text-lg font-semibold hover:underline">Canción
-                                            1</a>
-                                        <a href="/artista"
-                                            class="lg:text-lg text-sm text-start text-gray-400 hover:underline">Artista
-                                            1</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="hidden md:table-cell p-4 text-gray-400">3:45</td>
-                            <td class="p-4">
-                                <button class="cursor-pointer hover:scale-125 duration-200">
-                                    <img src="{{url_for('static', filename='img/ellipsis-solid.svg')}}" alt=""
-                                        class="h-8 w-8">
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
-                            <td class="p-4 font-bold text-gray-400">8</td>
-                            <td class="p-4">
-                                <div class="flex items-center lg:gap-20 gap-4">
-                                    <div class="relative group h-14 w-14">
-                                        <img src="{{url_for('static', filename='img/background.jpeg')}}" alt=""
-                                            class="rounded-sm h-14 w-14 object-cover" />
-                                        <div
-                                            class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                            <img src="{{url_for('static', filename='img/play-solid.svg')}}" alt="Play"
-                                                class="h-6 w-6">
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                        <a href="/cancion" class="lg:text-lg font-semibold hover:underline">Canción
-                                            1</a>
-                                        <a href="/artista"
-                                            class="lg:text-lg text-sm text-start text-gray-400 hover:underline">Artista
-                                            1</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="hidden md:table-cell p-4 text-gray-400">3:45</td>
-                            <td class="p-4">
-                                <button class="cursor-pointer hover:scale-125 duration-200">
-                                    <img src="{{url_for('static', filename='img/ellipsis-solid.svg')}}" alt=""
-                                        class="h-8 w-8">
-                                </button>
-                            </td>
-                        </tr>
+                    <tbody id="songs-table-body">
+                       
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/js/GenreApi.js"></script>
 </body>
 
 </html>

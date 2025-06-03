@@ -29,6 +29,11 @@ def get_genre(id):
         'description': genre.description
     })
 
+def format_duration(seconds):
+    minutes = seconds // 60
+    sec = seconds % 60
+    return f"{minutes}:{sec:02}"
+
 @route_genre.route('/songs/<int:id>', methods=['GET'])
 def getSongsbyGenre(id):
     # Verificar que el género existe
@@ -41,22 +46,23 @@ def getSongsbyGenre(id):
     result = []
 
     for song in songs:
-        # Obtener artistas relacionados a la canción
+        # Obtener todos los artistas de la canción
         artist_rows = Artists.query.join(ArtistsSongs, Artists.id == ArtistsSongs.artistId)\
             .filter(ArtistsSongs.songId == song.id).all()
 
         artist_names = ", ".join([a.name for a in artist_rows])
+        main_artist_id = artist_rows[0].id 
 
         result.append({
             'id': song.id,
             'title': song.name,
             'artist_name': artist_names,
-            'duration': song.duration,
+            'artist_id': main_artist_id,
+            'duration': format_duration(song.duration),
             'cover_image': song.cover
         })
 
     return jsonify(result)
-
 
 @route_genre.route("/register", methods=['POST'])
 def registerGenre():

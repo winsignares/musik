@@ -15,6 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('artist-container-songs');
+  const artistId = container?.dataset?.artistId;
+
+  console.log('DOM loaded, container:', container);
+  console.log('Artist ID:', artistId);
+
+  if (artistId) {
+    getSongsbyArtist(artistId);
+  }
+});
+
 function getArtists() {
   axios.get('/api/artists/get')
     .then(response => {
@@ -93,12 +105,13 @@ function getSongsbyArtist(id) {
 
             <div class="flex items-center lg:gap-20 gap-4">
               <div class="relative group h-14 w-14">
-                <button class="cursor-pointer">
+                <button class="cursor-pointer" onclick="playSong('${song.audio_file}', '${song.title}', '${song.artist_name}', '${song.cover_image}')">
                   <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
-              <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                  <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
-              </div>
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
+                      <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
+                    </div>
                 </button>
+
             </div>
 
               <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
@@ -109,12 +122,34 @@ function getSongsbyArtist(id) {
 
             </td>
             <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400">${song.duration}</td>
-            <td class="p-4">
-      <button class="cursor-pointer hover:scale-125 duration-200">
-        <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
-      </button>
-    </td>
-  </tr>
+            
+            <td class="p-4 relative">
+              <button onclick="toggleMenu2(event)" class="cursor-pointer hover:scale-125 duration-200">
+                <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
+              </button>
+
+              <div id="menu-opciones" class="absolute top-full right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
+                <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
+
+                  <li class="relative">
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Agregar a playlist  
+                    </a>
+
+                    <ul class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
+                      <li><a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold">Playlist 1</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold">Playlist 2</a></li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Ver créditos
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </td>
 `;
       });
     })
@@ -122,3 +157,4 @@ function getSongsbyArtist(id) {
       console.error('Error al cargar canciones:', err);
     });
 }
+

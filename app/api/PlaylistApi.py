@@ -5,6 +5,8 @@ from config.db import app, db, ma
 from models.PlaylistModel import Playlists, PlaylistsSchema
 from models.PlaylistSongModel import PlaylistsSongs
 from models.SongModel import Songs, SongsSchema
+from models.ArtistModel import Artists
+from models.ArtistSongModel import ArtistsSongs
 
 route_playlist = Blueprint("route_playlist", __name__)
 
@@ -75,28 +77,51 @@ def addSongtoPlaylist():
 
     return "Canción añadida a la playlist correctamente"
 
-@route_playlist.route("/deleteSong", methods=['DELETE'])
-def deleteSongfromPlaylist():
-    playlistId = request.json['playlistId']
-    songId = request.json['songId']
-    playlist_song = PlaylistsSongs.query.filter_by(playlistId = playlistId, songId = songId).first()
+@route_playlist.route("/deleteSong/<int:playlist_id>/<int:song_id>", methods=['DELETE'])
+def deleteSongfromPlaylist(playlist_id, song_id):
+    Playlists.query.get_or_404(playlist_id)
+    Songs.query.get_or_404(song_id)
+    playlist_song = PlaylistsSongs.query.filter_by(playlistId=playlist_id, songId=song_id).first()
     db.session.delete(playlist_song)
     db.session.commit()
 
     return "Canción eliminada de la playlist correctamente"
 
-@route_playlist.route("/getSongs", methods=["GET"])
-def getSongsfromPlaylist():
-    playlistId = request.json['playlistId']
-    playlist_songs = PlaylistsSongs.query.filter_by(playlistId = playlistId).all()
-    songs = []
+def format_duration(seconds):
+    minutes = seconds // 60
+    sec = seconds % 60
+    return f"{minutes}:{sec:02}"
 
-    for playlist_song in playlist_songs:
-        song = Songs.query.get(playlist_song.songId)
-        songs.append(song)
+@route_playlist.route("/songs/<int:id>", methods=["GET"])
+def getSongsFromPlaylist(id):
+    # (Opcional) Verificar que la playlist existe
+    Playlists.query.get_or_404(id)
 
-    respo = songs_schema.dump(songs)
-    return jsonify(respo)
+    # Obtener todas las relaciones de canciones en esta playlist
+    playlist_songs = PlaylistsSongs.query.filter_by(playlistId=id).all()
+
+    result = []
+
+    for relation in playlist_songs:
+        song = Songs.query.get(relation.songId)
+
+        # Obtener artistas asociados a esta canción
+        artist_rows = Artists.query.join(ArtistsSongs, Artists.id == ArtistsSongs.artistId)\
+            .filter(ArtistsSongs.songId == song.id).all()
+
+        artist_names = ", ".join([a.name for a in artist_rows])
+        main_artist_id = artist_rows[0].id 
+
+        result.append({
+            'id': song.id,
+            'title': song.name,
+            'artist_name': artist_names,
+            'artist_id': main_artist_id,
+            'duration': format_duration(song.duration),
+            'cover_image': song.cover
+        })
+
+    return jsonify(result)
 
 
 

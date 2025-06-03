@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
   getSongs();
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  getGenres();
+});
+
 function abrirModalAgregarArtista() {
   document.getElementById('modal-agregar').classList.remove('hidden');
   document.getElementById('modal-agregar').classList.add('flex');
@@ -92,7 +96,7 @@ function registerArtist() {
   })
     .then(response => {
       console.log(response.data);
-      cerrarModalAgregar();
+      cerrarModalAgregarArtista();
       getArtists();
       Swal.fire({
         icon: 'success',
@@ -349,10 +353,17 @@ function registerGenre() {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
 
+  // Convertir el valor vacío de fatherId a null
+  if (!data.fatherId) {
+    data.fatherId = null;
+  } else {
+    data.fatherId = parseInt(data.fatherId); // Asegurarse de que sea un número
+  }
+
   axios.post('/api/genres/register', data)
     .then(response => {
       console.log(response.data);
-      cerrarModalAgregar();
+      cerrarModalAgregarGenero();
       getGenres();
       Swal.fire({
         icon: 'success',
@@ -369,6 +380,7 @@ function registerGenre() {
       });
     });
 }
+
 
 function confirmarEliminacionGenero(id) {
   Swal.fire({
@@ -422,7 +434,7 @@ function updateGenre() {
     .then(response => {
       console.log(response.data);
       Swal.fire('Actualizado', 'Género actualizado correctamente', 'success');
-      cerrarModalEditar();
+      cerrarModalEditarGenero();
       getGenres();
     })
     .catch(error => {
@@ -579,7 +591,7 @@ function registerSong() {
   })
     .then(response => {
       console.log(response.data);
-      cerrarModalAgregar();
+      cerrarModalAgregarCancion();
       getSongs();
       Swal.fire({
         icon: 'success',
@@ -679,7 +691,7 @@ function updateSong() {
   })
     .then(response => {
       Swal.fire('Actualizado', 'Canción actualizada correctamente', 'success');
-      cerrarModalEditar();
+      cerrarModalEditarCancion();
       getSongs(); // Asumiendo que tienes una función para refrescar la lista
     })
     .catch(error => {

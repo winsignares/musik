@@ -79,13 +79,12 @@ function getSongbyId(id) {
                         <td class="p-4">
                             <div class="flex items-center lg:gap-20 gap-4">
                                 <div class="relative group h-14 w-14">
-                                    <img src="${song.cover}" alt=""
-                                        class="rounded-sm h-14 w-14 object-cover" />
-                                    <div
-                                        class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                                        <img src="/static/img/play-solid.svg" alt="Play"
-                                            class="h-6 w-6">
-                                    </div>
+                                    <button class="cursor-pointer" onclick="playSong('${song.audio_file}', '${song.name}', '${song.artist}', '${song.cover}')">
+                  <img src="${song.cover}" alt="${song.name}" class="rounded-sm h-14 w-14 object-cover" />
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
+                      <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
+                    </div>
+                </button>
                                 </div>
 
                                 <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
@@ -96,12 +95,34 @@ function getSongbyId(id) {
                             </div>
                         </td>
                         <td class="hidden md:table-cell p-4 text-gray-400">${song.duration}</td>
-                        <td class="p-4">
-                            <button class="cursor-pointer hover:scale-125 duration-200">
-                                <img src="/static/img/ellipsis-solid.svg" alt=""
-                                    class="h-8 w-8">
-                            </button>
-                        </td>
+
+                        <td class="p-4 relative">
+              <button onclick="toggleMenu2(event)" class="cursor-pointer hover:scale-125 duration-200">
+                <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
+              </button>
+
+              <div id="menu-opciones" class="absolute top-full right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
+                <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
+
+                  <li class="relative">
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Agregar a playlist  
+                    </a>
+
+                    <ul class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
+                      <li><a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold">Playlist 1</a></li>
+                      <li><a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold">Playlist 2</a></li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Ver créditos
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </td>
                     </tr>
                 </tbody>
             </table>
@@ -112,6 +133,68 @@ function getSongbyId(id) {
     });
 }
 
+let isPlaying = true;
+const audio = document.getElementById('audio-player');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const playPauseIcon = document.getElementById('play-pause-icon');
+const progressBar = document.getElementById('progress-bar');
+const volumeControl = document.getElementById('volume-control');
 
+function playSong(audioFile, title, artist, coverImage) {
+  const container = document.getElementById('audio-player-container');
+  document.getElementById('player-title').textContent = title;
+  document.getElementById('player-artist').textContent = artist;
+  document.getElementById('player-cover').src = `/static/uploads/covers/${coverImage}`;
 
+  audio.src = `/static/uploads/songs/${audioFile}`;
+  container.classList.remove('hidden');
+  audio.play();
+  isPlaying = true;
+  playPauseIcon.src = '/static/img/pause-solid.svg';
+}
 
+// Play/Pause toggle
+playPauseBtn.addEventListener('click', () => {
+  if (isPlaying) {
+    audio.pause();
+    playPauseIcon.src = '/static/img/play-solid.svg';
+  } else {
+    audio.play();
+    playPauseIcon.src = '/static/img/pause-solid.svg';
+  }
+  isPlaying = !isPlaying;
+});
+
+// Update progress bar
+audio.addEventListener('timeupdate', () => {
+  const progress = (audio.currentTime / audio.duration) * 100;
+  progressBar.value = progress || 0;
+});
+
+// Seek song
+progressBar.addEventListener('input', () => {
+  audio.currentTime = (progressBar.value / 100) * audio.duration;
+});
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+const currentTimeEl = document.getElementById('current-time');
+const totalDurationEl = document.getElementById('total-duration');
+
+audio.addEventListener('loadedmetadata', () => {
+  totalDurationEl.textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('timeupdate', () => {
+  const progress = (audio.currentTime / audio.duration) * 100;
+  progressBar.value = progress || 0;
+  currentTimeEl.textContent = formatTime(audio.currentTime);
+});
+
+volumeControl.addEventListener('input', () => {
+  audio.volume = volumeControl.value;
+});

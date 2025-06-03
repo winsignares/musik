@@ -32,6 +32,11 @@ def get_artist(id):
         'image': image_url
     })
 
+def format_duration(seconds):
+    minutes = seconds // 60
+    sec = seconds % 60
+    return f"{minutes}:{sec:02}"
+
 @route_artist.route('/songs/<int:id>', methods=['GET'])
 def getSongsbyArtist(id):
     # Primero, verificar que el artista existe
@@ -55,8 +60,9 @@ def getSongsbyArtist(id):
             'id': song.id,
             'title': song.name,
             'artist_name': artist_names,
-            'duration': song.duration,
-            'cover_image': song.cover
+            'duration': format_duration(song.duration),
+            'cover_image': song.cover,
+            'audio_file': song.mp3file
         })
 
     return jsonify(result)

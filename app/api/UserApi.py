@@ -14,7 +14,7 @@ users_schema = UsersSchema(many=True)
 
 @route_admin.route("/get", methods=["GET"])
 def getUsers():
-    users = Users.query.all()
+    users = Users.query.filter_by(role='usuario').all()  
     respo = users_schema.dump(users)
     return jsonify(respo)
 
