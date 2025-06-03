@@ -42,9 +42,8 @@ def registerPlaylist():
     db.session.commit()
     return "Playlist registrada correctamente"
 
-@route_playlist.route("/delete", methods=['DELETE'])
-def deletePlaylist():
-    id = request.json['id'] 
+@route_playlist.route("/delete/<int:id>", methods=['DELETE'])
+def deletePlaylist(id):
     playlist = Playlists.query.get(id)    
     playlist_songs = PlaylistsSongs.query.filter_by(playlistId = id).all()
 
@@ -57,9 +56,8 @@ def deletePlaylist():
     db.session.commit()     
     return jsonify(playlist_schema.dump(playlist))
 
-@route_playlist.route("/update", methods=['PUT'])
-def updatePlaylist():
-    id = request.json['id'] 
+@route_playlist.route("/update/<int:id>", methods=['PUT'])
+def updatePlaylist(id):
     playlist = Playlists.query.get(id)    
     playlist.name = request.json['name']
     playlist.description = request.json['description']

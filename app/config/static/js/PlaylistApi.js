@@ -34,6 +34,36 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modal-agregar').classList.add('hidden');
     document.getElementById('form-agregar').reset();
   }
+
+  function abrirModalEditar(id) {
+  document.getElementById('modal-editar').classList.remove('hidden');
+  document.getElementById('modal-editar').classList.add('flex');
+
+  axios.get(`/api/playlists/get/${id}`)
+    .then(response => {
+      const playlist = response.data;
+      console.log(playlist);
+
+      document.querySelector('#form-editar input[name="name"]').value = playlist.name;
+      document.querySelector('#form-editar input[name="description"]').value = playlist.description;
+      document.getElementById('form-editar').dataset.playlistId = id;
+
+    })
+    .catch(error => {
+      Swal.fire(
+        'Error',
+        'No se pudo cargar la playlist.',
+        'error'
+      );
+      console.log(error);
+    });
+}
+  
+  function cerrarModalEditar() {
+    document.getElementById('modal-editar').classList.remove('flex');
+    document.getElementById('modal-editar').classList.add('hidden');
+    document.getElementById('form-editar').reset();
+  }
   
   function registerPlaylist() {
     const name = document.querySelector('[name="name"]').value;
@@ -101,6 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
               <h2 class="lg:text-4xl lg:px-20 md:text-3xl md:px-14 sm:text-2xl sm:px-8 text-lg px-10 text-white font-bold">${playlist.name}</h2>
               <br>
               <h3 class="lg:text-2xl lg:px-20 md:text-3xl md:px-14 sm:text-2xl sm:px-8 text-md px-10 text-gray-400 font-semibold">${playlist.description}</h3>
+            </div>
+
+            <div class="flex flex-col gap-4 ml-[45rem]">
+              <button onclick="abrirModalEditar(${playlist.id})" class="cursor-pointer text-white bg-[#3228EC] p-2 hover:bg-[#1810BA] hover:scale-110 duration-200 font-bold text-lg rounded-lg"> Editar </button>
+              <button onclick="confirmarEliminacion(${playlist.id})" class="cursor-pointer text-white bg-red-500 p-2 hover:bg-red-700 hover:scale-110 duration-200 font-bold text-lg rounded-lg"> Eliminar </button>
             </div>
           </div>
           `;
@@ -222,5 +257,64 @@ function getSongsbyPlaylist(id) {
     });
 }
   
-  
+function updatePlaylist() {
+  const form = document.getElementById('form-editar');
+  const id = form.dataset.playlistId;
+
+  const name = form.querySelector('input[name="name"]').value;
+  const description = form.querySelector('input[name="description"]').value;
+
+  axios.put(`/api/playlists/update/${id}`, {
+    name,
+    description
+  })
+    .then(response => {
+      console.log(response.data);
+      Swal.fire('Actualizado', 'Playlist actualizada correctamente', 'success');
+      cerrarModalEditar();
+      getPlaylistById(playlistId);
+    })
+    .catch(error => {
+      console.log(error);
+      Swal.fire('Error', 'No se pudo actualizar la playlist', 'error');
+    });
+}
+
+function confirmarEliminacion(id) {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: "Esta acción no se puede deshacer.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      deletePlaylist(id);
+    }
+  });
+}
+
+function deletePlaylist(id) {
+  axios.delete(`/api/playlists/delete/${id}`)
+    .then(response => {
+      Swal.fire(
+        'Eliminado',
+        'La playlist ha sido eliminada correctamente.',
+        'success'
+      );
+      getPlaylistById(playlistId);
+      console.log(response.data);
+    })
+    .catch(error => {
+      Swal.fire(
+        'Error',
+        'No se pudo eliminar la playlist.',
+        'error'
+      );
+      console.error(error);
+    });
+}
   
