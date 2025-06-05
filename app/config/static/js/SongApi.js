@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (songId) {
       getSongbyId(songId);
     }
-  });
+  }); 
 
 function getSongs() {
   axios.get('/api/songs/get')
@@ -72,12 +72,12 @@ function getSongbyId(id) {
           </div>
         </div>
 
-        <table class="w-full text-white">
+        <table class="text-white lg:mx-20 mx-4">
                 <tbody>
                     <tr class="group text-center hover:bg-[#2b2b2b] duration-200">
                         <td class="p-4 font-bold text-gray-400 hidden md:table-cell">1</td>
                         <td class="p-4">
-                            <div class="flex items-center lg:gap-20 gap-4">
+                            <div class="flex items-center">
                                 <div class="relative group h-14 w-14">
                                     <button class="cursor-pointer" onclick="playSong('${song.audioFile}', '${song.title}', '${song.artist}', '${song.cover_image}')">
                                         <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
@@ -87,42 +87,59 @@ function getSongbyId(id) {
                                     </button>
                                 </div>
 
-                                <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                                    <a class="lg:text-lg font-semibold hover:underline">${song.title}</a>
+                                <div class="flex flex-col md:flex-row md:items-center lg:gap-[12rem]">
+                                    <a class="lg:text-lg font-semibold text-start lg:pl-10 pl-4">${song.title}</a>
                                     <a href="/artista"
-                                        class="lg:text-lg text-sm text-start text-gray-400 hover:underline">${song.artist}</a>
+                                        class="lg:text-lg text-sm text-start text-gray-400 hover:underline lg:pl-10 pl-4">${song.artist}</a>
                                 </div>
                             </div>
                         </td>
-                        <td class="hidden md:table-cell p-4 text-gray-400">${song.duration}</td>
+                        <td class="hidden md:table-cell p-4 text-gray-400 pr-30">${song.duration}</td>
 
                         <td class="p-4 relative">
-              <button onclick="toggleMenu2(event)" class="cursor-pointer hover:scale-125 duration-200">
-                <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
+              <button onclick="toggleMenu2(event, ${song.id})" class="cursor-pointer hover:scale-110 duration-200">
+                <img src="/static/img/option.png" alt="" class="h-8 w-8">
               </button>
 
-              <div id="menu-opciones" class="absolute top-full right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
+              <div id="menu-opciones" class="absolute right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
                 <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
 
-                  <li class="relative">
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
-                      Agregar a playlist  
+                  <li onmouseover="mostrarSubmenu()" onmouseout="ocultarSubmenu()">
+                    <a onmouseover="cargarPlaylistsEnSubmenu()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Agregar a playlist
                     </a>
 
-                    <ul class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
-                      <li><a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold">Playlist 1</a></li>
-                      <li><a href="#" class="block px-4 py-2 hover:bg-gray-200 text-black font-bold">Playlist 2</a></li>
+                    <ul id="submenu-playlists" class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
+
                     </ul>
                   </li>
 
                   <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                    <a onclick="abrirModalCreditos()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
                       Ver créditos
                     </a>
                   </li>
                 </ul>
               </div>
             </td>
+
+            <div id="modal-creditos" class="fixed inset-0 backdrop-blur-sm bg-black/60 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-[#1a1a1a] w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl rounded-2xl shadow-xl p-6">
+        <h2 class="text-2xl font-bold text-white mb-4">Créditos</h2>
+
+        <form id="form-editar" class="space-y-4">
+            <p class="text-white text-base sm:text-lg">Escrito por: <span class="font-semibold">${song.author}</span></p>
+            <p class="text-white text-base sm:text-lg">Cantado por: <span class="font-semibold">${song.artist}</span></p>
+
+            <div class="flex justify-end">
+                <button type="button" onclick="cerrarModalCreditos()"
+                    class="bg-gray-600 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
+                    Ok
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
                     </tr>
                 </tbody>
             </table>

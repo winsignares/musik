@@ -13,10 +13,10 @@
 <body class="bg-[#0a0909] pt-24">
     <div id="user-data" data-user-id="{{ user_id }}"></div>
     <header class="bg-[#0a0909] fixed md:h-22 sm:h-20 h-18 top-0 w-full z-50 flex justify-center items-center">
-        <div class="sm:hidden absolute left-8 top-8 z-50 items-center">
-            <a>
-                <img src="{{url_for('static', filename='img/user-solid.svg')}}" alt=""
-                    class="h-6 w-6 hover:scale-125 duration-200" />
+        <div class="sm:hidden absolute left-8 z-50 items-center">
+            <a href="{{ url_for('perfil', id=session['user_id']) }}">
+                <img src="{{url_for('static', filename='img/user.png')}}" alt=""
+                    class="h-12 w-12 hover:scale-110 duration-200" />
             </a>
         </div>
 
@@ -25,8 +25,8 @@
                 class="lg:space-x-32 md:space-x-24 sm:space-x-10 space-x-6 flex justify-center p-6 items-center font-bold">
                 <li class="hidden sm:block">
                     <a href="/principal">
-                        <img src="{{url_for('static', filename='img/house-solid.svg')}}" alt=""
-                            class="lg:h-10 lg:w-10 md:h-10 md:w-10 sm:h-8 sm:w-8 h-6 w-6 hover:scale-125 duration-200" />
+                        <img src="{{url_for('static', filename='img/house.png')}}" alt=""
+                            class="lg:h-14 lg:w-14 md:h-10 md:w-10 sm:h-8 sm:w-8 h-6 w-6 hover:scale-110 duration-200" />
                     </a>
                 </li>
 
@@ -36,13 +36,16 @@
                             type="search" name="search" placeholder="Buscar..." />
                         <img src="{{url_for('static', filename='img/magnifying-glass-solid.svg')}}" alt="Buscar"
                             class="absolute right-3 top-1/2 transform -translate-y-1/2 h-6 w-6 pointer-events-none" />
+                        <div id="search-results"
+                            class="absolute top-full mt-2 bg-white text-black rounded-lg shadow-md w-full hidden z-50 max-h-60 overflow-auto">
+                        </div>
                     </div>
                 </li>
 
                 <li class="relative hidden sm:block">
                     <a href="#" onclick="toggleMenu(event)" class="cursor-pointer">
-                        <img src="{{url_for('static', filename='img/user-solid.svg')}}" alt=""
-                            class="lg:h-10 lg:w-10 md:h-8 md:w-8 sm:h-8 sm:w-8 h-6 w-6 hover:scale-125 duration-200" />
+                        <img src="{{url_for('static', filename='img/user.png')}}" alt=""
+                            class="lg:h-14 lg:w-14 md:h-8 md:w-8 sm:h-8 sm:w-8 h-12 w-12 hover:scale-110 duration-200" />
                     </a>
 
                     <div id="desktop-menu"
@@ -103,6 +106,58 @@
                 menu.classList.add('hidden');
             }
         });
+
+        document.addEventListener("DOMContentLoaded", () => {
+      const input = document.querySelector('input[name="search"]');
+      const resultsBox = document.getElementById('search-results');
+
+      input.addEventListener("input", async () => {
+        const query = input.value.trim();
+        if (!query) {
+          resultsBox.classList.add("hidden");
+          resultsBox.innerHTML = "";
+          return;
+        }
+
+        try {
+          const response = await fetch(`/buscar?q=${encodeURIComponent(query)}`);
+          const data = await response.json();
+
+          let html = "";
+
+          if (data.canciones.length) {
+            data.canciones.forEach(c => {
+              const artistasStr = c.artists.join(', ');
+              html += `<a href="/cancion/${c.id}" class="block px-4 py-2 hover:bg-gray-100">${c.name} - ${artistasStr}</a>`;
+            });
+          }
+
+          if (data.artistas.length) {
+            data.artistas.forEach(a => {
+              html += `<a href="/artista/${a.id}" class="block px-4 py-2 hover:bg-gray-100">${a.name}</a>`;
+            });
+          }
+
+          if (data.generos.length) {
+            data.generos.forEach(g => {
+              html += `<a href="/genero/${g.id}" class="block px-4 py-2 hover:bg-gray-100">${g.name}</a>`;
+            });
+          }
+
+          resultsBox.innerHTML = html || `<div class="px-4 py-2 text-gray-500">Sin resultados</div>`;
+          resultsBox.classList.remove("hidden");
+
+        } catch (err) {
+          console.error("Error en búsqueda:", err);
+        }
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!resultsBox.contains(e.target) && e.target !== input) {
+          resultsBox.classList.add("hidden");
+        }
+      });
+    });
     </script>
 
     <section>
@@ -138,33 +193,62 @@
         </div>
     </section>
 
-    <div id="audio-player-container" class="fixed bottom-0 w-full bg-[#1e1e1e] p-4 flex items-center gap-4 hidden z-50">
-        <img id="player-cover" src="" class="h-12 w-12 rounded object-cover" />
+    <div id="audio-player-container"
+        class="fixed lg:bottom-0 bottom-24 lg:left-0 lg:right-0 left-4 right-4 bg-[#1e1e1e] px-4 py-4 flex items-center justify-between gap-4 z-50 hidden lg:rounded rounded-3xl">
 
-        <div class="flex flex-col text-white">
-            <span id="player-title" class="font-bold"></span>
-            <span id="player-artist" class="text-sm text-gray-300"></span>
+        <!-- Imagen y título -->
+        <div class="flex items-center gap-3">
+            <img id="player-cover" src="" class="h-12 w-12 rounded object-cover" />
+
+            <div class="flex flex-col text-white">
+                <span id="player-title" class="font-bold text-sm truncate max-w-[8rem] sm:max-w-none"></span>
+                <span id="player-artist" class="text-xs text-gray-300 truncate max-w-[8rem] sm:max-w-none"></span>
+            </div>
         </div>
 
-        <button id="play-pause-btn" class="ml-4 text-white cursor-pointer">
-            <img id="play-pause-icon" src="/static/img/pause-solid.svg" class="h-6 w-6" />
-        </button>
+        <!-- Botón de reproducción -->
+        <div class="flex items-center gap-3">
+            <button id="play-pause-btn" class="text-white cursor-pointer">
+                <img id="play-pause-icon" src="/static/img/pause-solid.svg" class="h-6 w-6" />
+            </button>
+        </div>
 
-        <div class="flex items-center gap-2 flex-grow mx-4 text-white text-sm">
+        <!-- Barra de progreso (solo en pantallas ≥ sm) -->
+        <div class="hidden sm:flex items-center gap-2 flex-grow mx-4 text-white text-xs">
             <span id="current-time">0:00</span>
             <input type="range" id="progress-bar"
-                class="w-full h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer" value="0" min="0" max="100"
-                step="0.1">
+                class="w-full h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-white" value="0" min="0"
+                max="100" step="0.1">
             <span id="total-duration">0:00</span>
         </div>
 
-        <div class="flex items-center gap-2 text-white text-sm">
+        <!-- Volumen (solo en pantallas ≥ sm) -->
+        <div class="hidden sm:flex items-center gap-2 text-white text-xs">
             <img src="/static/img/volume-low-solid.svg" alt="Volumen" class="h-5 w-5" />
-            <input id="volume-control" type="range" min="0" max="1" step="0.01" value="1" class="w-24 cursor-pointer" />
+            <input id="volume-control" type="range" min="0" max="1" step="0.01" value="1"
+                class="w-24 cursor-pointer accent-white" />
         </div>
 
         <audio id="audio-player"></audio>
     </div>
+
+    <!-- Navbar móvil debajo del reproductor -->
+    <nav class="fixed bottom-0 w-full bg-[#1e1e1e] flex justify-around items-center py-2 sm:hidden z-50">
+        <a href="/principal" class="flex flex-col items-center text-white text-md">
+            <img src="{{url_for('static', filename='img/home.png')}}" alt="Inicio" class="h-8 w-8 mb-1" />
+            Inicio
+        </a>
+        <a class="flex flex-col items-center text-white text-md">
+            <img src="{{url_for('static', filename='img/search.png')}}" alt="Buscar" class="h-8 w-8 mb-1" />
+            Buscar
+        </a>
+        <a href="{{ url_for('playlists', id=session['user_id']) }}"
+            class="flex flex-col items-center text-white text-md">
+            <img src="{{url_for('static', filename='img/library.png')}}" alt="Biblioteca" class="h-8 w-8 mb-1" />
+            Biblioteca
+        </a>
+    </nav>
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/static/js/PlaylistApi.js"></script>

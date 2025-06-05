@@ -65,6 +65,17 @@ function cerrarModalEditar() {
   document.getElementById('form-editar').reset();
 }
 
+function abrirModalCreditos() {
+  document.getElementById('modal-creditos').classList.remove('hidden');
+  document.getElementById('modal-creditos').classList.add('flex');
+}
+
+function cerrarModalCreditos() {
+  document.getElementById('modal-creditos').classList.remove('flex');
+  document.getElementById('modal-creditos').classList.add('hidden');
+  document.getElementById('form-creditos').reset();
+}
+
 function registerPlaylist() {
   const name = document.querySelector('[name="name"]').value;
   const description = document.querySelector('[name="description"]').value;
@@ -98,15 +109,13 @@ function getPlaylists(id) {
 
       playlists.forEach(playlist => {
         const html = `
-            <div>
               <button onclick="window.location.href='/playlist/${playlist.id}'"
-                class="p-4 h-fit w-fit cursor-pointer hover:bg-[#2b2b2e] rounded-3xl duration-200">
-                <div class="lg:h-45 lg:w-45 md:h-35 md:w-35 sm:h-30 sm:w-30 h-25 w-25 lg:rounded-lg rounded-[5rem] bg-gradient-to-br from-blue-300 to-blue-800"></div>
-                <h3 class="lg:text-xl md:text-lg sm:text-base text-sm text-white text-start font-semibold hover:underline py-2">
-                  ${playlist.name}
-                </h3>
-              </button>
-            </div>
+              class="p-4 h-fit w-fit cursor-pointer hover:bg-[#2b2b2e] rounded-3xl duration-200">
+              <div class="lg:h-45 lg:w-45 md:h-35 md:w-35 sm:h-30 sm:w-30 h-25 w-25 lg:rounded-[10rem] rounded-[5rem] bg-gradient-to-br from-blue-300 to-blue-800"> </div>
+           <h3 class="lg:text-xl md:text-lg sm:text-base text-sm text-white text-start font-semibold hover:underline py-2">
+              ${playlist.name}
+          </h3>
+          </button>   
           `;
         container.insertAdjacentHTML('beforeend', html);
       });
@@ -125,7 +134,7 @@ function getPlaylistById(id) {
 
       container.querySelector('.flex').innerHTML = `
           <div class="flex items-center">
-            <div class="lg:h-45 lg:w-45 md:h-35 md:w-35 sm:h-30 sm:w-30 h-25 w-25 lg:rounded-lg bg-gradient-to-br from-blue-300 to-blue-800 lg:ml-30 ml-10"> </div>
+            <div class="lg:h-45 lg:w-45 md:h-35 md:w-35 sm:h-30 sm:w-30 h-25 w-25 lg:rounded-lg rounded-md bg-gradient-to-br from-blue-300 to-blue-800 lg:ml-30 ml-10"> </div>
   
             <div class="flex flex-col">
               <h2 class="lg:text-4xl lg:px-20 md:text-3xl md:px-14 sm:text-2xl sm:px-8 text-lg px-10 text-white font-bold">${playlist.name}</h2>
@@ -133,9 +142,14 @@ function getPlaylistById(id) {
               <h3 class="lg:text-2xl lg:px-20 md:text-3xl md:px-14 sm:text-2xl sm:px-8 text-md px-10 text-gray-400 font-semibold">${playlist.description}</h3>
             </div>
 
-            <div class="flex flex-col gap-4 ml-[45rem]">
-              <button onclick="abrirModalEditar(${playlist.id})" class="cursor-pointer text-white bg-[#3228EC] p-2 hover:bg-[#1810BA] hover:scale-110 duration-200 font-bold text-lg rounded-lg"> Editar </button>
-              <button onclick="confirmarEliminacion(${playlist.id})" class="cursor-pointer text-white bg-red-500 p-2 hover:bg-red-700 hover:scale-110 duration-200 font-bold text-lg rounded-lg"> Eliminar </button>
+            <div class="flex flex-col gap-4">
+              <button onclick="abrirModalEditar(${playlist.id})" class="cursor-pointer text-white p-2 hover:bg-blue-700 hover:scale-110 duration-200 font-bold text-lg rounded-lg"> 
+                <img src="/static/img/edit.png" alt="Editar" class="h-6 w-6">  
+              </button>
+
+              <button onclick="confirmarEliminacion(${playlist.id})" class="cursor-pointer text-white p-2 hover:bg-red-700 hover:scale-110 duration-200 font-bold text-lg rounded-lg"> 
+                <img src="/static/img/delete.png" alt="Eliminar" class="h-6 w-6">
+              </button>
             </div>
           </div>
           `;
@@ -238,42 +252,70 @@ function getSongsbyPlaylist(id) {
             <td class="p-4 font-bold text-gray-400 hidden md:table-cell">${index + 1}</td>
             <td class="p-4">
 
-            <div class="flex items-center lg:gap-20 gap-4">
+            <div class="flex items-center">
               <div class="relative group h-14 w-14">
-                <button class="cursor-pointer" onclick="playSong('${song.audioFile}', '${song.title}', '${song.artist_name}', '${song.cover_image}')">
+                <button class="cursor-pointer" onclick="playSong('${song.audio_file}', '${song.title}', '${song.artist_name}', '${song.cover_image}')">
                   <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
-              <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
-                  <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
-              </div>
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
+                      <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
+                    </div>
                 </button>
+
             </div>
 
-              <div class="flex flex-col md:flex-row md:items-center lg:gap-20">
-                <a href="/cancion/${song.id}" class="lg:text-lg font-semibold hover:underline">${song.title}</a>
-                <a href="/artista/${song.artist_id}" class="lg:text-lg text-sm text-start text-gray-400 hover:underline">${song.artist_name}</a>
+              <div class="flex flex-col md:flex-row md:items-center lg:gap-[12rem]">
+                <a href="/cancion/${song.id}" class="text-start lg:text-lg font-semibold hover:underline lg:pl-10 pl-4">${song.title}</a>
+                <a class="lg:text-lg text-sm text-start text-gray-400 text-start pl-4">${song.artist_name}</a>
               </div>
             </div>
 
             </td>
-            <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400">${song.duration}</td>
+            <td class="hidden md:table-cell p-4 lg:text-lg text-sm text-start text-gray-400 pr-30">${song.duration}</td>
             
             <td class="p-4 relative">
-              <button onclick="toggleMenu2(event, ${song.id})" class="cursor-pointer hover:scale-125 duration-200">
-                <img src="/static/img/ellipsis-solid.svg" alt="" class="h-8 w-8">
+              <button onclick="toggleMenu2(event, ${song.id})" class="cursor-pointer hover:scale-110 duration-200">
+                <img src="/static/img/option.png" alt="" class="h-8 w-8">
               </button>
 
               <div id="menu-opciones" class="absolute right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
                 <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
 
+                  <li onmouseover="mostrarSubmenu()" onmouseout="ocultarSubmenu()">
+                    <a onmouseover="cargarPlaylistsEnSubmenu()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Agregar a playlist
+                    </a>
+
+                    <ul id="submenu-playlists" class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
+
+                    </ul>
+                  </li>
+
                   <li>
-                    <a href="#" onclick="confirmarEliminacionCancion(${id}, ${song.id})" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
-                      Eliminar de playlist
+                    <a onclick="abrirModalCreditos()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Ver créditos
                     </a>
                   </li>
                 </ul>
               </div>
             </td>
-          </tr>
+
+            <div id="modal-creditos" class="fixed inset-0 backdrop-blur-sm bg-black/60 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-[#1a1a1a] w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl rounded-2xl shadow-xl p-6">
+        <h2 class="text-2xl font-bold text-white mb-4">Créditos</h2>
+
+        <form id="form-editar" class="space-y-4">
+            <p class="text-white text-base sm:text-lg">Escrito por: <span class="font-semibold">${song.author}</span></p>
+            <p class="text-white text-base sm:text-lg">Cantado por: <span class="font-semibold">${song.artist_name}</span></p>
+
+            <div class="flex justify-end">
+                <button type="button" onclick="cerrarModalCreditos()"
+                    class="bg-gray-600 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
+                    Ok
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 `;
       });
     })

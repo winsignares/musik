@@ -1,9 +1,9 @@
 from flask import Flask, request, redirect, render_template, session
 from config.db import db, app
-from auth import admin_required
+from auth import admin_required, user_required
 
 # trabajar en las rutas de bluprint con respectos a las api's
-
+from api.SearchApi import route_search
 from api.UserApi import route_user, route_admin
 from api.ArtistApi import route_artist
 from api.GenreApi import route_genre
@@ -11,7 +11,7 @@ from api.PlaylistApi import route_playlist
 from api.SongApi import route_song, route_artist_song, route_genre_song, route_playlist_song
 
 # Importar los Blueprints
-
+app.register_blueprint(route_search)
 app.register_blueprint(route_admin, url_prefix="/api/admin")
 app.register_blueprint(route_user, url_prefix="/api/users")
 app.register_blueprint(route_artist, url_prefix="/api/artists")
@@ -54,6 +54,7 @@ def sesion():
     return render_template("user/sesion.html")
 
 @app.route("/perfil/<int:id>")
+@user_required
 def perfil(id):
     return render_template("user/Perfil.html", id=id)
 
@@ -96,10 +97,12 @@ def genero(id):
     return render_template("user/Genero.html", genre_id=id)
 
 @app.route("/playlists/<int:id>")
+@user_required
 def playlists(id):
     return render_template("user/Playlists.html", user_id=id)
 
 @app.route("/playlist/<int:id>")
+@user_required
 def playlist(id):
     return render_template("user/playlistUser.html", playlist_id=id)
 
