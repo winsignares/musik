@@ -105,7 +105,7 @@ function getSongbyId(id) {
                 <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
 
                   <li onmouseover="mostrarSubmenu()" onmouseout="ocultarSubmenu()">
-                    <a onmouseover="cargarPlaylistsEnSubmenu()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                    <a onmouseover="cargarPlaylistsEnSubmenu()" class="cursor-pointer block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
                       Agregar a playlist
                     </a>
 
@@ -115,7 +115,7 @@ function getSongbyId(id) {
                   </li>
 
                   <li>
-                    <a onclick="abrirModalCreditos()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                    <a onclick="abrirModalCreditos()" class="cursor-pointer block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
                       Ver créditos
                     </a>
                   </li>
@@ -133,7 +133,7 @@ function getSongbyId(id) {
 
             <div class="flex justify-end">
                 <button type="button" onclick="cerrarModalCreditos()"
-                    class="bg-gray-600 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
+                    class="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
                     Ok
                 </button>
             </div>

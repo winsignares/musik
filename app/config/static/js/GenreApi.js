@@ -6,9 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('genre-container');
   const genreId = container?.dataset?.genreId;
 
-  console.log('DOM loaded, container:', container);
-  console.log('Genre ID:', genreId);
-
   if (genreId) {
     getGenrebyId(genreId);
     getSongsbyGenre(genreId);
@@ -18,9 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('genre-container-songs');
   const genreId = container?.dataset?.genreId;
-
-  console.log('DOM loaded, container:', container);
-  console.log('Genre ID:', genreId);
 
   if (genreId) {
     getSongsbyGenre(genreId);
@@ -83,15 +77,11 @@ function getGenrebyId(id) {
 }
 
 function getSongsbyGenre(id) {
-  console.log('Intentando cargar canciones para artista ID:', id);
 
   axios.get(`/api/genres/songs/${id}`)
     .then(songRes => {
       const songs = songRes.data;
-      console.log('Canciones recibidas:', songs);
-
       const tbody = document.getElementById('songs-table-body');
-      console.log('tbody:', tbody);
 
       if (!tbody) {
         console.error('No se encontró el tbody de canciones');
@@ -136,7 +126,7 @@ function getSongsbyGenre(id) {
                 <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
 
                   <li onmouseover="mostrarSubmenu()" onmouseout="ocultarSubmenu()">
-                    <a onmouseover="cargarPlaylistsEnSubmenu()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                    <a onmouseover="cargarPlaylistsEnSubmenu()" class="cursor-pointer block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
                       Agregar a playlist
                     </a>
 
@@ -146,7 +136,7 @@ function getSongsbyGenre(id) {
                   </li>
 
                   <li>
-                    <a onclick="abrirModalCreditos()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                    <a onclick="abrirModalCreditos()" class="cursor-pointer block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
                       Ver créditos
                     </a>
                   </li>
@@ -164,7 +154,7 @@ function getSongsbyGenre(id) {
 
             <div class="flex justify-end">
                 <button type="button" onclick="cerrarModalCreditos()"
-                    class="bg-gray-600 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
+                    class="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
                     Ok
                 </button>
             </div>

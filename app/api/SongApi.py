@@ -35,7 +35,7 @@ def getSongs():
             'id': song.id,
             'name': song.name,
             'author': song.author,
-            'duration': format_duration(song.duration),
+            'duration': song.duration,
             'date': song.date.strftime('%Y-%m-%d'),
             'cover': song.cover,
             'mp3file': song.mp3file,
@@ -44,11 +44,6 @@ def getSongs():
         })
 
     return jsonify(song_list)
-
-def format_duration(seconds):
-    minutes = seconds // 60
-    sec = seconds % 60
-    return f"{minutes}:{sec:02}"
 
 @route_song.route('/get/<int:id>', methods=['GET'])
 def get_song(id):
@@ -69,7 +64,7 @@ def get_song(id):
         'id': song.id,
         'title': song.name,
         'author': song.author,
-        'duration': format_duration(song.duration),
+        'duration': song.duration,
         'date': song.date.strftime('%Y-%m-%d'),
         'cover_image': song.cover,
         'audioFile': song.mp3file,
@@ -124,7 +119,57 @@ def deleteSong(id):
     db.session.commit()
     return jsonify(song_schema.dump(song))
 
+@route_song.route('/update/<int:id>', methods=['PUT'])
+def updateSong(id):
+    song = Songs.query.get_or_404(id)
 
+    # Datos del formulario
+    name = request.form.get('name')
+    author = request.form.get('author')
+    duration = request.form.get('duration')
+    date = request.form.get('date')
+
+    cover = request.files.get('cover')
+    mp3file = request.files.get('mp3file')
+
+    # Actualizar datos básicos
+    song.name = name
+    song.author = author
+    song.duration = duration
+    song.date = date
+
+    filename = secure_filename(cover.filename)
+    unique_filename = f"{uuid.uuid4().hex}_{filename}"
+    cover.save(os.path.join(app.config['UPLOAD_FOLDER'], unique_filename))
+    song.cover = unique_filename
+
+    filename2 = secure_filename(mp3file.filename)
+    unique_filename2 = f"{uuid.uuid4().hex}_{filename2}"
+    mp3file.save(os.path.join(app.config['UPLOAD_FOLDER2'], unique_filename2))
+    song.mp3file = unique_filename2
+
+    # Eliminar relaciones anteriores con artistas
+    # Actualizar artistas
+    ArtistsSongs.query.filter_by(songId=song.id).delete()
+    db.session.flush()  # ← importante
+    artist_ids = request.form.getlist('artist')
+
+    for artist_id in artist_ids:
+        rel = ArtistsSongs(artistId=artist_id, songId=song.id)
+        db.session.add(rel)
+
+# Actualizar géneros
+    GenresSongs.query.filter_by(songId=song.id).delete()
+    db.session.flush()  # ← importante
+    genre_ids = request.form.getlist('genre')
+
+    for genre_id in genre_ids:
+        rel = GenresSongs(genreId=genre_id, songId=song.id)
+        db.session.add(rel)
+
+    db.session.commit()
+
+    return jsonify({'message': 'Canción actualizada correctamente'})
 
 
 

@@ -29,11 +29,6 @@ def get_genre(id):
         'description': genre.description
     })
 
-def format_duration(seconds):
-    minutes = seconds // 60
-    sec = seconds % 60
-    return f"{minutes}:{sec:02}"
-
 @route_genre.route('/songs/<int:id>', methods=['GET'])
 def getSongsbyGenre(id):
     # Verificar que el género existe
@@ -58,7 +53,7 @@ def getSongsbyGenre(id):
             'title': song.name,
             'artist_name': artist_names,
             'artist_id': main_artist_id,
-            'duration': format_duration(song.duration),
+            'duration': song.duration,
             'cover_image': song.cover,
             'audioFile': song.mp3file,
             'author': song.author

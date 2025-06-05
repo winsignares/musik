@@ -6,7 +6,7 @@ class Songs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     author = db.Column(db.String(50))
-    duration = db.Column(db.Integer)
+    duration = db.Column(db.String(10))  
     date = db.Column(db.Date)
     cover = db.Column(db.String(255))
     mp3file = db.Column(db.String(255))

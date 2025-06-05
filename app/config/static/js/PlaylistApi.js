@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('playlist-detail-container');
   const playlistId = container?.dataset?.playlistId;
 
-  console.log('DOM loaded, container:', container);
-  console.log('Playlist ID:', playlistId);
-
   if (playlistId) {
     getPlaylistById(playlistId);
     getSongsbyPlaylist(playlistId);
@@ -14,9 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('playlist-container');
   const userId = container?.dataset?.userId;
-
-  console.log('DOM loaded, container:', container);
-  console.log('User ID:', userId);
 
   if (userId) {
     getPlaylists(userId);
@@ -42,7 +36,6 @@ function abrirModalEditar(id) {
   axios.get(`/api/playlists/get/${id}`)
     .then(response => {
       const playlist = response.data;
-      console.log(playlist);
 
       document.querySelector('#form-editar input[name="name"]').value = playlist.name;
       document.querySelector('#form-editar input[name="description"]').value = playlist.description;
@@ -234,10 +227,7 @@ function getSongsbyPlaylist(id) {
   axios.get(`/api/playlists/songs/${id}`)
     .then(songRes => {
       const songs = songRes.data;
-      console.log('Canciones recibidas:', songs);
-
-      const tbody = document.getElementById('songs-table-body');
-      console.log('tbody:', tbody);
+      const tbody = document.getElementById('songs-table-body');;
 
       if (!tbody) {
         console.error('No se encontró el tbody de canciones');
@@ -254,7 +244,7 @@ function getSongsbyPlaylist(id) {
 
             <div class="flex items-center">
               <div class="relative group h-14 w-14">
-                <button class="cursor-pointer" onclick="playSong('${song.audio_file}', '${song.title}', '${song.artist_name}', '${song.cover_image}')">
+                <button class="cursor-pointer" onclick="playSong('${song.audioFile}', '${song.title}', '${song.artist_name}', '${song.cover_image}')">
                   <img src="../../static/uploads/covers/${song.cover_image}" alt="${song.title}" class="rounded-sm h-14 w-14 object-cover" />
                     <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
                       <img src="/static/img/play-solid.svg" alt="Play" class="h-6 w-6">
@@ -280,18 +270,14 @@ function getSongsbyPlaylist(id) {
               <div id="menu-opciones" class="absolute right-0 mt-2 lg:w-50 md:w-40 sm:w-35 w-30 bg-white rounded-lg hidden z-50 shadow-lg">
                 <ul class="lg:text-lg md:text-base sm:text-sm text-xs">
 
-                  <li onmouseover="mostrarSubmenu()" onmouseout="ocultarSubmenu()">
-                    <a onmouseover="cargarPlaylistsEnSubmenu()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
-                      Agregar a playlist
+                  <li>
+                    <a onclick="confirmarEliminacionCancion(${id}, ${song.id})" class="cursor-pointer block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                      Eliminar de playlist
                     </a>
-
-                    <ul id="submenu-playlists" class="absolute left-full top-0 ml-1 w-40 bg-white rounded-lg shadow-lg hidden z-50">
-
-                    </ul>
                   </li>
 
                   <li>
-                    <a onclick="abrirModalCreditos()" class="block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
+                    <a onclick="abrirModalCreditos()" class="cursor-pointer block px-4 py-2 hover:bg-gray-200 rounded-lg text-black font-bold">
                       Ver créditos
                     </a>
                   </li>
@@ -309,7 +295,7 @@ function getSongsbyPlaylist(id) {
 
             <div class="flex justify-end">
                 <button type="button" onclick="cerrarModalCreditos()"
-                    class="bg-gray-600 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
+                    class="cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-medium px-4 py-2 rounded-lg transition duration-200">
                     Ok
                 </button>
             </div>
@@ -389,8 +375,6 @@ function deletePlaylist(id) {
         'La playlist ha sido eliminada correctamente.',
         'success'
       );
-
-      console.log(response.data);
     })
     .catch(error => {
       Swal.fire(

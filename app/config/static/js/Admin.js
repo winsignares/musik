@@ -32,7 +32,6 @@ function abrirModalEditarArtista(id) {
   axios.get(`/api/artists/get/${id}`)
     .then(response => {
       const artista = response.data;
-      console.log(artista);
 
       document.querySelector('#form-editar input[name="name"]').value = artista.name;
       document.getElementById('form-editar').dataset.artistaId = id;
@@ -95,7 +94,6 @@ function registerArtist() {
     }
   })
     .then(response => {
-      console.log(response.data);
       cerrarModalAgregarArtista();
       getArtists();
       Swal.fire({
@@ -140,7 +138,6 @@ function deleteArtist(id) {
         'success'
       );
       getArtists();
-      console.log(response.data);
     })
     .catch(error => {
       Swal.fire(
@@ -172,7 +169,6 @@ function updateArtist() {
     }
   })
     .then(response => {
-      console.log(response.data);
       Swal.fire('Actualizado', 'Artista actualizado correctamente', 'success');
       cerrarModalEditar();
       getArtists();
@@ -233,7 +229,6 @@ function confirmarEliminacionUser(id) {
 function deleteUser(id) {
   axios.delete(`/api/admin/delete/${id}`)
     .then(response => {
-      console.log(response.data);
       Swal.fire(
         'Eliminado',
         'El usuario ha sido eliminado correctamente.',
@@ -278,7 +273,6 @@ function abrirModalEditarGenero(id) {
   axios.get(`/api/genres/get/${id}`)
     .then(response => {
       const genero = response.data;
-      console.log(genero);
 
       document.querySelector('#form-editar input[name="name"]').value = genero.name;
       document.querySelector('#form-editar input[name="description"]').value = genero.description;
@@ -362,7 +356,6 @@ function registerGenre() {
 
   axios.post('/api/genres/register', data)
     .then(response => {
-      console.log(response.data);
       cerrarModalAgregarGenero();
       getGenres();
       Swal.fire({
@@ -408,7 +401,6 @@ function deleteGenre(id) {
         'success'
       );
       getGenres();
-      console.log(response.data);
     })
     .catch(error => {
       Swal.fire(
@@ -432,7 +424,6 @@ function updateGenre() {
     description
   })
     .then(response => {
-      console.log(response.data);
       Swal.fire('Actualizado', 'Género actualizado correctamente', 'success');
       cerrarModalEditarGenero();
       getGenres();
@@ -483,7 +474,7 @@ function abrirModalEditarCancion(id) {
       });
 
       const form = document.querySelector('#form-editar');
-      form.name.value = song.name;
+      form.name.value = song.title;
       form.author.value = song.author;
       form.duration.value = song.duration;
       form.date.value = song.date;
@@ -590,7 +581,6 @@ function registerSong() {
     headers: { 'Content-Type': 'multipart/form-data' }
   })
     .then(response => {
-      console.log(response.data);
       cerrarModalAgregarCancion();
       getSongs();
       Swal.fire({
@@ -635,7 +625,6 @@ function deleteSong(id) {
         'success'
       );
       getSongs();
-      console.log(response.data);
     })
     .catch(error => {
       Swal.fire(
@@ -659,11 +648,11 @@ function updateSong() {
   const mp3File = form.querySelector('input[name="mp3file"]').files[0];
 
   // Obtener artistas seleccionados
-  const artistSelect = document.getElementById('select-artista');
+  const artistSelect = document.getElementById('select-artista-editar');
   const selectedArtists = Array.from(artistSelect.selectedOptions).map(option => option.value);
 
   // Obtener géneros seleccionados
-  const genreSelect = document.getElementById('select-genero');
+  const genreSelect = document.getElementById('select-genero-editar');
   const selectedGenres = Array.from(genreSelect.selectedOptions).map(option => option.value);
 
   const formData = new FormData();

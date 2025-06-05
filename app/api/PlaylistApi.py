@@ -75,11 +75,6 @@ def deleteSongfromPlaylist(playlist_id, song_id):
 
     return "Canción eliminada de la playlist correctamente"
 
-def format_duration(seconds):
-    minutes = seconds // 60
-    sec = seconds % 60
-    return f"{minutes}:{sec:02}"
-
 @route_playlist.route("/songs/<int:id>", methods=["GET"])
 def getSongsFromPlaylist(id):
     # (Opcional) Verificar que la playlist existe
@@ -105,9 +100,10 @@ def getSongsFromPlaylist(id):
             'title': song.name,
             'artist_name': artist_names,
             'artist_id': main_artist_id,
-            'duration': format_duration(song.duration),
+            'duration': song.duration,
             'cover_image': song.cover,
-            'audioFile': song.mp3file
+            'audioFile': song.mp3file,
+            'author': song.author
         })
 
     return jsonify(result)
